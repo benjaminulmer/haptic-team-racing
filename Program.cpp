@@ -4,7 +4,7 @@
 
 #include "InputHandler.h"
 
-HapticsController* Program::next;
+HapticsController* volatile Program::next;
 
 // Default constructor for program
 Program::Program() :
@@ -72,6 +72,8 @@ void Program::start() {
 	next = p1Haptics;
 	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
 
+	while (next != nullptr);
+
 	next = p2Haptics;
 	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
 
@@ -98,15 +100,11 @@ void Program::mainLoop() {
 	glfwTerminate();
 }
 
-// Updates graphics of the program
-void Program::updateGraphics() {
-
-
-}
-
 // Starts the haptics controller loop of "next"
 void Program::startNextHapticsLoop() {
-	next->start();
+	HapticsController* thread = next;
+	next = nullptr;
+	thread->start();
 }
 
 // Called to close and clean up program

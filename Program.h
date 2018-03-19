@@ -17,9 +17,7 @@ public:
 	//void toggleFullscreen();
 
 private:
-	// Static pointer so haptics thread can access the program object
-	// Probably not the best way to do this but whatever
-	static HapticsController* next;
+	static HapticsController* volatile next;
 
 	PlayerView* p1View;
 	PlayerView* p2View;
@@ -43,7 +41,6 @@ private:
 	void setUpHapticDevices();
 
 	void mainLoop();
-	void updateGraphics();
 
 	void closeHaptics();
 

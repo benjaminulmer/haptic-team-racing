@@ -32,7 +32,7 @@ PlayerView::PlayerView(const HapticsController& controller) : controller(control
 	glfwGetWindowSize(window, &width, &height);
 	glfwSetWindowPos(window, x, y);
 	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
+	//glfwSwapInterval(1);
 
 	// Set callback functions
 	glfwSetKeyCallback(window, InputHandler::keyCallback);
@@ -50,6 +50,7 @@ PlayerView::~PlayerView() {
 void PlayerView::setUpWorld() {
 
 	world = new chai3d::cWorld();
+	cursor = new chai3d::cShapeSphere(0.02);
 
 	// Set up camera
 	camera = new chai3d::cCamera(world);
@@ -72,12 +73,15 @@ void PlayerView::setUpWorld() {
 	world->m_backgroundColor.setBlack();
 	world->addChild(camera);
 	world->addChild(light);
+	world->addChild(cursor);
 }
 
 // Render the current view
 void PlayerView::render() {
 
 	glfwMakeContextCurrent(window);
+
+	cursor->setLocalPos(controller.getPosition());
 
 	// Update haptic and graphic rate data
 	labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
@@ -95,7 +99,6 @@ void PlayerView::render() {
 	if (err != GL_NO_ERROR) {
 		std::cerr << "Error:  %s\n" << gluErrorString(err);
 	}
-
 
 	graphicsFreq.signal(1);
 	glfwSwapBuffers(window);
