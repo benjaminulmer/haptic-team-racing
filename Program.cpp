@@ -32,6 +32,9 @@ Program::Program() {
 	handler.getDevice(device2, 1);
 	p2Haptics = new HapticsController(device2);
 
+	p1Haptics->setPartner(p2Haptics);
+	p2Haptics->setPartner(p1Haptics);
+
 	// Create view for each player
 	p1View = new PlayerView(*p1Haptics);
 	p2View = new PlayerView(*p2Haptics);

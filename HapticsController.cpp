@@ -15,6 +15,11 @@ HapticsController::~HapticsController() {
 	device->close();
 }
 
+// Sets the partner for the controller
+void HapticsController::setPartner(const HapticsController* partner) {
+	this->partner = partner;
+}
+
 // Starts the haptics loop
 void HapticsController::start() {
 
@@ -39,6 +44,20 @@ void HapticsController::start() {
 
 		// Calculate forces on cursor
 		chai3d::cVector3d force(0.0, 0.0, 0.0);
+
+		// *** Virtual spring connecting avatars
+		chai3d::cVector3d partnerPos = partner->getPosition();
+		chai3d::cVector3d dir = partnerPos - curPos;
+		double dist = dir.length();
+		dir.normalize();
+
+		constexpr double rest = 0.00;
+		constexpr double k = 300.0;
+
+		if (dist >= rest) {
+			force += dir * (dist - rest) * k;
+		}
+		// *** End spring
 
 		chai3d::cVector3d torque(0.0, 0.0, 0.0);
 		double gripperForce = 0.0;

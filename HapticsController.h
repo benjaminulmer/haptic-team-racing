@@ -9,6 +9,8 @@ public:
 	HapticsController(chai3d::cGenericHapticDevicePtr device);
 	virtual ~HapticsController();
 
+	void setPartner(const HapticsController* partner);
+
 	void start();
 	void stop();
 	bool isFinished() const;
@@ -19,6 +21,7 @@ public:
 
 private:
 	chai3d::cGenericHapticDevicePtr device;
+	const HapticsController* partner;
 
 	bool running;
 	bool finished;
