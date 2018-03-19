@@ -1,0 +1,87 @@
+#include "HapticsController.h"
+
+// Creates a controller for the provided haptic device
+HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device) : device(device) {
+	
+	running = false;
+	finished = false;
+
+	device->open();
+	device->calibrate();
+}
+
+// Closes device controller
+HapticsController::~HapticsController() {
+	device->close();
+}
+
+// Starts the haptics loop
+void HapticsController::start() {
+
+	// Simulation is starting
+	running = true;
+
+	bool button0Hold = false;
+	bool button1Hold = false;
+	while (running) {
+
+		// Read pointer position and orientation (if exists)
+		device->getPosition(curPos);
+		device->getRotation(curRot);
+
+		// Read status of buttons
+		bool pressed;
+		device->getUserSwitch(0, pressed);
+
+		if (pressed && !button0Hold) {
+			// button pressed
+		}
+		button0Hold = pressed;
+
+		device->getUserSwitch(1, pressed);
+		if (pressed && !button0Hold) {
+			// button pressed
+		}
+		button1Hold = pressed;
+
+		// Calculate forces on cursor
+		chai3d::cVector3d force(0.0, 0.0, 0.0);
+
+		// CALCULATE FORCES
+
+		chai3d::cVector3d torque(0.0, 0.0, 0.0);
+		double gripperForce = 0.0;
+
+		// Send computed force, torque, and gripper force to haptic device
+		device->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
+		hapticFreq.signal(1);
+	}
+
+	// Exit haptics thread
+	finished = true;
+}
+
+// Tells the haptics thread to stop running
+void HapticsController::stop() {
+	running = false;
+}
+
+// Returns if haptics thread has finished running
+bool HapticsController::isFinished() const {
+	return finished;
+}
+
+// Returns current position of device
+chai3d::cVector3d HapticsController::getPosition() const {
+	return curPos;
+}
+
+// Returns current rotation of device
+chai3d::cMatrix3d HapticsController::getRotation() const {
+	return curRot;
+}
+
+// Returns current haptic frequency
+double HapticsController::getFrequency() const {
+	return hapticFreq.getFrequency();
+}

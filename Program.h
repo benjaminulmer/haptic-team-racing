@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "PlayerView.h"
+#include "HapticsController.h"
 
 // Main class for storing and running program (a bit of a god class)
 class Program {
@@ -18,41 +19,34 @@ public:
 private:
 	// Static pointer so haptics thread can access the program object
 	// Probably not the best way to do this but whatever
-	static Program* p;
+	static HapticsController* next;
 
 	PlayerView* p1View;
 	PlayerView* p2View;
 
-	// Graphics world and objects
-	chai3d::cWorld* world;
-	chai3d::cCamera* camera;
-	chai3d::cDirectionalLight* light;
-	chai3d::cShapeSphere* cursor;
-	chai3d::cLabel* labelRates;
-
-	chai3d::cFrequencyCounter freqCounterGraphics;
-	chai3d::cFrequencyCounter freqCounterHaptics;
+	HapticsController* p1Haptics;
+	HapticsController* p2Haptics;
 
 	chai3d::cHapticDeviceHandler handler;
-	chai3d::cGenericHapticDevicePtr hapticDevice;
 
 	// Simulation status and handle
 	bool simulationRunning;
 	bool simulationFinished;
 
-	chai3d::cThread hapticsThread;
+	chai3d::cThread hapticsThread1;
+	chai3d::cThread hapticsThread2;
 
 	bool fullscreen;
 	bool mirrored;
 
 	void printControls();
-	void setUpWorld();
-	void setUpHapticDevice();
+	void setUpHapticDevices();
 
 	void mainLoop();
 	void updateGraphics();
 
-	static void hapticsLoop();
-	static void close();
+	void closeHaptics();
+
+	static void startNextHapticsLoop();
 	static void errorCallback(int error, const char* description);
 };

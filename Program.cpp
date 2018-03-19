@@ -4,7 +4,7 @@
 
 #include "InputHandler.h"
 
-Program* Program::p;
+HapticsController* Program::next;
 
 // Default constructor for program
 Program::Program() :
@@ -13,7 +13,7 @@ Program::Program() :
 	fullscreen(false),
 	mirrored(false)
 {
-	p = this;
+	next = nullptr;
 	InputHandler::setUp(this);
 	printControls();
 
@@ -25,8 +25,10 @@ Program::Program() :
 	}
 	glfwSetErrorCallback(errorCallback);
 
-	p1View = new PlayerView();
-	p2View = new PlayerView();
+	setUpHapticDevices();
+
+	p1View = new PlayerView(*p1Haptics);
+	p2View = new PlayerView(*p2Haptics);
 
 	// Initialize GLEW library
 	if (glewInit() != GLEW_OK) {
@@ -35,9 +37,6 @@ Program::Program() :
 		glfwTerminate();
 		exit(-1);
 	}
-
-	setUpWorld();
-	setUpHapticDevice();
 }
 
 // Pretty prints program controls to standard out
@@ -52,64 +51,30 @@ void Program::printControls() {
 	std::cout << std::endl << std::endl;
 }
 
-// Initializes geometry of the world
-void Program::setUpWorld() {
-
-	world = new chai3d::cWorld();
-	cursor = new chai3d::cShapeSphere(0.0075);
-
-	// Set up camera
-	camera = new chai3d::cCamera(world);
-	camera->set(chai3d::cVector3d (0.25, 0.0, 0.05),   // camera position (eye)
-			    chai3d::cVector3d (0.0, 0.0, 0.0),    // look at position (target)
-			    chai3d::cVector3d (0.0, 0.0, 1.0));   // direction of the (up) vector
-	camera->setClippingPlanes(0.01, 10.0);
-	camera->setMirrorVertical(mirrored);
-
-	// Set up light
-	light = new chai3d::cDirectionalLight(world);
-	light->setEnabled(true);
-	light->setDir(-1.0, 0.0, 0.0);
-
-	// Set up label
-	labelRates = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI20());
-	labelRates->m_fontColor.setWhite();
-	camera->m_frontLayer->addChild(labelRates);
-
-	// Add objects to world
-	world->m_backgroundColor.setBlack();
-	world->addChild(camera);
-	world->addChild(light);
-	world->addChild(cursor);
-}
-
 // Initializes haptics device
-void Program::setUpHapticDevice() {
+void Program::setUpHapticDevices() {
 
 	// Get, open, and calibrate device
-	handler.getDevice(hapticDevice, 0);
-	hapticDevice->open();
-	hapticDevice->calibrate();
+	chai3d::cGenericHapticDevicePtr device1;
+	chai3d::cGenericHapticDevicePtr device2;
 
-	// Get info about the current haptic device
-	chai3d::cHapticDeviceInfo info = hapticDevice->getSpecifications();
+	handler.getDevice(device1, 0);
+	p1Haptics = new HapticsController(device1);
 
-	// Display a reference frame if haptic device supports orientations
-	if (info.m_sensedRotation == true) {
-
-		cursor->setShowFrame(true);
-		cursor->setFrameSize(0.05);
-	}
-
-	// If the device has a gripper, enable the gripper to simulate a user switch
-	hapticDevice->setEnableGripperUserSwitch(true);
+	handler.getDevice(device2, 1);
+	p2Haptics = new HapticsController(device2);
 }
 
 // Starts the program
 void Program::start() {
 
 	// Start the haptics thread and then enter the graphics loop
-	hapticsThread.start(hapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+	next = p1Haptics;
+	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	next = p2Haptics;
+	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
 	mainLoop();
 }
 
@@ -118,106 +83,41 @@ void Program::mainLoop() {
 
 	while (!p1View->shouldClose() && !p2View->shouldClose()) {
 
-		// Update graphics and window
 		glfwPollEvents();
 
 		p1View->render();
 		p2View->render();
-
-		freqCounterGraphics.signal(1);
 	}
 
 	// Clean up
-	close();
-	//glfwDestroyWindow(window);
+	closeHaptics();
+	delete p1View;
+	delete p2View;
+	delete p1Haptics;
+	delete p2Haptics;
 	glfwTerminate();
 }
 
 // Updates graphics of the program
 void Program::updateGraphics() {
 
-	// Update haptic and graphic rate data
-	labelRates->setText(chai3d::cStr(freqCounterGraphics.getFrequency(), 0) + " Hz / " +
-	                    chai3d::cStr(freqCounterHaptics.getFrequency(), 0) + " Hz");
-	//labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
-	// Render world
-	world->updateShadowMaps(false, mirrored);
-	//camera->renderView(width, height);
-	glFinish();
-
-	// Check for any OpenGL errors
-	GLenum err;
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
-		std::cerr << "Error:  %s\n" << gluErrorString(err);
-	}
 }
 
-// Main loop for running haptics
-void Program::hapticsLoop() {
-
-	// Simulation is starting
-	p->simulationRunning = true;
-	p->simulationFinished = false;
-
-	bool button0Hold = false;
-	bool button1Hold = false;
-	while(p->simulationRunning) {
-
-		// Read pointer position and orientation (if exists)
-		chai3d::cVector3d position;
-		chai3d::cMatrix3d rotation;
-		p->hapticDevice->getPosition(position);
-		p->hapticDevice->getRotation(rotation);
-
-		// Read status of buttons
-		bool pressed;
-		p->hapticDevice->getUserSwitch(0, pressed);
-
-		if (pressed && !button0Hold) {
-			// button pressed
-		}
-		button0Hold = pressed;
-
-		p->hapticDevice->getUserSwitch(1, pressed);
-		if (pressed && !button0Hold) {
-			// button pressed
-		}
-		button1Hold = pressed;
-
-		// Update position and orienation of cursor
-		p->cursor->setLocalPos(position);
-		p->cursor->setLocalRot(rotation);
-
-		// Calculate forces on cursor
-		chai3d::cVector3d force(0.0, 0.0, 0.0);
-
-		// CALCULATE FORCES
-
-		chai3d::cVector3d torque(0.0, 0.0, 0.0);
-		double gripperForce = 0.0;
-
-		// Send computed force, torque, and gripper force to haptic device
-		p->hapticDevice->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
-		p->freqCounterHaptics.signal(1);
-	}
-
-	// Exit haptics thread
-	p->simulationFinished = true;
+// Starts the haptics controller loop of "next"
+void Program::startNextHapticsLoop() {
+	next->start();
 }
 
 // Called to close and clean up program
-void Program::close() {
+void Program::closeHaptics() {
 
 	// Wait for haptics loop to terminate
-	p->simulationRunning = false;
-	while (!p->simulationFinished) {
+	p1Haptics->stop();
+	p2Haptics->stop();
+	while (!p1Haptics->isFinished() && !p2Haptics->isFinished()) {
 		chai3d::cSleepMs(100);
 	}
-
-	// Clean up
-	p->hapticDevice->close();
 }
 
 //// Sets window size to new parameters

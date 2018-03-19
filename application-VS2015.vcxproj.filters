@@ -22,6 +22,9 @@
     <ClCompile Include="PlayerView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HapticsController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -33,5 +36,6 @@
     <ClInclude Include="PlayerView.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="HapticsController.h" />
   </ItemGroup>
 </Project>
