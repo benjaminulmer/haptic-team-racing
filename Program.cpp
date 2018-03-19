@@ -8,9 +8,6 @@ Program* Program::p;
 
 // Default constructor for program
 Program::Program() :
-	window(nullptr),
-	width(0),
-	height(0),
 	simulationRunning(false),
 	simulationFinished(false),
 	fullscreen(false),
@@ -19,7 +16,17 @@ Program::Program() :
 	p = this;
 	InputHandler::setUp(this);
 	printControls();
-	setUpWindow();
+
+	// Initialize GLFW library
+	if (!glfwInit()) {
+		std::cerr << "failed GLFW initialization" << std::endl;
+		system("pause");
+		exit(-1);
+	}
+	glfwSetErrorCallback(errorCallback);
+
+	p1View = new PlayerView();
+	p2View = new PlayerView();
 
 	// Initialize GLEW library
 	if (glewInit() != GLEW_OK) {
@@ -42,51 +49,7 @@ void Program::printControls() {
 	std::cout << "Keyboard Options:" << std::endl << std::endl;
 	std::cout << "[f] - Enable/Disable full screen mode" << std::endl;
 	std::cout << "[q/esc] - Exit application" << std::endl;
-	std::cout << "[Falcon Button 0] - Change scene" << std::endl;
-	std::cout << "[Falcon Button 1] - Restart game (when in scene 4)" << std::endl;
 	std::cout << std::endl << std::endl;
-}
-
-// Creates and sets up GLFW window
-void Program::setUpWindow() {
-
-	// Initialize GLFW library
-	if (!glfwInit()) {
-		std::cerr << "failed GLFW initialization" << std::endl;
-		system("pause");
-		exit(-1);
-	}
-
-	// Get window width and height
-	glfwSetErrorCallback(errorCallback);
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	int w = 0.8 * mode->height;
-	int h = 0.5 * mode->height;
-	int x = 0.5 * (mode->width - w);
-	int y = 0.5 * (mode->height - h);
-
-	// Set OpenGL version
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-
-	// Create window
-	window = glfwCreateWindow(w, h, "CHAI3D", NULL, NULL);
-	if (!window) {
-		std::cerr << "failed to create GLFW window" << std::endl;
-		system("pause");
-		glfwTerminate();
-		exit(-1);
-	}
-
-	// Set window properties
-	glfwGetWindowSize(window, &width, &height);
-	glfwSetWindowPos(window, x, y);
-	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
-
-	// Set callback functions
-	glfwSetKeyCallback(window, InputHandler::keyCallback);
-	glfwSetWindowSizeCallback(window, InputHandler::windowSizeCallback);
 }
 
 // Initializes geometry of the world
@@ -97,7 +60,7 @@ void Program::setUpWorld() {
 
 	// Set up camera
 	camera = new chai3d::cCamera(world);
-	camera->set(chai3d::cVector3d (0.25, 0.0, 0.05),    // camera position (eye)
+	camera->set(chai3d::cVector3d (0.25, 0.0, 0.05),   // camera position (eye)
 			    chai3d::cVector3d (0.0, 0.0, 0.0),    // look at position (target)
 			    chai3d::cVector3d (0.0, 0.0, 1.0));   // direction of the (up) vector
 	camera->setClippingPlanes(0.01, 10.0);
@@ -153,19 +116,20 @@ void Program::start() {
 // Main loop for running graphics and other non-haptics work
 void Program::mainLoop() {
 
-	while (!glfwWindowShouldClose(window)) {
+	while (!p1View->shouldClose() && !p2View->shouldClose()) {
 
 		// Update graphics and window
-		updateGraphics();
-
-		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		p1View->render();
+		p2View->render();
+
 		freqCounterGraphics.signal(1);
 	}
 
 	// Clean up
 	close();
-	glfwDestroyWindow(window);
+	//glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
@@ -175,11 +139,11 @@ void Program::updateGraphics() {
 	// Update haptic and graphic rate data
 	labelRates->setText(chai3d::cStr(freqCounterGraphics.getFrequency(), 0) + " Hz / " +
 	                    chai3d::cStr(freqCounterHaptics.getFrequency(), 0) + " Hz");
-	labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
+	//labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
 	// Render world
 	world->updateShadowMaps(false, mirrored);
-	camera->renderView(width, height);
+	//camera->renderView(width, height);
 	glFinish();
 
 	// Check for any OpenGL errors
@@ -256,35 +220,35 @@ void Program::close() {
 	p->hapticDevice->close();
 }
 
-// Sets window size to new parameters
-void Program::setWindowSize(int width, int height) {
-	this->width = width;
-	this->height = height;
-}
+//// Sets window size to new parameters
+//void Program::setWindowSize(int width, int height) {
+//	this->width = width;
+//	this->height = height;
+//}
 
-// Toggles fullscreen mode on and off
-void Program::toggleFullscreen() {
-	
-	fullscreen = !fullscreen;
-
-	// Get info about monitor
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-
-	// Set fullscreen or window mode
-	if (fullscreen) {
-		glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-		glfwSwapInterval(1);
-	}
-	else {
-		int w = 0.8 * mode->height;
-		int h = 0.5 * mode->height;
-		int x = 0.5 * (mode->width - w);
-		int y = 0.5 * (mode->height - h);
-		glfwSetWindowMonitor(window, NULL, x, y, w, h, mode->refreshRate);
-		glfwSwapInterval(1);
-	}
-}
+//// Toggles fullscreen mode on and off
+//void Program::toggleFullscreen() {
+//	
+//	fullscreen = !fullscreen;
+//
+//	// Get info about monitor
+//	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+//	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+//
+//	// Set fullscreen or window mode
+//	if (fullscreen) {
+//		glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+//		glfwSwapInterval(1);
+//	}
+//	else {
+//		int w = 0.8 * mode->height;
+//		int h = 0.5 * mode->height;
+//		int x = 0.5 * (mode->width - w);
+//		int y = 0.5 * (mode->height - h);
+//		glfwSetWindowMonitor(window, NULL, x, y, w, h, mode->refreshRate);
+//		glfwSwapInterval(1);
+//	}
+//}
 
 // Callback to print GLFW errors
 void Program::errorCallback(int error, const char* description) {

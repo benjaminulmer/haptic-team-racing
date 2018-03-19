@@ -1,8 +1,9 @@
 #pragma once
 
-#include <vector>
 #include "chai3d.h"
 #include <GLFW/glfw3.h>
+
+#include "PlayerView.h"
 
 // Main class for storing and running program (a bit of a god class)
 class Program {
@@ -11,13 +12,16 @@ public:
 	Program();
 	void start();
 
-	void setWindowSize(int width, int height);
-	void toggleFullscreen();
+	//void setWindowSize(int width, int height);
+	//void toggleFullscreen();
 
 private:
 	// Static pointer so haptics thread can access the program object
 	// Probably not the best way to do this but whatever
 	static Program* p;
+
+	PlayerView* p1View;
+	PlayerView* p2View;
 
 	// Graphics world and objects
 	chai3d::cWorld* world;
@@ -38,15 +42,10 @@ private:
 
 	chai3d::cThread hapticsThread;
 
-	GLFWwindow* window;
-	int width;
-	int height;
-
 	bool fullscreen;
 	bool mirrored;
 
 	void printControls();
-	void setUpWindow();
 	void setUpWorld();
 	void setUpHapticDevice();
 

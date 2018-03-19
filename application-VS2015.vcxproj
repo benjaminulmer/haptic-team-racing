@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Program.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
