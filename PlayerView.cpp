@@ -32,7 +32,7 @@ PlayerView::PlayerView(const HapticsController& controller) : controller(control
 	glfwGetWindowSize(window, &width, &height);
 	glfwSetWindowPos(window, x, y);
 	glfwMakeContextCurrent(window);
-	//glfwSwapInterval(1);
+	//glfwSwapInterval(1); - not working right now because there are two windows
 
 	// Set callback functions
 	glfwSetKeyCallback(window, InputHandler::keyCallback);
@@ -55,8 +55,8 @@ void PlayerView::setUpWorld() {
 	// Set up camera
 	camera = new chai3d::cCamera(world);
 	camera->set(chai3d::cVector3d(0.25, 0.0, 0.05),   // camera position (eye)
-		chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
-		chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
+		        chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
+		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
 	camera->setClippingPlanes(0.01, 10.0);
 
 	// Set up light

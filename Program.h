@@ -6,13 +6,14 @@
 #include "PlayerView.h"
 #include "HapticsController.h"
 
-// Main class for storing and running program (a bit of a god class)
+// Main class for storing and running program
 class Program {
 
 public:
 	Program();
 	void start();
 
+	// These will need to move to PlayerView if we want to keep them
 	//void setWindowSize(int width, int height);
 	//void toggleFullscreen();
 
@@ -22,26 +23,18 @@ private:
 	PlayerView* p1View;
 	PlayerView* p2View;
 
-	HapticsController* p1Haptics;
-	HapticsController* p2Haptics;
-
 	chai3d::cHapticDeviceHandler handler;
 
-	// Simulation status and handle
-	bool simulationRunning;
-	bool simulationFinished;
+	HapticsController* p1Haptics;
+	HapticsController* p2Haptics;
 
 	chai3d::cThread hapticsThread1;
 	chai3d::cThread hapticsThread2;
 
 	bool fullscreen;
-	bool mirrored;
 
 	void printControls();
-	void setUpHapticDevices();
-
 	void mainLoop();
-
 	void closeHaptics();
 
 	static void startNextHapticsLoop();

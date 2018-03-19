@@ -7,12 +7,9 @@
 HapticsController* volatile Program::next;
 
 // Default constructor for program
-Program::Program() :
-	simulationRunning(false),
-	simulationFinished(false),
-	fullscreen(false),
-	mirrored(false)
-{
+Program::Program() {
+
+	fullscreen = false;
 	next = nullptr;
 	InputHandler::setUp(this);
 	printControls();
@@ -25,8 +22,17 @@ Program::Program() :
 	}
 	glfwSetErrorCallback(errorCallback);
 
-	setUpHapticDevices();
+	// Set up haptic devices
+	chai3d::cGenericHapticDevicePtr device1;
+	chai3d::cGenericHapticDevicePtr device2;
 
+	handler.getDevice(device1, 0);
+	p1Haptics = new HapticsController(device1);
+
+	handler.getDevice(device2, 1);
+	p2Haptics = new HapticsController(device2);
+
+	// Create view for each player
 	p1View = new PlayerView(*p1Haptics);
 	p2View = new PlayerView(*p2Haptics);
 
@@ -46,23 +52,9 @@ void Program::printControls() {
 	std::cout << "CHAI3D" << std::endl;
 	std::cout << "-----------------------------------" << std::endl << std::endl << std::endl;
 	std::cout << "Keyboard Options:" << std::endl << std::endl;
-	std::cout << "[f] - Enable/Disable full screen mode" << std::endl;
+	std::cout << "[f] - Enable/Disable full screen mode - not working" << std::endl;
 	std::cout << "[q/esc] - Exit application" << std::endl;
 	std::cout << std::endl << std::endl;
-}
-
-// Initializes haptics device
-void Program::setUpHapticDevices() {
-
-	// Get, open, and calibrate device
-	chai3d::cGenericHapticDevicePtr device1;
-	chai3d::cGenericHapticDevicePtr device2;
-
-	handler.getDevice(device1, 0);
-	p1Haptics = new HapticsController(device1);
-
-	handler.getDevice(device2, 1);
-	p2Haptics = new HapticsController(device2);
 }
 
 // Starts the program
@@ -100,13 +92,6 @@ void Program::mainLoop() {
 	glfwTerminate();
 }
 
-// Starts the haptics controller loop of "next"
-void Program::startNextHapticsLoop() {
-	HapticsController* thread = next;
-	next = nullptr;
-	thread->start();
-}
-
 // Called to close and clean up program
 void Program::closeHaptics() {
 
@@ -116,6 +101,18 @@ void Program::closeHaptics() {
 	while (!p1Haptics->isFinished() && !p2Haptics->isFinished()) {
 		chai3d::cSleepMs(100);
 	}
+}
+
+// Starts the haptics controller loop of "next"
+void Program::startNextHapticsLoop() {
+	HapticsController* thread = next;
+	next = nullptr;
+	thread->start();
+}
+
+// Callback to print GLFW errors
+void Program::errorCallback(int error, const char* description) {
+	std::cerr << "Error: " << description << std::endl;
 }
 
 //// Sets window size to new parameters
@@ -147,8 +144,3 @@ void Program::closeHaptics() {
 //		glfwSwapInterval(1);
 //	}
 //}
-
-// Callback to print GLFW errors
-void Program::errorCallback(int error, const char* description) {
-	std::cerr << "Error: " << description << std::endl;
-}

@@ -22,7 +22,6 @@ void HapticsController::start() {
 	running = true;
 
 	bool button0Hold = false;
-	bool button1Hold = false;
 	while (running) {
 
 		// Read pointer position and orientation (if exists)
@@ -38,16 +37,8 @@ void HapticsController::start() {
 		}
 		button0Hold = pressed;
 
-		device->getUserSwitch(1, pressed);
-		if (pressed && !button0Hold) {
-			// button pressed
-		}
-		button1Hold = pressed;
-
 		// Calculate forces on cursor
 		chai3d::cVector3d force(0.0, 0.0, 0.0);
-
-		// CALCULATE FORCES
 
 		chai3d::cVector3d torque(0.0, 0.0, 0.0);
 		double gripperForce = 0.0;

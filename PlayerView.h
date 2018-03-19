@@ -13,7 +13,6 @@ public:
 	virtual ~PlayerView();
 
 	void render();
-
 	bool shouldClose() const;
 	const GLFWwindow* getWindow() const;
 
