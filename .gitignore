@@ -5,3 +5,5 @@
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.users
+application-VS2015.vcxproj
+*.filters
