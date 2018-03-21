@@ -20,6 +20,17 @@ void HapticsController::setPartner(const HapticsController* partner) {
 	this->partner = partner;
 }
 
+void HapticsController::setupTool(chai3d::cWorld* w) {
+	world = w;
+
+	tool = new chai3d::cToolCursor(world);
+	tool->setHapticDevice(device);
+	tool->setRadius(0.01); // 1 cm
+	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
+	tool->start();
+	world->addChild(tool);
+};
+
 // Starts the haptics loop
 void HapticsController::start() {
 
@@ -57,13 +68,37 @@ void HapticsController::start() {
 		if (dist >= rest) {
 			force += dir * (dist - rest) * k;
 		}
+
 		// *** End spring
 
 		chai3d::cVector3d torque(0.0, 0.0, 0.0);
 		double gripperForce = 0.0;
 
+
+		/////////////////////////////////////////////////////////////////////
+		// UPDATE 3D CURSOR MODEL
+		/////////////////////////////////////////////////////////////////////
+
+		// update position and orienation of cursor
+		tool->updateFromDevice();
+
+		/////////////////////////////////////////////////////////////////////
+		// COMPUTE FORCES
+		/////////////////////////////////////////////////////////////////////
+
+		tool->computeInteractionForces();
+
+		/////////////////////////////////////////////////////////////////////
+		// APPLY FORCES
+		/////////////////////////////////////////////////////////////////////
+
+		tool->addDeviceLocalForce(force);
+
+		tool->applyToDevice();
+
 		// Send computed force, torque, and gripper force to haptic device
-		device->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
+		//device->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
+
 		hapticFreq.signal(1);
 	}
 

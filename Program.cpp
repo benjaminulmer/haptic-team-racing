@@ -39,6 +39,15 @@ Program::Program() {
 	p1View = new PlayerView(*p1Haptics);
 	p2View = new PlayerView(*p2Haptics);
 
+	p1Haptics->setupTool(p1View->getWorld());
+	p2Haptics->setupTool(p2View->getWorld());
+
+	// Temporarily load level here
+	entities.push_back(Entity("models/level1.obj"));
+	entities.push_back(Entity("models/level1.obj"));
+	p1View->addChild(entities[0].mesh);
+	p2View->addChild(entities[1].mesh);
+
 	// Initialize GLEW library
 	if (glewInit() != GLEW_OK) {
 		std::cout << "failed to initialize GLEW library" << std::endl;

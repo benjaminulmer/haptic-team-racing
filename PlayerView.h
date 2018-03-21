@@ -16,6 +16,9 @@ public:
 	bool shouldClose() const;
 	const GLFWwindow* getWindow() const;
 
+	void addChild(chai3d::cMultiMesh* mesh);
+	chai3d::cWorld* getWorld() { return world; };
+
 private:
 	GLFWwindow* window;
 	int width;
@@ -24,8 +27,7 @@ private:
 	// Graphics world and objects
 	chai3d::cWorld* world;
 	chai3d::cCamera* camera;
-	chai3d::cDirectionalLight* light;
-	chai3d::cShapeSphere* cursor;
+	chai3d::cSpotLight* light;
 	chai3d::cLabel* labelRates;
 
 	const HapticsController& controller;

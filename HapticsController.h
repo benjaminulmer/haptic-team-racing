@@ -19,8 +19,12 @@ public:
 	chai3d::cMatrix3d getRotation() const;
 	double getFrequency() const;
 
+	void setupTool(chai3d::cWorld* w);
+
 private:
 	chai3d::cGenericHapticDevicePtr device;
+	chai3d::cToolCursor* tool;
+	chai3d::cWorld* world;
 	const HapticsController* partner;
 
 	bool running;

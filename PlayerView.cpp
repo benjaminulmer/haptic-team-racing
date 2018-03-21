@@ -50,7 +50,6 @@ PlayerView::~PlayerView() {
 void PlayerView::setUpWorld() {
 
 	world = new chai3d::cWorld();
-	cursor = new chai3d::cShapeSphere(0.02);
 
 	// Set up camera
 	camera = new chai3d::cCamera(world);
@@ -60,9 +59,16 @@ void PlayerView::setUpWorld() {
 	camera->setClippingPlanes(0.01, 10.0);
 
 	// Set up light
-	light = new chai3d::cDirectionalLight(world);
+	light = new chai3d::cSpotLight(world);
 	light->setEnabled(true);
-	light->setDir(-1.0, 0.0, 0.0);
+	light->setLocalPos(0.7, 0.3, 1.0);
+
+	// define the direction of the light beam
+	light->setDir(-0.5, -0.2, -0.8);
+	// enable this light source to generate shadows
+	light->setShadowMapEnabled(true);
+	// set the resolution of the shadow map
+	light->m_shadowMap->setQualityVeryHigh();
 
 	// Set up label
 	labelRates = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI20());
@@ -73,15 +79,12 @@ void PlayerView::setUpWorld() {
 	world->m_backgroundColor.setBlack();
 	world->addChild(camera);
 	world->addChild(light);
-	world->addChild(cursor);
 }
 
 // Render the current view
 void PlayerView::render() {
 
 	glfwMakeContextCurrent(window);
-
-	cursor->setLocalPos(controller.getPosition());
 
 	// Update haptic and graphic rate data
 	labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
@@ -112,4 +115,9 @@ bool PlayerView::shouldClose() const{
 // Returns constant pointer to the GLFW window of the view
 const GLFWwindow * PlayerView::getWindow() const {
 	return window;;
+}
+
+void PlayerView::addChild(chai3d::cMultiMesh* mesh) {
+	mesh->m_material->setBlue();
+	world->addChild(mesh);
 }

@@ -3,8 +3,9 @@
 #include "chai3d.h"
 #include <GLFW/glfw3.h>
 
-#include "PlayerView.h"
+#include "Entity.h"
 #include "HapticsController.h"
+#include "PlayerView.h"
 
 // Main class for storing and running program
 class Program {
@@ -39,4 +40,6 @@ private:
 
 	static void startNextHapticsLoop();
 	static void errorCallback(int error, const char* description);
+
+	std::vector<Entity> entities;
 };
