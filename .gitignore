@@ -1,2 +1,7 @@
 /.vs
 /obj
+
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.users
