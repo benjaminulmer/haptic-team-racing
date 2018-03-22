@@ -86,9 +86,12 @@ void PlayerView::render() {
 
 	glfwMakeContextCurrent(window);
 
+	chai3d::cVector3d pos = controller.getWorldPosition();
+
 	// Update haptic and graphic rate data
 	labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
-	                    chai3d::cStr(controller.getFrequency(), 0) + " Hz");
+						chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
+						"pos: " + chai3d::cStr(pos.x()) + " " + chai3d::cStr(pos.y()) + " " + chai3d::cStr(pos.z()));
 	labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
 	// Render world

@@ -58,8 +58,8 @@ void HapticsController::start() {
 		chai3d::cVector3d force(0.0, 0.0, 0.0);
 
 		// *** Virtual spring connecting avatars
-		chai3d::cVector3d partnerPos = partner->getPosition();
-		chai3d::cVector3d dir = partnerPos - curPos;
+		chai3d::cVector3d partnerPos = partner->getWorldPosition();//getPosition();
+		chai3d::cVector3d dir = partnerPos - getWorldPosition();//curPos;
 		double dist = dir.length();
 		dir.normalize();
 
@@ -137,12 +137,21 @@ bool HapticsController::isFinished() const {
 
 // Returns current position of device
 chai3d::cVector3d HapticsController::getPosition() const {
+	//return tool->getLocalPos();
 	return curPos;
 }
 
 // Returns current rotation of device
 chai3d::cMatrix3d HapticsController::getRotation() const {
 	return curRot;
+}
+
+chai3d::cVector3d HapticsController::getWorldPosition() const {
+
+	chai3d::cTransform t = tool->getLocalTransform();
+	chai3d::cVector3d p = tool->m_hapticPoint->m_sphereProxy->getLocalPos();
+
+	return t * p;
 }
 
 // Returns current haptic frequency

@@ -16,6 +16,7 @@ public:
 	bool isFinished() const;
 
 	chai3d::cVector3d getPosition() const;
+	chai3d::cVector3d getWorldPosition() const;
 	chai3d::cMatrix3d getRotation() const;
 	double getFrequency() const;
 
@@ -25,9 +26,9 @@ private:
 	void checkRateControl();
 
 	chai3d::cGenericHapticDevicePtr device;
-	chai3d::cToolCursor* tool;
 	chai3d::cWorld* world;
 	const HapticsController* partner;
+	chai3d::cToolCursor* tool;
 	chai3d::cCamera* camera; // Store reference to camera for rate control
 
 	bool running;
