@@ -20,6 +20,19 @@ void HapticsController::setPartner(const HapticsController* partner) {
 	this->partner = partner;
 }
 
+void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
+	camera = c;
+
+	world = w;
+
+	tool = new chai3d::cToolCursor(world);
+	tool->setHapticDevice(device);
+	tool->setRadius(0.01); // 1 cm
+	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
+	tool->start();
+	world->addChild(tool);
+};
+
 // Starts the haptics loop
 void HapticsController::start() {
 
@@ -31,7 +44,6 @@ void HapticsController::start() {
 
 		// Read pointer position and orientation (if exists)
 		device->getPosition(curPos);
-		device->getRotation(curRot);
 
 		// Read status of buttons
 		bool pressed;
@@ -57,18 +69,60 @@ void HapticsController::start() {
 		if (dist >= rest) {
 			force += dir * (dist - rest) * k;
 		}
+
 		// *** End spring
 
 		chai3d::cVector3d torque(0.0, 0.0, 0.0);
 		double gripperForce = 0.0;
 
+
+		/////////////////////////////////////////////////////////////////////
+		// UPDATE 3D CURSOR MODEL
+		/////////////////////////////////////////////////////////////////////
+
+		// update position and orienation of cursor
+		tool->updateFromDevice();
+
+		/////////////////////////////////////////////////////////////////////
+		// COMPUTE FORCES
+		/////////////////////////////////////////////////////////////////////
+
+		tool->computeInteractionForces();
+
+		checkRateControl();
+
+		/////////////////////////////////////////////////////////////////////
+		// APPLY FORCES
+		/////////////////////////////////////////////////////////////////////
+
+		tool->addDeviceLocalForce(force);
+
+		tool->applyToDevice();
+
 		// Send computed force, torque, and gripper force to haptic device
-		device->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
+		//device->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
+
 		hapticFreq.signal(1);
 	}
 
 	// Exit haptics thread
 	finished = true;
+}
+
+// We only want rate control along the x-axis
+void HapticsController::checkRateControl() {
+	if ((curPos.x() < -0.03) || (curPos.x() > 0.035)) {
+		double s = 0.002;
+
+		// Move tool
+		chai3d::cVector3d disp = tool->getLocalPos() + (s * curPos);
+		tool->setLocalPos(chai3d::cVector3d(disp.x(), tool->getLocalPos().y(), tool->getLocalPos().z()));
+
+		// Move camera
+		chai3d::cVector3d cPos = camera->getLocalPos();
+		cPos = cPos + (s * curPos);
+		camera->setLocalPos(cPos.x(), camera->getLocalPos().y(), camera->getLocalPos().z());
+	}
 }
 
 // Tells the haptics thread to stop running
