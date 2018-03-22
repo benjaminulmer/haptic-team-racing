@@ -20,7 +20,9 @@ void HapticsController::setPartner(const HapticsController* partner) {
 	this->partner = partner;
 }
 
-void HapticsController::setupTool(chai3d::cWorld* w) {
+void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
+	camera = c;
+
 	world = w;
 
 	tool = new chai3d::cToolCursor(world);
@@ -42,7 +44,6 @@ void HapticsController::start() {
 
 		// Read pointer position and orientation (if exists)
 		device->getPosition(curPos);
-		device->getRotation(curRot);
 
 		// Read status of buttons
 		bool pressed;
@@ -88,6 +89,8 @@ void HapticsController::start() {
 
 		tool->computeInteractionForces();
 
+		checkRateControl();
+
 		/////////////////////////////////////////////////////////////////////
 		// APPLY FORCES
 		/////////////////////////////////////////////////////////////////////
@@ -104,6 +107,22 @@ void HapticsController::start() {
 
 	// Exit haptics thread
 	finished = true;
+}
+
+// We only want rate control along the x-axis
+void HapticsController::checkRateControl() {
+	if ((curPos.x() < -0.03) || (curPos.x() > 0.035)) {
+		double s = 0.002;
+
+		// Move tool
+		chai3d::cVector3d disp = tool->getLocalPos() + (s * curPos);
+		tool->setLocalPos(chai3d::cVector3d(disp.x(), tool->getLocalPos().y(), tool->getLocalPos().z()));
+
+		// Move camera
+		chai3d::cVector3d cPos = camera->getLocalPos();
+		cPos = cPos + (s * curPos);
+		camera->setLocalPos(cPos.x(), camera->getLocalPos().y(), camera->getLocalPos().z());
+	}
 }
 
 // Tells the haptics thread to stop running

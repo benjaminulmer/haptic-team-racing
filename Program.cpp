@@ -39,8 +39,8 @@ Program::Program() {
 	p1View = new PlayerView(*p1Haptics);
 	p2View = new PlayerView(*p2Haptics);
 
-	p1Haptics->setupTool(p1View->getWorld());
-	p2Haptics->setupTool(p2View->getWorld());
+	p1Haptics->setupTool(p1View->getWorld(), p1View->getCamera());
+	p2Haptics->setupTool(p2View->getWorld(), p2View->getCamera());
 
 	// Temporarily load level here
 	entities.push_back(Entity("models/level1.obj"));

@@ -18,6 +18,7 @@ public:
 
 	void addChild(chai3d::cMultiMesh* mesh);
 	chai3d::cWorld* getWorld() { return world; };
+	chai3d::cCamera* getCamera() { return camera; };
 
 private:
 	GLFWwindow* window;

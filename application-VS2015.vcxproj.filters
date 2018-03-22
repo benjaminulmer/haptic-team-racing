@@ -25,6 +25,9 @@
     <ClCompile Include="HapticsController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -36,6 +39,11 @@
     <ClInclude Include="PlayerView.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="HapticsController.h" />
+    <ClInclude Include="HapticsController.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
