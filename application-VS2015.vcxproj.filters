@@ -28,6 +28,12 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ContentReadWrite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -45,5 +51,9 @@
     <ClInclude Include="Entity.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ContentReadWrite.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldLoader.h" />
   </ItemGroup>
 </Project>

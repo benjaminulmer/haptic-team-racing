@@ -21,8 +21,8 @@ void HapticsController::setPartner(const HapticsController* partner) {
 }
 
 void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
-	camera = c;
 
+	camera = c;
 	world = w;
 
 	tool = new chai3d::cToolCursor(world);
@@ -81,6 +81,7 @@ void HapticsController::start() {
 		/////////////////////////////////////////////////////////////////////
 
 		// update position and orienation of cursor
+		world->computeGlobalPositions();
 		tool->updateFromDevice();
 
 		/////////////////////////////////////////////////////////////////////

@@ -19,19 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ContentReadWrite.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="HapticsController.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ContentReadWrite.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HapticsController.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="WorldLoader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>application-GLFW</ProjectName>
@@ -99,6 +103,12 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../bin/win-$(Platform)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">obj/$(Configuration)/$(Platform)/</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
