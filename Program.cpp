@@ -1,6 +1,7 @@
 #include "Program.h"
 
 #include <iostream>
+#include <string>
 
 #include "InputHandler.h"
 #include "ContentReadWrite.h"
@@ -25,21 +26,8 @@ Program::Program() {
 	glfwSetErrorCallback(errorCallback);
 
 	// Set up haptic devices
-	chai3d::cGenericHapticDevicePtr device1;
-	chai3d::cGenericHapticDevicePtr device2;
-
-	handler.getDevice(device1, 0);
-	p1Haptics = new HapticsController(device1);
-
-	handler.getDevice(device2, 1);
-	p2Haptics = new HapticsController(device2);
-
-	p1Haptics->setPartner(p2Haptics);
-	p2Haptics->setPartner(p1Haptics);
-
-	// Create view for each player
-	p1View = new PlayerView(*p1Haptics);
-	p2View = new PlayerView(*p2Haptics);
+	setUpHapticDevices();
+	setUpViews();
 
 	p1Haptics->setupTool(p1View->getWorld(), p1View->getCamera());
 	p2Haptics->setupTool(p2View->getWorld(), p2View->getCamera());
@@ -75,6 +63,54 @@ void Program::printControls() {
 	std::cout << "[f] - Enable/Disable full screen mode - not working" << std::endl;
 	std::cout << "[q/esc] - Exit application" << std::endl;
 	std::cout << std::endl << std::endl;
+}
+
+// Prompts for two haptic devices to be connected then sets up the devices
+void Program::setUpHapticDevices() {
+
+	while (handler.getNumDevices() < 2) {
+
+		std::cout << "Game requires two haptic devices to play" << std::endl;
+		std::cout << "Enter \"H\" to continue without the devices, or anything else to try again" << std::endl;
+		std::string in;
+		std::cin >> in;
+
+		if (in == "h" || in == "H") {
+			break;
+		}
+
+		// Recreate handler to look for more devices
+		handler = chai3d::cHapticDeviceHandler();
+	}
+
+	chai3d::cGenericHapticDevicePtr device1;
+	chai3d::cGenericHapticDevicePtr device2;
+
+	handler.getDevice(device1, 0);
+	p1Haptics = new HapticsController(device1);
+
+	handler.getDevice(device2, 1);
+	p2Haptics = new HapticsController(device2);
+
+	p1Haptics->setPartner(p2Haptics);
+	p2Haptics->setPartner(p1Haptics);
+}
+
+// TODO
+void Program::setUpViews() {
+
+	int count;
+	GLFWmonitor** monitors = glfwGetMonitors(&count);
+
+	p1View = new PlayerView(*p1Haptics, monitors[0], fullscreen);
+
+	if (count < 2) {
+		std::cout << "Warning: Game best played on two monitors" << std::endl;
+		p2View = new PlayerView(*p2Haptics, monitors[0], fullscreen);
+	}
+	else {
+		p2View = new PlayerView(*p2Haptics, monitors[1], fullscreen);
+	}
 }
 
 // Starts the program

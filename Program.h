@@ -35,6 +35,9 @@ private:
 	bool fullscreen;
 
 	void printControls();
+	void setUpHapticDevices();
+	void setUpViews();
+
 	void mainLoop();
 	void closeHaptics();
 

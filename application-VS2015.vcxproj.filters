@@ -54,6 +54,8 @@
     <ClInclude Include="ContentReadWrite.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="WorldLoader.h" />
+    <ClInclude Include="WorldLoader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

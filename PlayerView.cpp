@@ -5,21 +5,40 @@
 #include "InputHandler.h"
 
 // Creates a GLFW window for the player view
-PlayerView::PlayerView(const HapticsController& controller) : controller(controller) {
+PlayerView::PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen) : controller(controller) {
 
 	// Get window width and height
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	int w = 0.8 * mode->height;
-	int h = 0.5 * mode->height;
-	int x = 0.5 * (mode->width - w);
-	int y = 0.5 * (mode->height - h);
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-	// Set OpenGL version
+
+	// Set window hints and OpenGL version
+	glfwWindowHint(GLFW_AUTO_ICONIFY, false);
+	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
 	// Create window
-	window = glfwCreateWindow(w, h, "CHAI3D", NULL, NULL);
+	if (fullscreen) {
+		window = glfwCreateWindow(mode->width, mode->height, "CHAI3D", monitor, NULL);
+	}
+	else {
+		int w = 0.8 * mode->height;
+		int h = 0.5 * mode->height;
+		int x = 0.5 * (mode->width - w);
+		int y = 0.5 * (mode->height - h);
+
+		if (monitor != glfwGetPrimaryMonitor()) {
+			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+			x += mode->width;
+		}
+
+		window = glfwCreateWindow(w, h, "CHAI3D", NULL, NULL);
+		glfwSetWindowPos(window, x, y);
+	}
+
 
 	if (!window) {
 		std::cerr << "failed to create GLFW window" << std::endl;
@@ -30,7 +49,7 @@ PlayerView::PlayerView(const HapticsController& controller) : controller(control
 
 	// Set window properties
 	glfwGetWindowSize(window, &width, &height);
-	glfwSetWindowPos(window, x, y);
+	//glfwSetWindowPos(window, 0, 0);
 	glfwMakeContextCurrent(window);
 	//glfwSwapInterval(1); - not working right now because there are two windows
 
@@ -116,7 +135,7 @@ bool PlayerView::shouldClose() const{
 }
 
 // Returns constant pointer to the GLFW window of the view
-const GLFWwindow * PlayerView::getWindow() const {
+GLFWwindow * PlayerView::getWindow() const {
 	return window;;
 }
 

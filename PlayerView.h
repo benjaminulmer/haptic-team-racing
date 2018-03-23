@@ -9,12 +9,12 @@
 class PlayerView {
 
 public:
-	PlayerView(const HapticsController& controller);
+	PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen);
 	virtual ~PlayerView();
 
 	void render();
 	bool shouldClose() const;
-	const GLFWwindow* getWindow() const;
+	GLFWwindow* getWindow() const;
 
 	void addChild(chai3d::cMultiMesh* mesh);
 	chai3d::cWorld* getWorld() { return world; };
