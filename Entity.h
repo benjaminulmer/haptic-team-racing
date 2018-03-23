@@ -2,17 +2,25 @@
 
 #include "chai3d.h"
 
-class Entity {
-public:
-	Entity(std::string filename);
+enum class View {
+	P1 = 1,
+	P2 = 2
+};
 
-	chai3d::cVector3d getForce();
+class Entity {
+
+public:
+	Entity(std::string filename, View view, chai3d::cTransform transform = chai3d::cTransform());
 
 	chai3d::cMultiMesh* mesh;
 
+	View getView();
+	chai3d::cVector3d getForce();
+
 private:
-	std::string filename;
 
 	bool isRenderable;
 	chai3d::cVector3d pos;
+
+	View view;
 };

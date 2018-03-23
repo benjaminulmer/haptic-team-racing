@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "InputHandler.h"
+#include "ContentReadWrite.h"
+#include "WorldLoader.h"
 
 HapticsController* volatile Program::next;
 
@@ -43,10 +45,16 @@ Program::Program() {
 	p2Haptics->setupTool(p2View->getWorld(), p2View->getCamera());
 
 	// Temporarily load level here
-	entities.push_back(Entity("models/level1.obj"));
-	entities.push_back(Entity("models/level1.obj"));
-	p1View->addChild(entities[0].mesh);
-	p2View->addChild(entities[1].mesh);
+	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/sampleWorld.json"), entities);
+
+	for (Entity e : entities) {
+		if (e.getView() == View::P1) {
+			p1View->addChild(e.mesh);
+		}
+		else {
+			p2View->addChild(e.mesh);
+		}
+	}
 
 	// Initialize GLEW library
 	if (glewInit() != GLEW_OK) {
