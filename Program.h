@@ -16,7 +16,7 @@ public:
 
 	// These will need to move to PlayerView if we want to keep them
 	//void setWindowSize(int width, int height);
-	//void toggleFullscreen();
+	void toggleFullscreen();
 
 private:
 	static HapticsController* volatile next;
@@ -32,6 +32,7 @@ private:
 	chai3d::cThread hapticsThread1;
 	chai3d::cThread hapticsThread2;
 
+	int numMonitors;
 	bool fullscreen;
 
 	void printControls();

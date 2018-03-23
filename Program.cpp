@@ -12,7 +12,7 @@ HapticsController* volatile Program::next;
 // Default constructor for program
 Program::Program() {
 
-	fullscreen = false;
+	fullscreen = true;
 	next = nullptr;
 	InputHandler::setUp(this);
 	printControls();
@@ -99,18 +99,17 @@ void Program::setUpHapticDevices() {
 // TODO
 void Program::setUpViews() {
 
-	int count;
-	GLFWmonitor** monitors = glfwGetMonitors(&count);
+	GLFWmonitor** monitors = glfwGetMonitors(&numMonitors);
 
-	p1View = new PlayerView(*p1Haptics, monitors[0], fullscreen);
-
-	if (count < 2) {
+	if (numMonitors < 2) {
 		std::cout << "Warning: Game best played on two monitors" << std::endl;
+		fullscreen = false;
 		p2View = new PlayerView(*p2Haptics, monitors[0], fullscreen);
 	}
 	else {
 		p2View = new PlayerView(*p2Haptics, monitors[1], fullscreen);
 	}
+	p1View = new PlayerView(*p1Haptics, monitors[0], fullscreen);
 }
 
 // Starts the program
@@ -177,26 +176,15 @@ void Program::errorCallback(int error, const char* description) {
 //	this->height = height;
 //}
 
-//// Toggles fullscreen mode on and off
-//void Program::toggleFullscreen() {
-//	
-//	fullscreen = !fullscreen;
-//
-//	// Get info about monitor
-//	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-//	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-//
-//	// Set fullscreen or window mode
-//	if (fullscreen) {
-//		glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-//		glfwSwapInterval(1);
-//	}
-//	else {
-//		int w = 0.8 * mode->height;
-//		int h = 0.5 * mode->height;
-//		int x = 0.5 * (mode->width - w);
-//		int y = 0.5 * (mode->height - h);
-//		glfwSetWindowMonitor(window, NULL, x, y, w, h, mode->refreshRate);
-//		glfwSwapInterval(1);
-//	}
-//}
+// Toggles fullscreen mode on and off
+void Program::toggleFullscreen() {
+	
+	if (numMonitors < 2) {
+		std::cout << "Cannot go fullscreen with only 1 monitor" << std::endl;
+		return;
+	}
+
+	fullscreen = !fullscreen;
+	p1View->setFullscreen(fullscreen);
+	p2View->setFullscreen(fullscreen);
+}
