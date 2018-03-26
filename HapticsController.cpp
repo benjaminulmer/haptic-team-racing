@@ -112,6 +112,7 @@ void HapticsController::start() {
 
 // We only want rate control along the x-axis
 void HapticsController::checkRateControl() {
+
 	if ((curPos.x() < -0.03) || (curPos.x() > 0.035)) {
 		double s = 0.002;
 
@@ -138,7 +139,6 @@ bool HapticsController::isFinished() const {
 
 // Returns current position of device
 chai3d::cVector3d HapticsController::getPosition() const {
-	//return tool->getLocalPos();
 	return curPos;
 }
 
@@ -147,6 +147,7 @@ chai3d::cMatrix3d HapticsController::getRotation() const {
 	return curRot;
 }
 
+// Returns the position of the proxy in world coordinates
 chai3d::cVector3d HapticsController::getWorldPosition() const {
 
 	chai3d::cTransform t = tool->getLocalTransform();

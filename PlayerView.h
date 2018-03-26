@@ -42,6 +42,7 @@ private:
 
 	void setUpWorld();
 
+	// Static members
 	static std::map<GLFWwindow*, PlayerView*> windowToView;
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 };

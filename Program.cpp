@@ -12,7 +12,7 @@ HapticsController* volatile Program::next;
 // Default constructor for program
 Program::Program() {
 
-	fullscreen = true;
+	fullscreen = false;
 	next = nullptr;
 	InputHandler::setUp(this);
 	printControls();
@@ -26,11 +26,12 @@ Program::Program() {
 	glfwSetErrorCallback(errorCallback);
 
 	// Set up haptic devices
+	world = new chai3d::cWorld();
 	setUpHapticDevices();
 	setUpViews();
 
-	p1Haptics->setupTool(p1View->getWorld(), p1View->getCamera());
-	p2Haptics->setupTool(p2View->getWorld(), p2View->getCamera());
+	p1Haptics->setupTool(world, p1View->getCamera());
+	p2Haptics->setupTool(world, p2View->getCamera());
 
 	// Temporarily load level here
 	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/sampleWorld.json"), entities);
@@ -42,6 +43,9 @@ Program::Program() {
 		else {
 			p2View->addChild(e.mesh);
 		}
+
+		Entity eCopy = e;
+		world->addChild(eCopy.mesh);
 	}
 
 	// Initialize GLEW library

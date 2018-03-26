@@ -11,6 +11,9 @@ class Entity {
 
 public:
 	Entity(std::string filename, View view, chai3d::cTransform transform = chai3d::cTransform());
+	Entity(const Entity& other);
+
+	Entity& operator=(const Entity& other);
 
 	chai3d::cMultiMesh* mesh;
 
