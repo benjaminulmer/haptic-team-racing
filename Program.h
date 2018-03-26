@@ -14,9 +14,8 @@ public:
 	Program();
 	void start();
 
-	// These will need to move to PlayerView if we want to keep them
-	//void setWindowSize(int width, int height);
 	void toggleFullscreen();
+	void swapDevices();
 
 private:
 	static HapticsController* volatile next;

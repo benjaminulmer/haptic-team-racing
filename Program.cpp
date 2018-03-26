@@ -170,12 +170,6 @@ void Program::errorCallback(int error, const char* description) {
 	std::cerr << "Error: " << description << std::endl;
 }
 
-//// Sets window size to new parameters
-//void Program::setWindowSize(int width, int height) {
-//	this->width = width;
-//	this->height = height;
-//}
-
 // Toggles fullscreen mode on and off
 void Program::toggleFullscreen() {
 	
@@ -187,4 +181,9 @@ void Program::toggleFullscreen() {
 	fullscreen = !fullscreen;
 	p1View->setFullscreen(fullscreen);
 	p2View->setFullscreen(fullscreen);
+}
+
+// Swap which device is associated with each view
+void Program::swapDevices() {
+
 }

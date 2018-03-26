@@ -19,4 +19,7 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	else if (key == GLFW_KEY_F) {
 		p->toggleFullscreen();
 	}
+	else if (key == GLFW_KEY_S) {
+		p->swapDevices();
+	}
 }
