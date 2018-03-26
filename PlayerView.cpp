@@ -4,22 +4,41 @@
 
 #include "InputHandler.h"
 
+std::map<GLFWwindow*, PlayerView*> PlayerView::windowToView;
+
 // Creates a GLFW window for the player view
-PlayerView::PlayerView(const HapticsController& controller) : controller(controller) {
+PlayerView::PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen) : controller(controller), monitor(monitor) {
 
 	// Get window width and height
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	int w = 0.8 * mode->height;
-	int h = 0.5 * mode->height;
-	int x = 0.5 * (mode->width - w);
-	int y = 0.5 * (mode->height - h);
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-	// Set OpenGL version
+	// Set window hints and OpenGL version
+	glfwWindowHint(GLFW_AUTO_ICONIFY, false);
+	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
 	// Create window
-	window = glfwCreateWindow(w, h, "CHAI3D", NULL, NULL);
+	if (fullscreen) {
+		window = glfwCreateWindow(mode->width, mode->height, "CHAI3D", monitor, NULL);
+	}
+	else {
+		int w = 0.8 * mode->height;
+		int h = 0.5 * mode->height;
+		int x = 0.5 * (mode->width - w);
+		int y = 0.5 * (mode->height - h);
+
+		if (monitor != glfwGetPrimaryMonitor()) {
+			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+			x += mode->width;
+		}
+
+		window = glfwCreateWindow(w, h, "CHAI3D", NULL, NULL);
+		glfwSetWindowPos(window, x, y);
+	}
 
 	if (!window) {
 		std::cerr << "failed to create GLFW window" << std::endl;
@@ -28,15 +47,17 @@ PlayerView::PlayerView(const HapticsController& controller) : controller(control
 		exit(-1);
 	}
 
+	// Add window view pair to mapping
+	windowToView.insert(std::pair<GLFWwindow*, PlayerView*>(window, this));
+
 	// Set window properties
 	glfwGetWindowSize(window, &width, &height);
-	glfwSetWindowPos(window, x, y);
 	glfwMakeContextCurrent(window);
-	//glfwSwapInterval(1); - not working right now because there are two windows
+	//glfwSwapInterval(1); - TODO not working right now because there are two windows
 
 	// Set callback functions
 	glfwSetKeyCallback(window, InputHandler::keyCallback);
-	glfwSetWindowSizeCallback(window, InputHandler::windowSizeCallback);
+	glfwSetWindowSizeCallback(window, PlayerView::windowSizeCallback);
 
 	setUpWorld();
 }
@@ -116,11 +137,44 @@ bool PlayerView::shouldClose() const{
 }
 
 // Returns constant pointer to the GLFW window of the view
-const GLFWwindow * PlayerView::getWindow() const {
+GLFWwindow * PlayerView::getWindow() const {
 	return window;;
 }
 
+// Adds provided mesh to the world
 void PlayerView::addChild(chai3d::cMultiMesh* mesh) {
 	mesh->m_material->setBlue();
 	world->addChild(mesh);
+}
+
+// Sets fullscreen mode to the provided value
+void PlayerView::setFullscreen(bool fullscreen) {
+
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+	// Toggle state
+	if (fullscreen) {
+		glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+	}
+	else {
+		int w = 0.8 * mode->height;
+		int h = 0.5 * mode->height;
+		int x = 0.5 * (mode->width - w);
+		int y = 0.5 * (mode->height - h);
+
+		if (monitor != glfwGetPrimaryMonitor()) {
+			x += mode->width;
+		}
+
+		glfwSetWindowMonitor(window, NULL, x, y, w, h, mode->refreshRate);
+	}
+}
+
+// Callback for updating the size of the window
+void PlayerView::windowSizeCallback(GLFWwindow* window, int width, int height) {
+
+	PlayerView* view = windowToView[window];
+	view->width = width;
+	view->height = height;
+
 }
