@@ -45,7 +45,7 @@ Program::Program() {
 	p2Haptics->setupTool(p2View->getWorld(), p2View->getCamera());
 
 	// Temporarily load level here
-	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/sampleWorld.json"), entities);
+	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/obstaclesWorld.json"), entities);
 
 	for (Entity e : entities) {
 		if (e.getView() == View::P1) {
