@@ -18,9 +18,9 @@ public:
 	bool shouldClose() const;
 	GLFWwindow* getWindow() const;
 
-	void addChild(chai3d::cMultiMesh* mesh);
-	chai3d::cWorld* getWorld() { return world; };
-	chai3d::cCamera* getCamera() { return camera; };
+	void addChild(chai3d::cGenericObject* object);
+	chai3d::cWorld* getWorld();
+	chai3d::cCamera* getCamera();
 
 	void setFullscreen(bool fullscreen);
 

@@ -137,14 +137,9 @@ bool HapticsController::isFinished() const {
 	return finished;
 }
 
-// Returns current position of device
+// Returns current local position of device
 chai3d::cVector3d HapticsController::getPosition() const {
 	return curPos;
-}
-
-// Returns current rotation of device
-chai3d::cMatrix3d HapticsController::getRotation() const {
-	return curRot;
 }
 
 // Returns the position of the proxy in world coordinates
@@ -156,7 +151,17 @@ chai3d::cVector3d HapticsController::getWorldPosition() const {
 	return t * p;
 }
 
+// Returns current rotation of device
+chai3d::cMatrix3d HapticsController::getRotation() const {
+	return curRot;
+}
+
 // Returns current haptic frequency
 double HapticsController::getFrequency() const {
 	return hapticFreq.getFrequency();
+}
+
+// Returns a pointer to the haptic tool cursor
+chai3d::cToolCursor * HapticsController::getCursor() {
+	return tool;
 }

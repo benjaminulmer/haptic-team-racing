@@ -19,6 +19,7 @@ public:
 	chai3d::cVector3d getWorldPosition() const;
 	chai3d::cMatrix3d getRotation() const;
 	double getFrequency() const;
+	chai3d::cToolCursor* getCursor();
 
 	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
 
