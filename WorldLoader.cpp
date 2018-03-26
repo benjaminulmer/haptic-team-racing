@@ -41,6 +41,12 @@ void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity>& output) 
 		
 		chai3d::cTransform trans(position, rotation);
 
-		output.push_back(Entity(file, view, trans));
+		Entity newEntity = Entity(file, view, trans);
+		if (e.HasMember("texture")) {
+			newEntity.setTexture(text);
+		}
+
+		output.push_back(newEntity);
+
 	}
 }
