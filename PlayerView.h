@@ -22,6 +22,9 @@ public:
 	chai3d::cWorld* getWorld();
 	chai3d::cCamera* getCamera();
 
+	int getWidth() const;
+	int getHeight() const;
+
 	void setFullscreen(bool fullscreen);
 
 private:
