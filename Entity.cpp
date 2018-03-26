@@ -11,6 +11,21 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh->m_material->setUseHapticShading(true);
 }
 
+void Entity::setTexture(std::string filename) {
+	chai3d::cMesh* m = mesh->getMesh(0);
+
+	// create a colour texture map for this mesh object
+	chai3d::cTexture2dPtr texture = chai3d::cTexture2d::create();
+	texture->loadFromFile(filename);
+	texture->setWrapModeS(GL_REPEAT);
+	texture->setWrapModeT(GL_REPEAT);
+	texture->setUseMipmaps(true);
+
+	// assign textures to the mesh
+	m->m_texture = texture;
+	m->setUseTexture(true);
+}
+
 // Returns the view
 View Entity::getView() {
 	return view;

@@ -36,6 +36,9 @@ private:
 
 	mutable chai3d::cFrequencyCounter hapticFreq;
 
+	double k;
+	double rest;
+
 	chai3d::cVector3d curPos;
 	chai3d::cMatrix3d curRot;
 };
