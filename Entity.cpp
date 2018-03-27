@@ -11,6 +11,7 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh->m_material->setUseHapticShading(true);
 }
 
+// Sets the texure for the mesh
 void Entity::setTexture(std::string filename) {
 	chai3d::cMesh* m = mesh->getMesh(0);
 
@@ -27,6 +28,6 @@ void Entity::setTexture(std::string filename) {
 }
 
 // Returns the view
-View Entity::getView() {
+View Entity::getView() const {
 	return view;
 }

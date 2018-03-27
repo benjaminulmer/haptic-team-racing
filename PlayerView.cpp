@@ -71,6 +71,7 @@ PlayerView::~PlayerView() {
 void PlayerView::setUpWorld() {
 
 	world = new chai3d::cWorld();
+	world->setGhostEnabled(true);
 
 	// Set up camera
 	camera = new chai3d::cCamera(world);
@@ -142,9 +143,28 @@ GLFWwindow * PlayerView::getWindow() const {
 }
 
 // Adds provided mesh to the world
-void PlayerView::addChild(chai3d::cMultiMesh* mesh) {
-	mesh->m_material->setBlue();
-	world->addChild(mesh);
+void PlayerView::addChild(chai3d::cGenericObject* object) {
+	world->addChild(object);
+}
+
+// Returns the veiw world
+chai3d::cWorld * PlayerView::getWorld() {
+	return world;
+}
+
+// Returns the camera of the view world
+chai3d::cCamera * PlayerView::getCamera() {
+	return camera;
+}
+
+// Returns current width of the window
+int PlayerView::getWidth() const {
+	return width;
+}
+
+// Returns current height of the window
+int PlayerView::getHeight() const {
+	return height;
 }
 
 // Sets fullscreen mode to the provided value

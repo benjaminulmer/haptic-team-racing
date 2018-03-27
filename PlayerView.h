@@ -18,9 +18,12 @@ public:
 	bool shouldClose() const;
 	GLFWwindow* getWindow() const;
 
-	void addChild(chai3d::cMultiMesh* mesh);
-	chai3d::cWorld* getWorld() { return world; };
-	chai3d::cCamera* getCamera() { return camera; };
+	void addChild(chai3d::cGenericObject* object);
+	chai3d::cWorld* getWorld();
+	chai3d::cCamera* getCamera();
+
+	int getWidth() const;
+	int getHeight() const;
 
 	void setFullscreen(bool fullscreen);
 
@@ -42,6 +45,7 @@ private:
 
 	void setUpWorld();
 
+	// Static members
 	static std::map<GLFWwindow*, PlayerView*> windowToView;
 	static void windowSizeCallback(GLFWwindow* window, int width, int height);
 };
