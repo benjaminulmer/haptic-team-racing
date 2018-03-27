@@ -23,7 +23,7 @@ public:
 
 	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
 
-	chai3d::cShapeSpere* getProxy() { return avatarProxy; };
+	chai3d::cShapeSphere* getProxy() { return avatarProxy; };
 
 private:
 	void checkRateControl();
@@ -46,6 +46,6 @@ private:
 	chai3d::cMatrix3d curRot;
 
 	// allows other player to see avatar
-	chai3d::cShapeSphere avatarProxy;
+	chai3d::cShapeSphere* avatarProxy;
 };
 

@@ -36,8 +36,8 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 	tool->start();
 	world->addChild(tool);
 
-	avatarProxy = tool->m_hapticPoint->m_sphereProxy.copy();
-	avatarProxy->m_material->setTransparency(0.5);
+	avatarProxy = tool->m_hapticPoint->m_sphereProxy->copy();
+	avatarProxy->m_material->setTransparencyLevel(0.5);
 	avatarProxy->m_material->setGreen();
 };
 
