@@ -31,6 +31,10 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
 	tool->start();
 	world->addChild(tool);
+
+	avatarProxy = tool->m_hapticPoint->m_sphereProxy.copy();
+	avatarProxy->m_material->setTransparency(0.5);
+	avatarProxy->m_material->setGreen();
 };
 
 // Starts the haptics loop
@@ -84,6 +88,9 @@ void HapticsController::start() {
 		world->computeGlobalPositions();
 		tool->updateFromDevice();
 
+		// Update position of proxy as well
+		avatarProxy->setLocalPos(curPos);
+
 		/////////////////////////////////////////////////////////////////////
 		// COMPUTE FORCES
 		/////////////////////////////////////////////////////////////////////
@@ -99,9 +106,6 @@ void HapticsController::start() {
 		tool->addDeviceLocalForce(force);
 
 		tool->applyToDevice();
-
-		// Send computed force, torque, and gripper force to haptic device
-		//device->setForceAndTorqueAndGripperForce(force, torque, gripperForce);
 
 		hapticFreq.signal(1);
 	}
