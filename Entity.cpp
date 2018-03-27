@@ -11,30 +11,23 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh->m_material->setUseHapticShading(true);
 }
 
-// Copy constructor
-Entity::Entity(const Entity & other) {
+// Sets the texure for the mesh
+void Entity::setTexture(std::string filename) {
+	chai3d::cMesh* m = mesh->getMesh(0);
 
-	isRenderable = other.isRenderable;
-	pos = other.pos;
-	mesh = other.mesh->copy(true, true, true, true);
-	view = other.view;
-}
+	// create a colour texture map for this mesh object
+	chai3d::cTexture2dPtr texture = chai3d::cTexture2d::create();
+	texture->loadFromFile(filename);
+	texture->setWrapModeS(GL_REPEAT);
+	texture->setWrapModeT(GL_REPEAT);
+	texture->setUseMipmaps(true);
 
-// Copy assignment operator
-Entity& Entity::operator=(const Entity& other) {
-	
-	if (&other == this) {
-		return *this;
-	}
-	isRenderable = other.isRenderable;
-	pos = other.pos;
-	mesh = other.mesh->copy(true, true, true, true);
-	view = other.view;
-
-	return *this;
+	// assign textures to the mesh
+	m->m_texture = texture;
+	m->setUseTexture(true);
 }
 
 // Returns the view
-View Entity::getView() {
+View Entity::getView() const {
 	return view;
 }

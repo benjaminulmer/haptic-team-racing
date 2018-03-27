@@ -157,6 +157,16 @@ chai3d::cCamera * PlayerView::getCamera() {
 	return camera;
 }
 
+// Returns current width of the window
+int PlayerView::getWidth() const {
+	return width;
+}
+
+// Returns current height of the window
+int PlayerView::getHeight() const {
+	return height;
+}
+
 // Sets fullscreen mode to the provided value
 void PlayerView::setFullscreen(bool fullscreen) {
 

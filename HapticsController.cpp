@@ -6,6 +6,9 @@ HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device) : d
 	running = false;
 	finished = false;
 
+	rest = 0.01; // m
+	k = 300.0;
+
 	device->open();
 	device->calibrate();
 }
@@ -20,6 +23,7 @@ void HapticsController::setPartner(const HapticsController* partner) {
 	this->partner = partner;
 }
 
+// Sets up the haptic tool to interact with the given world
 void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 
 	camera = c;
@@ -66,9 +70,6 @@ void HapticsController::start() {
 		chai3d::cVector3d dir = partnerPos - getWorldPosition();//curPos;
 		double dist = dir.length();
 		dir.normalize();
-
-		constexpr double rest = 0.00;
-		constexpr double k = 300.0;
 
 		if (dist >= rest) {
 			force += dir * (dist - rest) * k;
