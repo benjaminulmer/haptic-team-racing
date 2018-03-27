@@ -12,7 +12,7 @@ HapticsController* volatile Program::next;
 // Default constructor for program
 Program::Program() {
 
-	fullscreen = true;
+	fullscreen = false;
 	next = nullptr;
 	InputHandler::setUp(this);
 	printControls();
@@ -26,16 +26,27 @@ Program::Program() {
 	glfwSetErrorCallback(errorCallback);
 
 	// Set up haptic devices
+	world = new chai3d::cWorld();
 	setUpHapticDevices();
 	setUpViews();
 
-	p1Haptics->setupTool(p1View->getWorld(), p1View->getCamera());
-	p2Haptics->setupTool(p2View->getWorld(), p2View->getCamera());
+	p1Haptics->setupTool(world, p1View->getCamera());
+	p2Haptics->setupTool(world, p2View->getCamera());
+
+	// Add cursors to the view
+	p1View->addChild(p1Haptics->getCursor());
+	p1View->addChild(p2Haptics->getCursor());
+
+	p2View->addChild(p1Haptics->getCursor());
+	p2View->addChild(p2Haptics->getCursor());
 
 	// Temporarily load level here
 	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/obstaclesWorld.json"), entities);
 
-	for (Entity e : entities) {
+	for (const Entity& e : entities) {
+
+		world->addChild(e.mesh);
+
 		if (e.getView() == View::P1) {
 			p1View->addChild(e.mesh);
 		}
@@ -96,7 +107,7 @@ void Program::setUpHapticDevices() {
 	p2Haptics->setPartner(p1Haptics);
 }
 
-// TODO
+// Sets up a view for each player. If more than one monitor connected each view is on a seperate monitor
 void Program::setUpViews() {
 
 	GLFWmonitor** monitors = glfwGetMonitors(&numMonitors);
@@ -130,9 +141,40 @@ void Program::start() {
 // Main loop for running graphics and other non-haptics work
 void Program::mainLoop() {
 
+	// TODO move game logic somewhere else
+	chai3d::cLabel* p1Label;
+	p1Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	p1Label->m_fontColor.setWhite();
+	p1View->getCamera()->m_frontLayer->addChild(p1Label);
+
+	chai3d::cLabel* p2Label;
+	p2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	p2Label->m_fontColor.setWhite();
+	p2View->getCamera()->m_frontLayer->addChild(p2Label);
+
+	chai3d::cPrecisionClock clock;
+	clock.start();
+
+	bool win = false;
+
 	while (!p1View->shouldClose() && !p2View->shouldClose()) {
 
 		glfwPollEvents();
+
+		if (p1Haptics->getWorldPosition().x() < -0.5 && p2Haptics->getWorldPosition().x() < -0.5) {
+			win = true;
+		}
+
+		if (!win) {
+			p1Label->setText(chai3d::cStr(clock.getCurrentTimeSeconds(), 1) + "s");
+			p2Label->setText(chai3d::cStr(clock.getCurrentTimeSeconds(), 1) + "s");
+		}
+		else {
+			p1Label->setText("You're a winner!");
+			p2Label->setText("You're a winner!");
+		}
+		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
+		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
 
 		p1View->render();
 		p2View->render();

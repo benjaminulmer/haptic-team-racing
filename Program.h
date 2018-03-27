@@ -18,7 +18,8 @@ public:
 	void swapDevices();
 
 private:
-	static HapticsController* volatile next;
+	std::vector<Entity> entities;
+	chai3d::cWorld* world;
 
 	PlayerView* p1View;
 	PlayerView* p2View;
@@ -41,8 +42,9 @@ private:
 	void mainLoop();
 	void closeHaptics();
 
+	// Static members
+	static HapticsController* volatile next;
+
 	static void startNextHapticsLoop();
 	static void errorCallback(int error, const char* description);
-
-	std::vector<Entity> entities;
 };

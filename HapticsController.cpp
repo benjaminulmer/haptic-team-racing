@@ -23,6 +23,7 @@ void HapticsController::setPartner(const HapticsController* partner) {
 	this->partner = partner;
 }
 
+// Sets up the haptic tool to interact with the given world
 void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 
 	camera = c;
@@ -112,6 +113,7 @@ void HapticsController::start() {
 
 // We only want rate control along the x-axis
 void HapticsController::checkRateControl() {
+
 	if ((curPos.x() < -0.03) || (curPos.x() > 0.035)) {
 		double s = 0.002;
 
@@ -136,17 +138,12 @@ bool HapticsController::isFinished() const {
 	return finished;
 }
 
-// Returns current position of device
+// Returns current local position of device
 chai3d::cVector3d HapticsController::getPosition() const {
-	//return tool->getLocalPos();
 	return curPos;
 }
 
-// Returns current rotation of device
-chai3d::cMatrix3d HapticsController::getRotation() const {
-	return curRot;
-}
-
+// Returns the position of the proxy in world coordinates
 chai3d::cVector3d HapticsController::getWorldPosition() const {
 
 	chai3d::cTransform t = tool->getLocalTransform();
@@ -155,7 +152,17 @@ chai3d::cVector3d HapticsController::getWorldPosition() const {
 	return t * p;
 }
 
+// Returns current rotation of device
+chai3d::cMatrix3d HapticsController::getRotation() const {
+	return curRot;
+}
+
 // Returns current haptic frequency
 double HapticsController::getFrequency() const {
 	return hapticFreq.getFrequency();
+}
+
+// Returns a pointer to the haptic tool cursor
+chai3d::cToolCursor * HapticsController::getCursor() {
+	return tool;
 }
