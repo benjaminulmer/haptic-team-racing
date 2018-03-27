@@ -3,24 +3,28 @@
 	[
 		{
 			"filename": "models/level1.obj",
+			"texture": "textures/level1.png",
 			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 1
 		},
 		{
 			"filename": "models/level1.obj",
+			"texture": "textures/level1.png",
 			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 2
 		},
 		{
 			"filename": "models/cube.obj",
+			"texture": "textures/red.png",
 			"position": {"x": 0.0, "y": -0.01, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 1
 		},
 		{
 			"filename": "models/cylinder.obj",
+			"texture": "textures/purple.png",
 			"position": {"x": 0.1, "y": 0.02, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 2
