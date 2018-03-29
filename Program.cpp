@@ -38,8 +38,8 @@ Program::Program() {
 	p1View->addChild(p2Haptics->getProxy());
 	//p1View->addChild(p2Haptics->getCursor());
 
-	p2View->addChild(p1Haptics->getCursor());
-	p2View->addChild(p2Haptics->getProxy());
+	p2View->addChild(p2Haptics->getCursor());
+	p2View->addChild(p1Haptics->getProxy());
 	//p2View->addChild(p2Haptics->getCursor());
 
 	// Temporarily load level here

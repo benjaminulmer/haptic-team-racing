@@ -36,9 +36,13 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 	tool->start();
 	world->addChild(tool);
 
-	avatarProxy = tool->m_hapticPoint->m_sphereProxy->copy();
-	avatarProxy->m_material->setTransparencyLevel(0.5);
+	avatarProxy = new chai3d::cShapeSphere(0.01);
+	avatarProxy->m_material->setTransparencyLevel(0.3);
+	avatarProxy->setUseTransparency(true);
 	avatarProxy->m_material->setGreen();
+
+	if (avatarProxy->m_material->isTransparent()) { std::cout << "proxy is transparent" << std::endl; }
+	else { std::cout << "not transparent" << std::endl; }
 };
 
 // Starts the haptics loop
@@ -90,7 +94,7 @@ void HapticsController::start() {
 		tool->updateFromDevice();
 
 		// Update position of proxy as well
-		avatarProxy->setLocalPos(curPos);
+		avatarProxy->setLocalPos(getWorldPosition());
 
 		/////////////////////////////////////////////////////////////////////
 		// COMPUTE FORCES

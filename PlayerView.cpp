@@ -80,6 +80,8 @@ void PlayerView::setUpWorld() {
 		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
 	camera->setClippingPlanes(0.01, 10.0);
 
+	camera->setUseMultipassTransparency(true);
+
 	// Set up light
 	light = new chai3d::cSpotLight(world);
 	light->setEnabled(true);
