@@ -43,7 +43,7 @@ Program::Program() {
 	//p2View->addChild(p2Haptics->getCursor());
 
 	// Temporarily load level here
-	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/obstaclesWorld.json"), entities);
+	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/cylinderWorld.json"), entities);
 
 	for (const Entity& e : entities) {
 

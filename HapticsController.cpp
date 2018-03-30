@@ -67,8 +67,8 @@ void HapticsController::start() {
 		chai3d::cVector3d force(0.0, 0.0, 0.0);
 
 		// *** Virtual spring connecting avatars
-		chai3d::cVector3d partnerPos = partner->getWorldPosition();//getPosition();
-		chai3d::cVector3d dir = partnerPos - getWorldPosition();//curPos;
+		chai3d::cVector3d partnerPos = partner->getWorldPosition();
+		chai3d::cVector3d dir = partnerPos - getWorldPosition();
 		double dist = dir.length();
 		dir.normalize();
 
@@ -119,8 +119,8 @@ void HapticsController::start() {
 // We only want rate control along the x-axis
 void HapticsController::checkRateControl() {
 
-	if ((curPos.x() < -0.03) || (curPos.x() > 0.035)) {
-		double s = 0.002;
+	if (abs(curPos.x()) > 0.02) {
+		double s = 0.003;
 
 		// Move tool
 		chai3d::cVector3d disp = tool->getLocalPos() + (s * curPos);
