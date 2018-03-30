@@ -31,12 +31,12 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 
 	tool = new chai3d::cToolCursor(world);
 	tool->setHapticDevice(device);
-	tool->setRadius(0.01); // 1 cm
+	tool->setRadius(0.005); // 1 cm
 	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
 	tool->start();
 	world->addChild(tool);
 
-	avatarProxy = new chai3d::cShapeSphere(0.01);
+	avatarProxy = new chai3d::cShapeSphere(0.005);
 	avatarProxy->m_material->setTransparencyLevel(0.3);
 	avatarProxy->setUseTransparency(true);
 	avatarProxy->m_material->setGreen();
