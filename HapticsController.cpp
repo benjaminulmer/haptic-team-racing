@@ -40,9 +40,6 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 	avatarProxy->m_material->setTransparencyLevel(0.3);
 	avatarProxy->setUseTransparency(true);
 	avatarProxy->m_material->setGreen();
-
-	if (avatarProxy->m_material->isTransparent()) { std::cout << "proxy is transparent" << std::endl; }
-	else { std::cout << "not transparent" << std::endl; }
 };
 
 // Starts the haptics loop
