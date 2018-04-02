@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+#include "Constants.h"
+
 // Creates an entity from a file name
 Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : view(view) {
 
@@ -7,7 +9,7 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh->loadFromFile(filename);
 	mesh->setLocalTransform(transform);
 	mesh->setStiffness(2000.0);
-	mesh->createAABBCollisionDetector(0.01);
+	mesh->createAABBCollisionDetector(Constants::cursorRadius);
 	mesh->m_material->setUseHapticShading(true);
 }
 

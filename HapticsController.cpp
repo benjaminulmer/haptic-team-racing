@@ -1,13 +1,12 @@
 #include "HapticsController.h"
 
+#include "Constants.h"
+
 // Creates a controller for the provided haptic device
 HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities) : device(device), entities(entities) {
 
 	running = false;
 	finished = false;
-
-	rest = 0.01;
-	k = 300.0;
 
 	device->open();
 	device->calibrate();
@@ -33,7 +32,7 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 
 	tool = new chai3d::cToolCursor(world);
 	tool->setHapticDevice(device);
-	tool->setRadius(0.005);
+	tool->setRadius(Constants::cursorRadius);
 	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
 	tool->start();
 	world->addChild(tool);
@@ -75,8 +74,8 @@ void HapticsController::start() {
 		double dist = dir.length();
 		dir.normalize();
 
-		if (dist >= rest) {
-			force += dir * (dist - rest) * k;
+		if (dist >= Constants::springRest) {
+			force += dir * (dist - Constants::springRest) * Constants::springK;
 		}
 
 		// *** End spring
@@ -101,12 +100,14 @@ void HapticsController::start() {
 			}
 
 			chai3d::cCollisionRecorder r;
+			chai3d::cCollisionSettings s;
+			s.m_collisionRadius = Constants::cursorRadius;
 
-			if (e->mesh->computeCollisionDetection(prevWorldPos, newPos, r, chai3d::cCollisionSettings())) {
+			if (e->mesh->computeCollisionDetection(prevWorldPos, newPos, r, s)) {
 				std::cout << "enter" << std::endl;
 				insideEntity[e] = true;
 			}
-			else if (e->mesh->computeCollisionDetection(newPos, prevWorldPos, r, chai3d::cCollisionSettings())) {
+			else if (e->mesh->computeCollisionDetection(newPos, prevWorldPos, r, s)) {
 				std::cout << "exit" << std::endl;
 				insideEntity[e] = false;
 			}
