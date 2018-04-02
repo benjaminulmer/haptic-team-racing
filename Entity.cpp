@@ -10,7 +10,7 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh = new chai3d::cMultiMesh();
 	mesh->loadFromFile(filename);
 	mesh->setLocalTransform(transform);
-	mesh->setStiffness(2000.0);
+	mesh->setStiffness(3000.0);
 	mesh->createAABBCollisionDetector(Constants::cursorRadius);
 	mesh->m_material->setUseHapticShading(true);
 }

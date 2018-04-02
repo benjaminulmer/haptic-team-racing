@@ -38,7 +38,7 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 	world->addChild(tool);
 
 	// Create a renderable copy of the tool (for other player's view)
-	avatarCopy = new chai3d::cShapeSphere(0.005);
+	avatarCopy = new chai3d::cShapeSphere(Constants::cursorRadius);
 	avatarCopy->m_material->setTransparencyLevel(0.3);
 	avatarCopy->setUseTransparency(true);
 	avatarCopy->m_material->setGreen();
