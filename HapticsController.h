@@ -20,10 +20,9 @@ public:
 	chai3d::cMatrix3d getRotation() const;
 	double getFrequency() const;
 	chai3d::cToolCursor* getCursor();
+	chai3d::cShapeSphere* getCursorCopy();
 
 	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
-
-	chai3d::cShapeSphere* getProxy() { return avatarProxy; };
 
 private:
 	void checkRateControl();
@@ -45,7 +44,7 @@ private:
 	chai3d::cVector3d curPos;
 	chai3d::cMatrix3d curRot;
 
-	// allows other player to see avatar
-	chai3d::cShapeSphere* avatarProxy;
+	// Allows other player to see avatar
+	chai3d::cShapeSphere* avatarCopy;
 };
 

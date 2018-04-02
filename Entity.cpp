@@ -13,16 +13,17 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 
 // Sets the texure for the mesh
 void Entity::setTexture(std::string filename) {
+
 	chai3d::cMesh* m = mesh->getMesh(0);
 
-	// create a colour texture map for this mesh object
+	// Create a colour texture map for this mesh object
 	chai3d::cTexture2dPtr texture = chai3d::cTexture2d::create();
 	texture->loadFromFile(filename);
 	texture->setWrapModeS(GL_REPEAT);
 	texture->setWrapModeT(GL_REPEAT);
 	texture->setUseMipmaps(true);
 
-	// assign textures to the mesh
+	// Assign textures to the mesh
 	m->m_texture = texture;
 	m->setUseTexture(true);
 }

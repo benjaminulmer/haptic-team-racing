@@ -6,7 +6,7 @@ HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device) : d
 	running = false;
 	finished = false;
 
-	rest = 0.01; // m
+	rest = 0.01;
 	k = 300.0;
 
 	device->open();
@@ -31,15 +31,16 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 
 	tool = new chai3d::cToolCursor(world);
 	tool->setHapticDevice(device);
-	tool->setRadius(0.005); // 1 cm
+	tool->setRadius(0.005);
 	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
 	tool->start();
 	world->addChild(tool);
 
-	avatarProxy = new chai3d::cShapeSphere(0.005);
-	avatarProxy->m_material->setTransparencyLevel(0.3);
-	avatarProxy->setUseTransparency(true);
-	avatarProxy->m_material->setGreen();
+	// Create a renderable copy of the tool (for other player's view)
+	avatarCopy = new chai3d::cShapeSphere(0.005);
+	avatarCopy->m_material->setTransparencyLevel(0.3);
+	avatarCopy->setUseTransparency(true);
+	avatarCopy->m_material->setGreen();
 };
 
 // Starts the haptics loop
@@ -91,7 +92,7 @@ void HapticsController::start() {
 		tool->updateFromDevice();
 
 		// Update position of proxy as well
-		avatarProxy->setLocalPos(getWorldPosition());
+		avatarCopy->setLocalPos(getWorldPosition());
 
 		/////////////////////////////////////////////////////////////////////
 		// COMPUTE FORCES
@@ -170,4 +171,9 @@ double HapticsController::getFrequency() const {
 // Returns a pointer to the haptic tool cursor
 chai3d::cToolCursor * HapticsController::getCursor() {
 	return tool;
+}
+
+// Returns a pointer to a renderable copy of the cursor
+chai3d::cShapeSphere * HapticsController::getCursorCopy() {
+	return avatarCopy;
 }

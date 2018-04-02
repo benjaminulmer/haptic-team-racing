@@ -35,12 +35,10 @@ Program::Program() {
 
 	// Add cursors to the view
 	p1View->addChild(p1Haptics->getCursor());
-	p1View->addChild(p2Haptics->getProxy());
-	//p1View->addChild(p2Haptics->getCursor());
+	p1View->addChild(p2Haptics->getCursorCopy());
 
 	p2View->addChild(p2Haptics->getCursor());
-	p2View->addChild(p1Haptics->getProxy());
-	//p2View->addChild(p2Haptics->getCursor());
+	p2View->addChild(p1Haptics->getCursorCopy());
 
 	// Temporarily load level here
 	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/cylinderWorld.json"), entities);
