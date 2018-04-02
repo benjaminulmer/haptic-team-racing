@@ -3,7 +3,7 @@
 #include <string>
 
 // Returns a vector of all entities from a world file
-void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity>& output) {
+void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output) {
 
 	rapidjson::Value& entities = d["entities"];
 	for (rapidjson::SizeType i = 0; i < entities.Size(); i++) {
@@ -46,10 +46,10 @@ void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity>& output) 
 		
 		// Create entity and push back
 		chai3d::cTransform trans(position, rotation);
-		Entity newEntity = Entity(file, view, trans);
+		Entity* newEntity = new Entity(file, view, trans);
 
 		if (e.HasMember("texture")) {
-			newEntity.setTexture(text);
+			newEntity->setTexture(text);
 		}
 
 		output.push_back(newEntity);

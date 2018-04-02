@@ -4,7 +4,8 @@
 
 enum class View {
 	P1 = 1,
-	P2 = 2
+	P2 = 2,
+	BOTH = 3
 };
 
 class Entity {
@@ -16,7 +17,7 @@ public:
 
 	void setTexture(std::string filename);
 	View getView() const;
-	chai3d::cVector3d getForce();
+	//virtual chai3d::cVector3d interact();
 
 private:
 

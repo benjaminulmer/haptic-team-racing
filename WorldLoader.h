@@ -9,6 +9,6 @@
 class WorldLoader {
 
 public:
-	static void loadWorld(rapidjson::Document d, std::vector<Entity>& output);
+	static void loadWorld(rapidjson::Document d, std::vector<Entity*>& output);
 };
 

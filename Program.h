@@ -18,7 +18,7 @@ public:
 	void swapDevices();
 
 private:
-	std::vector<Entity> entities;
+	std::vector<Entity*> entities;
 	chai3d::cWorld* world;
 
 	PlayerView* p1View;

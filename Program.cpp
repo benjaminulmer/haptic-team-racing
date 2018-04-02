@@ -42,15 +42,19 @@ Program::Program() {
 	// Temporarily load level here
 	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/cylinderWorld.json"), entities);
 
-	for (const Entity& e : entities) {
+	for (const Entity* e : entities) {
 
-		world->addChild(e.mesh);
+		world->addChild(e->mesh);
 
-		if (e.getView() == View::P1) {
-			p1View->addChild(e.mesh);
+		if (e->getView() == View::P1) {
+			p1View->addChild(e->mesh);
 		}
-		else {
-			p2View->addChild(e.mesh);
+		else if (e->getView() == View::P2){
+			p2View->addChild(e->mesh);
+		}
+		else { // both
+			p1View->addChild(e->mesh);
+			p2View->addChild(e->mesh);
 		}
 	}
 

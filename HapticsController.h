@@ -2,6 +2,7 @@
 
 #include "chai3d.h"
 
+#include <map>
 #include <vector>
 
 #include "Entity.h"
@@ -10,7 +11,7 @@
 class HapticsController {
 
 public:
-	HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity>& entities);
+	HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities);
 	virtual ~HapticsController();
 
 	void setPartner(const HapticsController* partner);
@@ -35,7 +36,8 @@ private:
 	chai3d::cToolCursor* tool;
 	chai3d::cCamera* camera; // Store reference to camera for rate control
 
-	const std::vector<Entity>& entities;
+	const std::vector<Entity*>& entities;
+	std::map<const Entity*, bool> insideEntity;
 
 	bool running;
 	bool finished;
