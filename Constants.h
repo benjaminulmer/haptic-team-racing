@@ -1,5 +1,6 @@
 #pragma once
 
+// Class for storing program constants
 class Constants {
 
 public:

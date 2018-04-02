@@ -8,6 +8,12 @@ enum class View {
 	BOTH = 3
 };
 
+enum class Type {
+	ENTITY,
+	VISCOUS
+};
+
+// Base class for an entity. Represents a solid object interacted with via the God-Object algorithm
 class Entity {
 
 public:
@@ -17,12 +23,10 @@ public:
 
 	void setTexture(std::string filename);
 	View getView() const;
-	//virtual chai3d::cVector3d interact();
+	Type getType() const;
+	virtual chai3d::cVector3d interact(chai3d::cToolCursor* tool) const { return chai3d::cVector3d(0.0, 0.0, 0.0); }
 
 private:
-
-	bool isRenderable;
-	chai3d::cVector3d pos;
-
 	View view;
+	Type type;
 };

@@ -20,9 +20,7 @@ public:
 	void stop();
 	bool isFinished() const;
 
-	chai3d::cVector3d getPosition() const;
 	chai3d::cVector3d getWorldPosition() const;
-	chai3d::cMatrix3d getRotation() const;
 	double getFrequency() const;
 	chai3d::cToolCursor* getCursor();
 	chai3d::cShapeSphere* getCursorCopy();
@@ -50,5 +48,7 @@ private:
 	// Allows other player to see avatar
 	chai3d::cShapeSphere* avatarCopy;
 
-	void checkRateControl();
+	void performEntityInteraction();
+	void applySpringForce();
+	void performRateControl();
 };

@@ -5,6 +5,8 @@
 // Creates an entity from a file name
 Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : view(view) {
 
+	type = Type::ENTITY;
+
 	mesh = new chai3d::cMultiMesh();
 	mesh->loadFromFile(filename);
 	mesh->setLocalTransform(transform);
@@ -34,4 +36,9 @@ void Entity::setTexture(std::string filename) {
 // Returns the view
 View Entity::getView() const {
 	return view;
+}
+
+// Returns the type of the entity
+Type Entity::getType() const {
+	return type;
 }

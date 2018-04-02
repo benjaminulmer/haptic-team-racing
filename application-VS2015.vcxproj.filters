@@ -37,6 +37,9 @@
     <ClCompile Include="Constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Viscous.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -63,5 +66,6 @@
     <ClInclude Include="Constants.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Viscous.h" />
   </ItemGroup>
 </Project>
