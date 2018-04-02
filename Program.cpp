@@ -1,6 +1,5 @@
 #include "Program.h"
 
-#include <iostream>
 #include <string>
 
 #include "InputHandler.h"
@@ -98,10 +97,10 @@ void Program::setUpHapticDevices() {
 	chai3d::cGenericHapticDevicePtr device2;
 
 	handler.getDevice(device1, 0);
-	p1Haptics = new HapticsController(device1);
+	p1Haptics = new HapticsController(device1, entities);
 
 	handler.getDevice(device2, 1);
-	p2Haptics = new HapticsController(device2);
+	p2Haptics = new HapticsController(device2, entities);
 
 	p1Haptics->setPartner(p2Haptics);
 	p2Haptics->setPartner(p1Haptics);

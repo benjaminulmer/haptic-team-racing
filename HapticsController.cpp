@@ -1,7 +1,7 @@
 #include "HapticsController.h"
 
 // Creates a controller for the provided haptic device
-HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device) : device(device) {
+HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity>& entities) : device(device), entities(entities) {
 	
 	running = false;
 	finished = false;
@@ -53,7 +53,7 @@ void HapticsController::start() {
 	while (running) {
 
 		// Read pointer position and orientation (if exists)
-		device->getPosition(curPos);
+		device->getPosition(devicePos);
 
 		// Read status of buttons
 		bool pressed;
@@ -91,6 +91,17 @@ void HapticsController::start() {
 		world->computeGlobalPositions();
 		tool->updateFromDevice();
 
+		chai3d::cVector3d newPos = getWorldPosition();
+		for (const Entity& e : entities) {
+
+			chai3d::cCollisionRecorder r;
+
+			if (e.mesh->computeCollisionDetection(prevWorldPos, newPos, r, chai3d::cCollisionSettings())) {
+				std::cout << "hit" << std::endl;
+			}
+		}
+		prevWorldPos = getWorldPosition();
+
 		// Update position of proxy as well
 		avatarCopy->setLocalPos(getWorldPosition());
 
@@ -120,16 +131,16 @@ void HapticsController::start() {
 // We only want rate control along the x-axis
 void HapticsController::checkRateControl() {
 
-	if (abs(curPos.x()) > 0.02) {
+	if (abs(devicePos.x()) > 0.02) {
 		double s = 0.003;
 
 		// Move tool
-		chai3d::cVector3d disp = tool->getLocalPos() + (s * curPos);
+		chai3d::cVector3d disp = tool->getLocalPos() + (s * devicePos);
 		tool->setLocalPos(chai3d::cVector3d(disp.x(), tool->getLocalPos().y(), tool->getLocalPos().z()));
 
 		// Move camera
 		chai3d::cVector3d cPos = camera->getLocalPos();
-		cPos = cPos + (s * curPos);
+		cPos = cPos + (s * devicePos);
 		camera->setLocalPos(cPos.x(), camera->getLocalPos().y(), camera->getLocalPos().z());
 	}
 }
@@ -144,11 +155,6 @@ bool HapticsController::isFinished() const {
 	return finished;
 }
 
-// Returns current local position of device
-chai3d::cVector3d HapticsController::getPosition() const {
-	return curPos;
-}
-
 // Returns the position of the proxy in world coordinates
 chai3d::cVector3d HapticsController::getWorldPosition() const {
 
@@ -156,11 +162,6 @@ chai3d::cVector3d HapticsController::getWorldPosition() const {
 	chai3d::cVector3d p = tool->m_hapticPoint->m_sphereProxy->getLocalPos();
 
 	return t * p;
-}
-
-// Returns current rotation of device
-chai3d::cMatrix3d HapticsController::getRotation() const {
-	return curRot;
 }
 
 // Returns current haptic frequency

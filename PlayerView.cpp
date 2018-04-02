@@ -1,7 +1,5 @@
 #include "PlayerView.h"
 
-#include <iostream>
-
 #include "InputHandler.h"
 
 std::map<GLFWwindow*, PlayerView*> PlayerView::windowToView;

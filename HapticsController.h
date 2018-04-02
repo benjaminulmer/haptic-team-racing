@@ -2,11 +2,15 @@
 
 #include "chai3d.h"
 
+#include <vector>
+
+#include "Entity.h"
+
 // Class that handles the haptic device of one player
 class HapticsController {
 
 public:
-	HapticsController(chai3d::cGenericHapticDevicePtr device);
+	HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity>& entities);
 	virtual ~HapticsController();
 
 	void setPartner(const HapticsController* partner);
@@ -25,13 +29,13 @@ public:
 	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
 
 private:
-	void checkRateControl();
-
 	chai3d::cGenericHapticDevicePtr device;
 	chai3d::cWorld* world;
 	const HapticsController* partner;
 	chai3d::cToolCursor* tool;
 	chai3d::cCamera* camera; // Store reference to camera for rate control
+
+	const std::vector<Entity>& entities;
 
 	bool running;
 	bool finished;
@@ -41,10 +45,11 @@ private:
 	double k;
 	double rest;
 
-	chai3d::cVector3d curPos;
-	chai3d::cMatrix3d curRot;
+	chai3d::cVector3d devicePos;
+	chai3d::cVector3d prevWorldPos;
 
 	// Allows other player to see avatar
 	chai3d::cShapeSphere* avatarCopy;
-};
 
+	void checkRateControl();
+};
