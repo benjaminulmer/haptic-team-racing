@@ -1,7 +1,7 @@
 #include "Viscous.h"
 
-Viscous::Viscous(std::string filename, View view, chai3d::cTransform transform) : Entity(filename, view, transform) {
-	damping = 50.0;
+Viscous::Viscous(std::string filename, View view, chai3d::cTransform transform, double damping) : Entity(filename, view, transform), damping(damping) {
+	mesh->getMesh(0)->setHapticEnabled(false);
 }
 
 // Returns a damping force simulating a viscous material like molasses

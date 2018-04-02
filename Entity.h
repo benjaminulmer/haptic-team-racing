@@ -17,7 +17,7 @@ enum class Type {
 class Entity {
 
 public:
-	Entity(std::string filename, View view, chai3d::cTransform transform = chai3d::cTransform());
+	Entity(std::string filename, View view, chai3d::cTransform transform);
 
 	chai3d::cMultiMesh* mesh;
 

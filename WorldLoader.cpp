@@ -42,14 +42,26 @@ void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output)
 
 			rotation = chai3d::cMatrix3d(x, y, z, deg * (M_PI / 180.0));
 		}
+		chai3d::cTransform trans(position, rotation);
 
 		// Player view
 		View view = (View) e["view"].GetInt();
+		std::string type = "entity";
 		
-		// Create entity and push back
-		chai3d::cTransform trans(position, rotation);
-		Entity* newEntity = new Viscous(file, view, trans);
-
+		if (e.HasMember("type")) {
+			type = e["type"].GetString();
+		}
+		
+		// Create entity
+		Entity* newEntity;
+		if (type == "viscous") {
+			newEntity = new Viscous(file, view, trans, e["damping"].GetDouble());
+		}
+		else {
+			newEntity = new Entity(file, view, trans);
+		}
+	
+		// Set texture
 		if (e.HasMember("texture")) {
 			newEntity->setTexture(text);
 		}

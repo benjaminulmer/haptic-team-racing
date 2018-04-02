@@ -4,7 +4,7 @@
 		{
 			"filename": "models/cylinderLevel.obj",
 			"texture": "textures/level1.png",
-			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
+			"position": {"x": 0.0, "y": 0.0, "z": 0.06},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 3
 		},
@@ -13,6 +13,8 @@
 			"texture": "textures/red.png",
 			"position": {"x": 0.1, "y": -0.01, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"type": "viscous",
+			"damping": 40.0,
 			"view": 1
 		},
 		{

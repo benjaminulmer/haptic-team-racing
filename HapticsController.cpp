@@ -135,18 +135,28 @@ void HapticsController::applySpringForce() {
 // Updates tool and camera position based on rate control rules
 void HapticsController::performRateControl() {
 
-	if (abs(devicePos.x()) > 0.02) {
-		double s = 0.003;
+	chai3d::cVector3d disp(0.0, 0.0, 0.0);
+	chai3d::cVector3d xPos(devicePos.x(), 0.0, 0.0);
 
-		// Move tool
-		chai3d::cVector3d disp = tool->getLocalPos() + (s * devicePos);
-		tool->setLocalPos(chai3d::cVector3d(disp.x(), tool->getLocalPos().y(), tool->getLocalPos().z()));
+	if (devicePos.x() > Constants::rateZone) {
 
-		// Move camera
-		chai3d::cVector3d cPos = camera->getLocalPos();
-		cPos = cPos + (s * devicePos);
-		camera->setLocalPos(cPos.x(), camera->getLocalPos().y(), camera->getLocalPos().z());
+		disp = xPos - chai3d::cVector3d(Constants::rateZone, 0.0, 0.0);
+		tool->setLocalPos(Constants::rateScale * disp + tool->getLocalPos());
+
+		// Velocity setting not great
+		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
+		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
 	}
+	else if (devicePos.x() < -Constants::rateZone) {
+
+		disp = xPos - chai3d::cVector3d(-Constants::rateZone, 0.0, 0.0);
+		tool->setLocalPos(Constants::rateScale * disp + tool->getLocalPos());
+
+		// Velocity setting not great
+		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
+		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
+	}
+	tool->addDeviceLocalForce(-Constants::rateFeedback * disp);
 }
 
 // Tells the haptics thread to stop running
