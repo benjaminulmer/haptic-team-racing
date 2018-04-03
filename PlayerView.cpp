@@ -83,10 +83,12 @@ void PlayerView::setUpWorld() {
 	// Set up light
 	light = new chai3d::cSpotLight(world);
 	light->setEnabled(true);
-	light->setLocalPos(0.7, 0.3, 1.0);
+	//light->setLocalPos(-0.7, 0.3, 1.0);
+	light->setLocalPos(0.7, 0.0, 0.0);
 
 	// define the direction of the light beam
-	light->setDir(-0.5, -0.2, -0.8);
+	//light->setDir(0.5, -0.2, -0.8);
+	light->setDir(-0.5, -0.02, -0.01);
 	// enable this light source to generate shadows
 	light->setShadowMapEnabled(true);
 	// set the resolution of the shadow map
@@ -98,7 +100,7 @@ void PlayerView::setUpWorld() {
 	camera->m_frontLayer->addChild(labelRates);
 
 	// Add objects to world
-	world->m_backgroundColor.setBlack();
+	world->m_backgroundColor.setBlueSteel();
 	world->addChild(camera);
 	world->addChild(light);
 }

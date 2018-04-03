@@ -232,3 +232,19 @@ void Program::toggleFullscreen() {
 void Program::swapDevices() {
 
 }
+
+void Program::moveCamera(double dir) {
+	chai3d::cCamera* cam1 = p1View->getCamera();
+	chai3d::cCamera* cam2 = p2View->getCamera();
+
+	chai3d::cVector3d disp;
+
+	if (dir > 0.0) {
+		disp = chai3d::cVector3d(1.0, 0.0, 0.0);
+	}
+	else disp = chai3d::cVector3d(-1.0, 0.0, 0.0);
+
+	cam1->setLocalPos(0.005 * disp + cam1->getLocalPos());
+	cam2->setLocalPos(0.005 * disp + cam2->getLocalPos());
+
+}

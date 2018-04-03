@@ -17,6 +17,9 @@ public:
 	void toggleFullscreen();
 	void swapDevices();
 
+	// Debug camera controls
+	void moveCamera(double direction);
+
 private:
 	std::vector<Entity*> entities;
 	chai3d::cWorld* world;

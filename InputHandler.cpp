@@ -22,4 +22,12 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	else if (key == GLFW_KEY_S) {
 		p->swapDevices();
 	}
+
+	// Debug camera controls
+	else if (key == GLFW_KEY_UP) {
+		p->moveCamera(1.0);
+	}
+	else if (key == GLFW_KEY_DOWN) {
+		p->moveCamera(-1.0);
+	}
 }
