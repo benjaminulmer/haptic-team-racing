@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Constants.cpp" />
     <ClCompile Include="ContentReadWrite.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="HapticsController.cpp" />
@@ -26,15 +27,18 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Viscous.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="ContentReadWrite.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HapticsController.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="Viscous.h" />
     <ClInclude Include="WorldLoader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

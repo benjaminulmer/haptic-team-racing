@@ -1,7 +1,5 @@
 #include "PlayerView.h"
 
-#include <iostream>
-
 #include "InputHandler.h"
 
 std::map<GLFWwindow*, PlayerView*> PlayerView::windowToView;
@@ -48,7 +46,7 @@ PlayerView::PlayerView(const HapticsController& controller, GLFWmonitor* monitor
 	}
 
 	// Add window view pair to mapping
-	windowToView.insert(std::pair<GLFWwindow*, PlayerView*>(window, this));
+	windowToView[window] = this;
 
 	// Set window properties
 	glfwGetWindowSize(window, &width, &height);

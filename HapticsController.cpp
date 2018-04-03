@@ -1,16 +1,17 @@
 #include "HapticsController.h"
 
+#include "Constants.h"
+
 // Creates a controller for the provided haptic device
-HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device) : device(device) {
-	
+HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities) : device(device), entities(entities) {
+
 	running = false;
 	finished = false;
 
-	rest = 0.01; // m
-	k = 300.0;
-
 	device->open();
 	device->calibrate();
+
+	prevWorldPos.zero();
 }
 
 // Closes device controller
@@ -31,28 +32,25 @@ void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
 
 	tool = new chai3d::cToolCursor(world);
 	tool->setHapticDevice(device);
-	tool->setRadius(0.005); // 1 cm
+	tool->setRadius(Constants::cursorRadius);
 	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
 	tool->start();
 	world->addChild(tool);
 
-	avatarProxy = new chai3d::cShapeSphere(0.005);
-	avatarProxy->m_material->setTransparencyLevel(0.3);
-	avatarProxy->setUseTransparency(true);
-	avatarProxy->m_material->setGreen();
+	// Create a renderable copy of the tool (for other player's view)
+	avatarCopy = new chai3d::cShapeSphere(Constants::cursorRadius);
+	avatarCopy->m_material->setTransparencyLevel(0.3);
+	avatarCopy->setUseTransparency(true);
+	avatarCopy->m_material->setGreen();
 };
 
 // Starts the haptics loop
 void HapticsController::start() {
 
-	// Simulation is starting
 	running = true;
 
 	bool button0Hold = false;
 	while (running) {
-
-		// Read pointer position and orientation (if exists)
-		device->getPosition(curPos);
 
 		// Read status of buttons
 		bool pressed;
@@ -63,52 +61,20 @@ void HapticsController::start() {
 		}
 		button0Hold = pressed;
 
-		// Calculate forces on cursor
-		chai3d::cVector3d force(0.0, 0.0, 0.0);
-
-		// *** Virtual spring connecting avatars
-		chai3d::cVector3d partnerPos = partner->getWorldPosition();
-		chai3d::cVector3d dir = partnerPos - getWorldPosition();
-		double dist = dir.length();
-		dir.normalize();
-
-		if (dist >= rest) {
-			force += dir * (dist - rest) * k;
-		}
-
-		// *** End spring
-
-		chai3d::cVector3d torque(0.0, 0.0, 0.0);
-		double gripperForce = 0.0;
-
-
-		/////////////////////////////////////////////////////////////////////
-		// UPDATE 3D CURSOR MODEL
-		/////////////////////////////////////////////////////////////////////
-
-		// update position and orienation of cursor
+		// Update positions
+		device->getPosition(devicePos);
 		world->computeGlobalPositions();
 		tool->updateFromDevice();
+		avatarCopy->setLocalPos(prevWorldPos);
 
-		// Update position of proxy as well
-		avatarProxy->setLocalPos(getWorldPosition());
-
-		/////////////////////////////////////////////////////////////////////
-		// COMPUTE FORCES
-		/////////////////////////////////////////////////////////////////////
-
+		// Perform interactions and calculate forces
 		tool->computeInteractionForces();
+		performRateControl();
+		applySpringForce();
+		performEntityInteraction();
 
-		checkRateControl();
-
-		/////////////////////////////////////////////////////////////////////
-		// APPLY FORCES
-		/////////////////////////////////////////////////////////////////////
-
-		tool->addDeviceLocalForce(force);
-
+		// Apply forces to tool and signal frequency counter
 		tool->applyToDevice();
-
 		hapticFreq.signal(1);
 	}
 
@@ -116,21 +82,81 @@ void HapticsController::start() {
 	finished = true;
 }
 
-// We only want rate control along the x-axis
-void HapticsController::checkRateControl() {
+// Performs interaction between cursor and entities in the world
+void HapticsController::performEntityInteraction() {
 
-	if (abs(curPos.x()) > 0.02) {
-		double s = 0.003;
+	chai3d::cVector3d force(0.0, 0.0, 0.0);
+	chai3d::cVector3d newPos = getWorldPosition();
 
-		// Move tool
-		chai3d::cVector3d disp = tool->getLocalPos() + (s * curPos);
-		tool->setLocalPos(chai3d::cVector3d(disp.x(), tool->getLocalPos().y(), tool->getLocalPos().z()));
+	for (const Entity* e : entities) {
 
-		// Move camera
-		chai3d::cVector3d cPos = camera->getLocalPos();
-		cPos = cPos + (s * curPos);
-		camera->setLocalPos(cPos.x(), camera->getLocalPos().y(), camera->getLocalPos().z());
+		if (insideEntity.count(e) == 0) {
+			insideEntity[e] = false;
+		}
+
+		chai3d::cCollisionRecorder r;
+		chai3d::cCollisionSettings s;
+		s.m_collisionRadius = Constants::cursorRadius;
+
+		// Test if cursor entered entity
+		if (e->mesh->computeCollisionDetection(prevWorldPos, newPos, r, s)) {
+			insideEntity[e] = true;
+		}
+		// Test if cursor exitted entity
+		else if (e->mesh->computeCollisionDetection(newPos, prevWorldPos, r, s)) {
+			insideEntity[e] = false;
+		}
+
+		if (insideEntity[e]) {
+			force += e->interact(tool);
+		}
 	}
+	prevWorldPos = getWorldPosition();
+
+	tool->addDeviceLocalForce(force);
+}
+
+// Computes and applies spring foce to tool
+void HapticsController::applySpringForce() {
+
+	chai3d::cVector3d force(0.0, 0.0, 0.0);
+	chai3d::cVector3d partnerPos = partner->getWorldPosition();
+	chai3d::cVector3d dir = partnerPos - getWorldPosition();
+	double dist = dir.length();
+	dir.normalize();
+
+	// Calculate spring force only if spring is elongated
+	if (dist >= Constants::springRest) {
+		force = dir * (dist - Constants::springRest) * Constants::springK;
+	}
+	tool->addDeviceLocalForce(force);
+}
+
+// Updates tool and camera position based on rate control rules
+void HapticsController::performRateControl() {
+
+	chai3d::cVector3d disp(0.0, 0.0, 0.0);
+	chai3d::cVector3d xPos(devicePos.x(), 0.0, 0.0);
+
+	if (devicePos.x() > Constants::rateZone) {
+
+		disp = xPos - chai3d::cVector3d(Constants::rateZone, 0.0, 0.0);
+		tool->setLocalPos(Constants::rateScale * disp + tool->getLocalPos());
+
+		// Velocity setting not great
+		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
+		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
+	}
+	else if (devicePos.x() < -Constants::rateZone) {
+
+		disp = xPos - chai3d::cVector3d(-Constants::rateZone, 0.0, 0.0);
+		tool->setLocalPos(Constants::rateScale * disp + tool->getLocalPos());
+
+		// Velocity setting not great
+		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
+		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
+	}
+	tool->addDeviceLocalForce(-Constants::rateFeedback * disp);
 }
 
 // Tells the haptics thread to stop running
@@ -143,11 +169,6 @@ bool HapticsController::isFinished() const {
 	return finished;
 }
 
-// Returns current local position of device
-chai3d::cVector3d HapticsController::getPosition() const {
-	return curPos;
-}
-
 // Returns the position of the proxy in world coordinates
 chai3d::cVector3d HapticsController::getWorldPosition() const {
 
@@ -155,11 +176,6 @@ chai3d::cVector3d HapticsController::getWorldPosition() const {
 	chai3d::cVector3d p = tool->m_hapticPoint->m_sphereProxy->getLocalPos();
 
 	return t * p;
-}
-
-// Returns current rotation of device
-chai3d::cMatrix3d HapticsController::getRotation() const {
-	return curRot;
 }
 
 // Returns current haptic frequency
@@ -170,4 +186,9 @@ double HapticsController::getFrequency() const {
 // Returns a pointer to the haptic tool cursor
 chai3d::cToolCursor * HapticsController::getCursor() {
 	return tool;
+}
+
+// Returns a pointer to a renderable copy of the cursor
+chai3d::cShapeSphere * HapticsController::getCursorCopy() {
+	return avatarCopy;
 }

@@ -1,6 +1,5 @@
 #include "Program.h"
 
-#include <iostream>
 #include <string>
 
 #include "InputHandler.h"
@@ -35,25 +34,27 @@ Program::Program() {
 
 	// Add cursors to the view
 	p1View->addChild(p1Haptics->getCursor());
-	p1View->addChild(p2Haptics->getProxy());
-	//p1View->addChild(p2Haptics->getCursor());
+	p1View->addChild(p2Haptics->getCursorCopy());
 
 	p2View->addChild(p2Haptics->getCursor());
-	p2View->addChild(p1Haptics->getProxy());
-	//p2View->addChild(p2Haptics->getCursor());
+	p2View->addChild(p1Haptics->getCursorCopy());
 
 	// Temporarily load level here
 	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/cylinderWorld.json"), entities);
 
-	for (const Entity& e : entities) {
+	for (const Entity* e : entities) {
 
-		world->addChild(e.mesh);
+		world->addChild(e->mesh);
 
-		if (e.getView() == View::P1) {
-			p1View->addChild(e.mesh);
+		if (e->getView() == View::P1) {
+			p1View->addChild(e->mesh);
 		}
-		else {
-			p2View->addChild(e.mesh);
+		else if (e->getView() == View::P2){
+			p2View->addChild(e->mesh);
+		}
+		else { // both
+			p1View->addChild(e->mesh);
+			p2View->addChild(e->mesh);
 		}
 	}
 
@@ -100,10 +101,10 @@ void Program::setUpHapticDevices() {
 	chai3d::cGenericHapticDevicePtr device2;
 
 	handler.getDevice(device1, 0);
-	p1Haptics = new HapticsController(device1);
+	p1Haptics = new HapticsController(device1, entities);
 
 	handler.getDevice(device2, 1);
-	p2Haptics = new HapticsController(device2);
+	p2Haptics = new HapticsController(device2, entities);
 
 	p1Haptics->setPartner(p2Haptics);
 	p2Haptics->setPartner(p1Haptics);
