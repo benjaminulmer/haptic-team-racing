@@ -56,6 +56,10 @@ void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output)
 		Entity* newEntity;
 		if (type == "viscous") {
 			newEntity = new Viscous(file, view, trans, e["damping"].GetDouble());
+
+			newEntity->mesh->setUseTransparency(true);
+
+			newEntity->mesh->setTransparencyLevel(0.5);
 		}
 		else {
 			newEntity = new Entity(file, view, trans);

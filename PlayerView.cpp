@@ -73,7 +73,7 @@ void PlayerView::setUpWorld() {
 
 	// Set up camera
 	camera = new chai3d::cCamera(world);
-	camera->set(chai3d::cVector3d(0.25, 0.0, 0.05),   // camera position (eye)
+	camera->set(chai3d::cVector3d(0.25, 0.0, 0.02),   // camera position (eye)
 		        chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
 		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
 	camera->setClippingPlanes(0.01, 10.0);

@@ -9,7 +9,15 @@ void InputHandler::setUp(Program* program) {
 
 // Callback for GLFW key presses
 void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	
+
+	// Debug camera controls
+	if (key == GLFW_KEY_UP) {
+		p->moveCamera(-1.0);
+	}
+	else if (key == GLFW_KEY_DOWN) {
+		p->moveCamera(21.0);
+	}
+
 	if (action != GLFW_PRESS) {
 		return;
 	}
@@ -21,13 +29,5 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	}
 	else if (key == GLFW_KEY_S) {
 		p->swapDevices();
-	}
-
-	// Debug camera controls
-	else if (key == GLFW_KEY_UP) {
-		p->moveCamera(1.0);
-	}
-	else if (key == GLFW_KEY_DOWN) {
-		p->moveCamera(-1.0);
 	}
 }

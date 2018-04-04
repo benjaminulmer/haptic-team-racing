@@ -4,14 +4,14 @@
 		{
 			"filename": "models/cylinderLevel.obj",
 			"texture": "textures/level1.png",
-			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
+			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 3
 		},
 		{
-			"filename": "models/cube.obj",
+			"filename": "models/sphere.obj",
 			"texture": "textures/red.png",
-			"position": {"x": 0.0, "y": -0.01, "z": 0.03},
+			"position": {"x": 0.0, "y": -0.01, "z": 0.00},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"type": "viscous",
 			"damping": 40.0,
@@ -20,28 +20,28 @@
 		{
 			"filename": "models/cylinder.obj",
 			"texture": "textures/red.png",
-			"position": {"x": 0.1, "y": 0.02, "z": 0.03},
+			"position": {"x": 0.1, "y": 0.02, "z": 0.00},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 2
 		},
 		{
 			"filename": "models/scoop.obj",
 			"texture": "textures/orange.png",
-			"position": {"x": -0.2, "y": 0.015, "z": 0.025},
+			"position": {"x": -0.2, "y": 0.015, "z": -0.005},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
 			"view": 1
 		},
 		{
 			"filename": "models/tray.obj",
 			"texture": "textures/purple.png",
-			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
+			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 2
 		},
 		{
 			"filename": "models/trap.obj",
 			"texture": "textures/red.png",
-			"position": {"x": -0.2, "y": -0.015, "z": 0.025},
+			"position": {"x": -0.2, "y": -0.015, "z": -0.005},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": -30.0},
 			"view": 1
 		}
