@@ -3,7 +3,7 @@
 	[
 		{
 			"filename": "models/cylinderLevel.obj",
-			"texture": "textures/level1.png",
+			"texture": "textures/cylinderlevel.png",
 			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 3
@@ -12,7 +12,7 @@
 		
         {
 			"filename": "models/sphere.obj",
-			"texture": "textures/red.png",
+			"texture": "textures/green.png",
 			"position": {"x": 0.42, "y": -0.04, "z": 0.01},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"type": "viscous",
@@ -21,8 +21,8 @@
 		},
         {
 			"filename": "models/sphere.obj",
-			"texture": "textures/red.png",
-			"position": {"x": 0.44, "y": 0.02, "z": 0.00},
+			"texture": "textures/green.png",
+			"position": {"x": 0.44, "y": 0.03, "z": -0.005},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"type": "viscous",
 			"damping": 40.0,
@@ -31,137 +31,214 @@
         
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.41, "y": -0.05, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": -0.06, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": -0.04, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.41, "y": -0.03, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": -0.02, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.41, "y": -0.01, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": 0.0, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.41, "y": 0.01, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": 0.02, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.41, "y": 0.03, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": 0.04, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
-			"view": 1
+			"view": 2
 		},
-        {
+		{
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.41, "y": 0.05, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.41, "y": 0.06, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.43, "y": -0.04, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": -0.07, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 2
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.43, "y": -0.02, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": -0.05, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 2
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.43, "y": 0.00, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": -0.03, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": -0.01, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 2
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.43, "y": 0.02, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": 0.01, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 2
 		},
-        {
+		{
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.43, "y": 0.04, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": 0.03, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1
+		},
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.43, "y": 0.05, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 2
 		},
         
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.45, "y": -0.05, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": -0.06, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": -0.04, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.45, "y": -0.03, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": -0.02, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.45, "y": -0.01, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": 0.0, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.45, "y": 0.01, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": 0.02, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
-			"view": 1
+			"view": 2
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.45, "y": 0.03, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": 0.04, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 1
 		},
-        {
+		{
 			"filename": "models/bar.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.45, "y": 0.05, "z": 0.00},
+			"texture": "textures/blue.png",
+			"position": {"x": 0.45, "y": 0.06, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
-			"view": 1
+			"view": 2
 		},
         
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": -0.07, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": -0.05, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": -0.03, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": -0.01, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": 0.01, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": 0.03, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1
+		},
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.39, "y": 0.05, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 2
+		},
         
 		{
 			"filename": "models/cylinder.obj",
-			"texture": "textures/red.png",
+			"texture": "textures/cylinder.png",
 			"position": {"x": 0.1, "y": 0.02, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
 			"view": 2
 		},
         {
 			"filename": "models/bar.obj",
-			"texture": "textures/purple.png",
+			"texture": "textures/blue.png",
 			"position": {"x": 0.05, "y": 0.0, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
 			"view": 3
@@ -175,9 +252,9 @@
 		},
 		{
 			"filename": "models/scoop.obj",
-			"texture": "textures/orange.png",
+			"texture": "textures/scoop.png",
 			"position": {"x": -0.25, "y": -0.015, "z": 0.0},
-			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": -30.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 60.0},
 			"view": 1
 		},
         
@@ -191,7 +268,7 @@
 		},
         {
 			"filename": "models/sphere.obj",
-			"texture": "textures/red.png",
+			"texture": "textures/green.png",
 			"position": {"x": -0.1, "y": -0.025, "z": 0.01},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"type": "viscous",
@@ -200,24 +277,41 @@
 		},
         {
 			"filename": "models/trap.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": -0.15, "y": -0.03, "z": 0.03},
+			"texture": "textures/trap.png",
+			"position": {"x": -0.14, "y": -0.04, "z": -0.01},
 			"rotation": {"x": 0.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 1
 		},
         
 		{
+			"filename": "models/sphere.obj",
+			"texture": "textures/green.png",
+			"position": {"x": -0.36, "y": 0.025, "z": -0.01},
+			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"type": "viscous",
+			"damping": 40.0,
+			"view": 1
+		},
+		{
 			"filename": "models/trap.obj",
-			"texture": "textures/red.png",
+			"texture": "textures/trap.png",
 			"position": {"x": -0.4, "y": 0.02, "z": 0.015},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": -30.0},
 			"view": 1
 		},
         {
 			"filename": "models/trap.obj",
-			"texture": "textures/red.png",
+			"texture": "textures/trap.png",
 			"position": {"x": -0.41, "y": -0.02, "z": -0.015},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
+			"view": 2
+		},
+		
+		{
+			"filename": "models/bomb.obj",
+			"texture": "textures/bomb.png",
+			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
 			"view": 2
 		}
 	]

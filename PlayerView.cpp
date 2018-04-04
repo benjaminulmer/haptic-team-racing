@@ -76,7 +76,7 @@ void PlayerView::setUpWorld() {
 	camera->set(chai3d::cVector3d(0.25, 0.0, 0.02),   // camera position (eye)
 		        chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
 		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
-	camera->setClippingPlanes(0.06, 10.0);
+	camera->setClippingPlanes(0.065, 10.0);
 
 	camera->setUseMultipassTransparency(true);
 
@@ -100,7 +100,7 @@ void PlayerView::setUpWorld() {
 	camera->m_frontLayer->addChild(labelRates);
 
 	// Add objects to world
-	world->m_backgroundColor.setBlueSteel();
+	world->m_backgroundColor.setPurpleMediumSlateBlue();
 	world->addChild(camera);
 	world->addChild(light);
 }
