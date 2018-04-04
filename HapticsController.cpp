@@ -109,6 +109,10 @@ void HapticsController::performEntityInteraction() {
 
 		if (insideEntity[e]) {
 			force += e->interact(tool);
+			Type t = e->getType();
+			if (t == Type::COLLECTIBLE || t == Type::HAZARD) {
+				world->removeChild(e->mesh);
+			}
 		}
 	}
 	prevWorldPos = getWorldPosition();

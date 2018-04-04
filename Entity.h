@@ -11,7 +11,8 @@ enum class View {
 enum class Type {
 	ENTITY,
 	VISCOUS,
-	HAZARD
+	HAZARD,
+	COLLECTIBLE
 };
 
 // Base class for an entity. Represents a solid object interacted with via the God-Object algorithm

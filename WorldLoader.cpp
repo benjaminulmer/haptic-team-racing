@@ -5,8 +5,8 @@
 #include "Viscous.h"
 #include "Hazard.h"
 
-// Returns a vector of all entities from a world file
-void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output) {
+// Fills a vector of all entities from a world file and returns the time limit for the level
+double WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output) {
 
 	rapidjson::Value& entities = d["entities"];
 	for (rapidjson::SizeType i = 0; i < entities.Size(); i++) {
@@ -69,7 +69,7 @@ void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output)
 		if (e.HasMember("texture")) {
 			newEntity->setTexture(text);
 		}
-
 		output.push_back(newEntity);
 	}
+	return d["time"].GetDouble();
 }

@@ -45,6 +45,7 @@ private:
 
 	// Game state variables
 	State state;
+	double maxTime;
 
 	void printControls();
 	void setUpHapticDevices();
@@ -53,6 +54,7 @@ private:
 	void mainLoop();
 	void loseGame();
 	void winGame();
+	void addTime(double amount);
 
 	void closeHaptics();
 
