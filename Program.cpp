@@ -5,11 +5,12 @@
 #include "InputHandler.h"
 #include "ContentReadWrite.h"
 #include "WorldLoader.h"
+#include "Hazard.h"
 
 HapticsController* volatile Program::next;
 
 // Default constructor for program
-Program::Program() {
+Program::Program() : state(State::DEFAULT) {
 
 	fullscreen = false;
 	next = nullptr;
@@ -42,7 +43,12 @@ Program::Program() {
 	// Temporarily load level here
 	WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/cylinderWorld.json"), entities);
 
-	for (const Entity* e : entities) {
+	for (Entity* e : entities) {
+
+		if (e->getType() == Type::HAZARD) {
+			Hazard* h = (Hazard*) e;
+			h->hitHazard.connect_member(this, &Program::loseGame);
+		}
 
 		world->addChild(e->mesh);
 
@@ -158,23 +164,28 @@ void Program::mainLoop() {
 	chai3d::cPrecisionClock clock;
 	clock.start();
 
-	bool win = false;
+	state = State::RUNNING;
 
 	while (!p1View->shouldClose() && !p2View->shouldClose()) {
 
 		glfwPollEvents();
 
 		if (p1Haptics->getWorldPosition().x() < -0.5 && p2Haptics->getWorldPosition().x() < -0.5) {
-			win = true;
+			winGame();
 		}
 
-		if (!win) {
-			p1Label->setText(chai3d::cStr(clock.getCurrentTimeSeconds(), 1) + "s");
-			p2Label->setText(chai3d::cStr(clock.getCurrentTimeSeconds(), 1) + "s");
+		if (state == State::RUNNING) {
+			double time = clock.getCurrentTimeSeconds();
+			p1Label->setText(chai3d::cStr(time, 1) + "s");
+			p2Label->setText(chai3d::cStr(time, 1) + "s");
 		}
-		else {
+		else if (state == State::WIN){
 			p1Label->setText("You're a winner!");
 			p2Label->setText("You're a winner!");
+		}
+		else if (state == State::LOSE) {
+			p1Label->setText("You're a loser!");
+			p2Label->setText("You're a loser!");
 		}
 		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
 		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
@@ -192,10 +203,20 @@ void Program::mainLoop() {
 	glfwTerminate();
 }
 
+// Called when a lose trigger is activated
+void Program::loseGame() {
+	state = State::LOSE;
+}
+
+// Called when the win trigger is activated
+void Program::winGame() {
+	state = State::WIN;
+}
+
 // Called to close and clean up program
 void Program::closeHaptics() {
 
-	// Wait for haptics loop to terminate
+	// Wait for haptics loops to terminate
 	p1Haptics->stop();
 	p2Haptics->stop();
 	while (!p1Haptics->isFinished() && !p2Haptics->isFinished()) {

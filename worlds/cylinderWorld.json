@@ -22,6 +22,7 @@
 			"texture": "textures/purple.png",
 			"position": {"x": 0.1, "y": 0.02, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"type": "hazard",
 			"view": 2
 		},
 		{

@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Viscous.h"
+#include "Hazard.h"
 
 // Returns a vector of all entities from a world file
 void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output) {
@@ -56,6 +57,9 @@ void WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output)
 		Entity* newEntity;
 		if (type == "viscous") {
 			newEntity = new Viscous(file, view, trans, e["damping"].GetDouble());
+		}
+		else if (type == "hazard") {
+			newEntity = new Hazard(file, view, trans);
 		}
 		else {
 			newEntity = new Entity(file, view, trans);
