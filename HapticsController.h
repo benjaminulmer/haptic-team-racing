@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Signal.h"
 
 // Class that handles the haptic device of one player
 class HapticsController {
@@ -24,6 +25,8 @@ public:
 	double getFrequency() const;
 	chai3d::cToolCursor* getCursor();
 	chai3d::cShapeSphere* getCursorCopy();
+
+	Signal<Entity*> destroyEntity;
 
 	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
 

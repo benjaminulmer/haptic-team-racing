@@ -135,7 +135,7 @@ void PlayerView::render() {
 }
 
 // Returns if the GLFW window should close
-bool PlayerView::shouldClose() const{
+bool PlayerView::shouldClose() const {
 	return glfwWindowShouldClose(window);
 }
 

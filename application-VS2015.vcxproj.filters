@@ -40,6 +40,12 @@
     <ClCompile Include="Viscous.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Hazard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collectible.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -66,6 +72,15 @@
     <ClInclude Include="Constants.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Viscous.h" />
+    <ClInclude Include="Viscous.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Hazard.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collectible.h" />
   </ItemGroup>
 </Project>

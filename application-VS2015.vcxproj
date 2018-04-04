@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collectible.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="ContentReadWrite.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="HapticsController.cpp" />
+    <ClCompile Include="Hazard.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerView.cpp" />
@@ -31,13 +33,16 @@
     <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collectible.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ContentReadWrite.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="HapticsController.h" />
+    <ClInclude Include="Hazard.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="Signal.h" />
     <ClInclude Include="Viscous.h" />
     <ClInclude Include="WorldLoader.h" />
   </ItemGroup>

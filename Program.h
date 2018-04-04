@@ -6,6 +6,14 @@
 #include "Entity.h"
 #include "HapticsController.h"
 #include "PlayerView.h"
+#include "Signal.h"
+
+enum class State {
+	RUNNING,
+	WIN,
+	LOSE,
+	DEFAULT
+};
 
 // Main class for storing and running program
 class Program {
@@ -38,11 +46,20 @@ private:
 	int numMonitors;
 	bool fullscreen;
 
+	// Game state variables
+	State state;
+	double maxTime;
+
 	void printControls();
 	void setUpHapticDevices();
 	void setUpViews();
 
 	void mainLoop();
+	void loseGame();
+	void winGame();
+	void addTime(double amount);
+	void destroyEntity(Entity* entity);
+
 	void closeHaptics();
 
 	// Static members

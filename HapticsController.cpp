@@ -88,7 +88,7 @@ void HapticsController::performEntityInteraction() {
 	chai3d::cVector3d force(0.0, 0.0, 0.0);
 	chai3d::cVector3d newPos = getWorldPosition();
 
-	for (const Entity* e : entities) {
+	for (Entity* e : entities) {
 
 		if (insideEntity.count(e) == 0) {
 			insideEntity[e] = false;
@@ -109,6 +109,11 @@ void HapticsController::performEntityInteraction() {
 
 		if (insideEntity[e]) {
 			force += e->interact(tool);
+			Type t = e->getType();
+			if (t == Type::COLLECTIBLE || t == Type::HAZARD) {
+				insideEntity.erase(e);
+				destroyEntity.emit(e);
+			}
 		}
 	}
 	prevWorldPos = getWorldPosition();
