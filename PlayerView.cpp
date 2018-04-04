@@ -115,7 +115,7 @@ void PlayerView::render() {
 	// Update haptic and graphic rate data
 	labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
 						chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
-						"pos: " + chai3d::cStr(pos.x()) + " " + chai3d::cStr(pos.y()) + " " + chai3d::cStr(pos.z()));
+						"camera pos: " + chai3d::cStr(camera->getLocalPos().x()) + " " + chai3d::cStr(camera->getLocalPos().y()) + " " + chai3d::cStr(camera->getLocalPos().z()));
 	labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
 	// Render world
