@@ -15,6 +15,11 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh->m_material->setUseHapticShading(true);
 }
 
+// Deletes entity and its mesh
+Entity::~Entity() {
+	delete mesh;
+}
+
 // Sets the texure for the mesh
 void Entity::setTexture(std::string filename) {
 

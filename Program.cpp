@@ -123,6 +123,9 @@ void Program::setUpHapticDevices() {
 
 	p1Haptics->setPartner(p2Haptics);
 	p2Haptics->setPartner(p1Haptics);
+
+	p1Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
+	p2Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
 }
 
 // Sets up a view for each player. If more than one monitor connected each view is on a seperate monitor
@@ -228,6 +231,24 @@ void Program::winGame() {
 
 void Program::addTime(double amount) {
 	maxTime += amount;
+}
+
+// Removes entity from each view world, haptic world, and entity list
+void Program::destroyEntity(Entity* entity) {
+
+	world->removeChild(entity->mesh);
+	p1View->getWorld()->removeChild(entity->mesh);
+	p2View->getWorld()->removeChild(entity->mesh);
+
+	std::vector<Entity*>::iterator it;
+	for (it = entities.begin(); it < entities.end(); it++) {
+
+		if ((*it) == entity) {
+			entities.erase(it);
+			break;
+		}
+	}
+	delete entity;
 }
 
 // Called to close and clean up program

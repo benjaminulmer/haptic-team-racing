@@ -111,7 +111,8 @@ void HapticsController::performEntityInteraction() {
 			force += e->interact(tool);
 			Type t = e->getType();
 			if (t == Type::COLLECTIBLE || t == Type::HAZARD) {
-				world->removeChild(e->mesh);
+				insideEntity.erase(e);
+				destroyEntity.emit(e);
 			}
 		}
 	}

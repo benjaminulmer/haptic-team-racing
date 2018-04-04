@@ -20,6 +20,7 @@ class Entity {
 
 public:
 	Entity(std::string filename, View view, chai3d::cTransform transform);
+	virtual ~Entity();
 
 	chai3d::cMultiMesh* mesh;
 

@@ -55,6 +55,7 @@ private:
 	void loseGame();
 	void winGame();
 	void addTime(double amount);
+	void destroyEntity(Entity* entity);
 
 	void closeHaptics();
 
