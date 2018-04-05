@@ -5,6 +5,8 @@
 // Creates a controller for the provided haptic device
 HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities) : device(device), entities(entities) {
 
+	springIntact = true;
+
 	running = false;
 	finished = false;
 
@@ -110,7 +112,7 @@ void HapticsController::performEntityInteraction() {
 		if (!e->insideForInteraction() || insideEntity[e]) {
 			force += e->interact(tool);
 			Type t = e->getType();
-			if (t == Type::COLLECTIBLE || t == Type::HAZARD) {
+			if (e->destoryOnInteract()) {
 				insideEntity.erase(e);
 				destroyEntity.emit(e);
 			}
@@ -130,8 +132,14 @@ void HapticsController::applySpringForce() {
 	double dist = dir.length();
 	dir.normalize();
 
+	// Test to see if spring has broken
+	if (dist > Constants::springMax) {
+		springBroken.emit();
+		springIntact = false;
+	}
+
 	// Calculate spring force only if spring is elongated
-	if (dist >= Constants::springRest) {
+	if (springIntact && dist >= Constants::springRest) {
 		force = dir * (dist - Constants::springRest) * Constants::springK;
 	}
 	tool->addDeviceLocalForce(force);

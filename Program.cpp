@@ -124,8 +124,11 @@ void Program::setUpHapticDevices() {
 	p1Haptics->setPartner(p2Haptics);
 	p2Haptics->setPartner(p1Haptics);
 
+	// Connect signals for haptic events
 	p1Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
 	p2Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
+
+	p1Haptics->springBroken.connect_member(this, &Program::loseGame);
 }
 
 // Sets up a view for each player. If more than one monitor connected each view is on a seperate monitor

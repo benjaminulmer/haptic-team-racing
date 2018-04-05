@@ -27,6 +27,7 @@ public:
 	chai3d::cShapeSphere* getCursorCopy();
 
 	Signal<Entity*> destroyEntity;
+	Signal<> springBroken;
 
 	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
 
@@ -39,6 +40,8 @@ private:
 
 	const std::vector<Entity*>& entities;
 	std::map<const Entity*, bool> insideEntity;
+
+	bool springIntact;
 
 	bool running;
 	bool finished;

@@ -1,5 +1,5 @@
 {
-	"time": 10.0,
+	"time": 60.0,
 	"entities":
 	[
 		{
@@ -267,6 +267,8 @@
 			"texture": "textures/purple.png",
 			"position": {"x": -0.1, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 0.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"type": "collectible",
+			"bonus": 50.0,
 			"view": 2
 		},
         {
@@ -315,6 +317,7 @@
 			"texture": "textures/bomb.png",
 			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"type": "hazard",
 			"view": 2
 		}
 	]

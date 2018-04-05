@@ -10,6 +10,7 @@ public:
 	Collectible(std::string filename, View view, chai3d::cTransform transform, double timeBonus);
 
 	virtual chai3d::cVector3d interact(chai3d::cToolCursor* tool);
+	virtual bool destoryOnInteract() { return true; }
 
 	Signal<double> pickUpCollectible;
 
