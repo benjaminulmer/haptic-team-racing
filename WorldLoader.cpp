@@ -5,6 +5,7 @@
 #include "Viscous.h"
 #include "Hazard.h"
 #include "Collectible.h"
+#include "Magnet.h"
 
 // Fills a vector of all entities from a world file and returns the time limit for the level
 double WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& output) {
@@ -58,16 +59,15 @@ double WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& outpu
 		Entity* newEntity;
 		if (type == "viscous") {
 			newEntity = new Viscous(file, view, trans, e["damping"].GetDouble());
-
-			newEntity->mesh->setUseTransparency(true);
-
-			newEntity->mesh->setTransparencyLevel(0.5);
 		}
 		else if (type == "hazard") {
 			newEntity = new Hazard(file, view, trans);
 		}
 		else if (type == "collectible") {
 			newEntity = new Collectible(file, view, trans, e["bonus"].GetDouble());
+		}
+		else if (type == "magnet") {
+			newEntity = new Magnet(file, view, trans, e["strength"].GetDouble());
 		}
 		else {
 			newEntity = new Entity(file, view, trans);

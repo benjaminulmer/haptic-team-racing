@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Signal.h"
 
+// Class for a hazrd the ends the game when interacted with
 class Hazard : public Entity {
 
 public:

@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Signal.h"
 
+// Class for a collectable object that adds time when picked up
 class Collectible : public Entity {
 
 public:

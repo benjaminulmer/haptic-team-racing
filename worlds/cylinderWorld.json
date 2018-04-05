@@ -242,6 +242,8 @@
 			"texture": "textures/blue.png",
 			"position": {"x": 0.05, "y": 0.0, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
+			"type": "magnet",
+			"strength": 0.001,
 			"view": 3
 		},
         {

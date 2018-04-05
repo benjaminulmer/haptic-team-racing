@@ -107,7 +107,7 @@ void HapticsController::performEntityInteraction() {
 			insideEntity[e] = false;
 		}
 
-		if (insideEntity[e]) {
+		if (!e->insideForInteraction() || insideEntity[e]) {
 			force += e->interact(tool);
 			Type t = e->getType();
 			if (t == Type::COLLECTIBLE || t == Type::HAZARD) {

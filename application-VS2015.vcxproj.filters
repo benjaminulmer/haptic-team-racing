@@ -46,6 +46,9 @@
     <ClCompile Include="Collectible.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Magnet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -81,6 +84,11 @@
     <ClInclude Include="Signal.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Collectible.h" />
+    <ClInclude Include="Collectible.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Magnet.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
