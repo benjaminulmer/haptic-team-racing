@@ -5,7 +5,7 @@
 std::map<GLFWwindow*, PlayerView*> PlayerView::windowToView;
 
 // Creates a GLFW window for the player view
-PlayerView::PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen) : controller(controller), monitor(monitor) {
+PlayerView::PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen, bool isMenu) : controller(controller), monitor(monitor), isMenu(isMenu) {
 
 	// Get window width and height
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -110,16 +110,18 @@ void PlayerView::render() {
 
 	glfwMakeContextCurrent(window);
 
-	chai3d::cVector3d pos = controller.getWorldPosition();
+	if (!isMenu) {
+		chai3d::cVector3d pos = controller.getWorldPosition();
 
-	// Update haptic and graphic rate data
-	labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
-						chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
-						"camera pos: " + chai3d::cStr(camera->getLocalPos().x()) + " " + chai3d::cStr(camera->getLocalPos().y()) + " " + chai3d::cStr(camera->getLocalPos().z()));
-	labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
+		// Update haptic and graphic rate data
+		labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
+			chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
+			"camera pos: " + chai3d::cStr(camera->getLocalPos().x()) + " " + chai3d::cStr(camera->getLocalPos().y()) + " " + chai3d::cStr(camera->getLocalPos().z()));
+		labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
-	// Render world
-	world->updateShadowMaps();
+		// Render world
+		world->updateShadowMaps();
+	}
 	camera->renderView(width, height);
 	glFinish();
 
@@ -185,7 +187,7 @@ void PlayerView::setFullscreen(bool fullscreen) {
 		int y = 0.5 * (mode->height - h);
 
 		if (monitor != glfwGetPrimaryMonitor()) {
-			x += mode->width;
+			x -= mode->width;
 		}
 
 		glfwSetWindowMonitor(window, NULL, x, y, w, h, mode->refreshRate);

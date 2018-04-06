@@ -34,6 +34,9 @@ private:
 
 	PlayerView* p1View;
 	PlayerView* p2View;
+	PlayerView* menuView;
+
+	GLFWmonitor** monitors;
 
 	chai3d::cHapticDeviceHandler handler;
 
@@ -46,6 +49,8 @@ private:
 	int numMonitors;
 	bool fullscreen;
 
+	std::string selectedLevel;
+
 	// Game state variables
 	State state;
 	double maxTime;
@@ -53,8 +58,10 @@ private:
 	void printControls();
 	void setUpHapticDevices();
 	void setUpViews();
+	void setUpMenu();
 
 	void mainLoop();
+	void menuLoop();
 	void loseGame();
 	void winGame();
 	void addTime(double amount);

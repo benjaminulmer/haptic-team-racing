@@ -41,8 +41,12 @@ Program::Program() : state(State::DEFAULT) {
 	p2View->addChild(p2Haptics->getCursor());
 	p2View->addChild(p1Haptics->getCursorCopy());
 
+	setUpMenu();
+	std::cout << "Menu setup done" << std::endl;
+	menuLoop();
+
 	// Temporarily load level here
-	maxTime = WorldLoader::loadWorld(ContentReadWrite::readJSON("worlds/cylinderWorld.json"), entities);
+	maxTime = WorldLoader::loadWorld(ContentReadWrite::readJSON(selectedLevel), entities);
 
 	for (Entity* e : entities) {
 
@@ -131,7 +135,7 @@ void Program::setUpHapticDevices() {
 // Sets up a view for each player. If more than one monitor connected each view is on a seperate monitor
 void Program::setUpViews() {
 
-	GLFWmonitor** monitors = glfwGetMonitors(&numMonitors);
+	monitors = glfwGetMonitors(&numMonitors);
 
 	if (numMonitors < 2) {
 		std::cout << "Warning: Game best played on two monitors" << std::endl;
@@ -155,6 +159,8 @@ void Program::start() {
 
 	next = p2Haptics;
 	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	menuLoop();
 
 	mainLoop();
 }
@@ -306,4 +312,27 @@ void Program::moveCamera(double dir) {
 	cam1->setLocalPos(0.005 * disp + cam1->getLocalPos());
 	cam2->setLocalPos(0.005 * disp + cam2->getLocalPos());
 
+}
+
+void Program::menuLoop() {
+	bool levelSelected = false;
+
+	while (!levelSelected) {
+		//levelSelected = true;
+		menuView->render();
+	}
+	selectedLevel = "worlds/cylinderWorld.json";
+}
+
+void Program::setUpMenu() {
+	menuView = new PlayerView(*p1Haptics, monitors[0], fullscreen, true);
+	menuView->getWorld()->m_backgroundColor.setYellowLight();
+
+	chai3d::cLabel* startLabel;
+	startLabel = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	startLabel->m_fontColor.setBlack();
+	//menuView->getCamera()->m_frontLayer->addChild(startLabel);
+
+	startLabel->setText("Press ENTER to start!");
+	//startLabel->setLocalPos((int)(0.5 * (menuView->getWidth() - startLabel->getWidth())), 15);
 }

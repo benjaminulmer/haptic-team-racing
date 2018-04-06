@@ -11,7 +11,7 @@
 class PlayerView {
 
 public:
-	PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen);
+	PlayerView(const HapticsController& controller, GLFWmonitor* monitor, bool fullscreen, bool isMenu=false);
 	virtual ~PlayerView();
 
 	void render();
@@ -32,6 +32,8 @@ private:
 	GLFWmonitor* monitor;
 	int width;
 	int height;
+
+	bool isMenu;
 
 	// Graphics world and objects
 	chai3d::cWorld* world;
