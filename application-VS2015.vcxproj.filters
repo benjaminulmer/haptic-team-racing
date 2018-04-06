@@ -52,6 +52,9 @@
     <ClCompile Include="BombForce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PickupForce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -97,5 +100,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="BombForce.h" />
+    <ClInclude Include="PickupForce.h" />
   </ItemGroup>
 </Project>

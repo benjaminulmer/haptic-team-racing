@@ -7,7 +7,7 @@
 
 #include "Entity.h"
 #include "Signal.h"
-#include "BombForce.h"
+#include "ClosedLoopHaptic.h"
 
 // Class that handles the haptic device of one player
 class HapticsController {

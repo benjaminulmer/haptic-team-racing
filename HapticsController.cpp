@@ -2,6 +2,9 @@
 
 #include "Constants.h"
 
+#include "PickupForce.h"
+#include "BombForce.h"
+
 // Creates a controller for the provided haptic device
 HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities) : device(device), entities(entities) {
 

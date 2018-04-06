@@ -29,6 +29,7 @@
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PickupForce.cpp" />
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Viscous.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Hazard.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Magnet.h" />
+    <ClInclude Include="PickupForce.h" />
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Signal.h" />
