@@ -29,14 +29,13 @@ public:
 	Signal<Entity*> destroyEntity;
 	Signal<> springBroken;
 
-	void setupTool(chai3d::cWorld* w, chai3d::cCamera* c);
+	void setupTool(chai3d::cWorld* w);
 
 private:
 	chai3d::cGenericHapticDevicePtr device;
 	chai3d::cWorld* world;
 	const HapticsController* partner;
 	chai3d::cToolCursor* tool;
-	chai3d::cCamera* camera; // Store reference to camera for rate control
 
 	const std::vector<Entity*>& entities;
 	std::map<const Entity*, bool> insideEntity;

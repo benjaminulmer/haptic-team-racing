@@ -27,9 +27,8 @@ void HapticsController::setPartner(const HapticsController* partner) {
 }
 
 // Sets up the haptic tool to interact with the given world
-void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
+void HapticsController::setupTool(chai3d::cWorld* w) {
 
-	camera = c;
 	world = w;
 
 	tool = new chai3d::cToolCursor(world);
@@ -111,7 +110,6 @@ void HapticsController::performEntityInteraction() {
 
 		if (!e->insideForInteraction() || insideEntity[e]) {
 			force += e->interact(tool);
-			Type t = e->getType();
 			if (e->destoryOnInteract()) {
 				insideEntity.erase(e);
 				destroyEntity.emit(e);
@@ -123,7 +121,7 @@ void HapticsController::performEntityInteraction() {
 	tool->addDeviceLocalForce(force);
 }
 
-// Computes and applies spring foce to tool
+// Computes and applies spring force to tool
 void HapticsController::applySpringForce() {
 
 	chai3d::cVector3d force(0.0, 0.0, 0.0);
@@ -158,7 +156,6 @@ void HapticsController::performRateControl() {
 
 		// Velocity setting not great
 		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
-		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
 	}
 	else if (devicePos.x() < -Constants::rateZone) {
 
@@ -167,7 +164,6 @@ void HapticsController::performRateControl() {
 
 		// Velocity setting not great
 		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
-		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
 	}
 	tool->addDeviceLocalForce(-Constants::rateFeedback * disp);
 }

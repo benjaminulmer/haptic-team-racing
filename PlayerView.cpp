@@ -73,7 +73,7 @@ void PlayerView::setUpWorld() {
 
 	// Set up camera
 	camera = new chai3d::cCamera(world);
-	camera->set(chai3d::cVector3d(0.25, 0.0, 0.02),   // camera position (eye)
+	camera->set(chai3d::cVector3d(0.1, 0.0, 0.0),  // camera position (eye)
 		        chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
 		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
 	camera->setClippingPlanes(0.065, 10.0);
@@ -83,15 +83,11 @@ void PlayerView::setUpWorld() {
 	// Set up light
 	light = new chai3d::cSpotLight(world);
 	light->setEnabled(true);
-	//light->setLocalPos(-0.7, 0.3, 1.0);
 	light->setLocalPos(0.7, 0.0, 0.0);
 
-	// define the direction of the light beam
-	//light->setDir(0.5, -0.2, -0.8);
+	// Define the direction of the light beam and turn on shadows
 	light->setDir(-0.5, -0.02, -0.01);
-	// enable this light source to generate shadows
 	light->setShadowMapEnabled(true);
-	// set the resolution of the shadow map
 	light->m_shadowMap->setQualityVeryHigh();
 
 	// Set up label
@@ -111,6 +107,9 @@ void PlayerView::render() {
 	glfwMakeContextCurrent(window);
 
 	chai3d::cVector3d pos = controller.getWorldPosition();
+	chai3d::cVector3d newCamPos = pos;
+	newCamPos.y(0.0); newCamPos.z(0.0);
+	camera->setLocalPos(newCamPos + chai3d::cVector3d(0.1, 0.0, 0.0));
 
 	// Update haptic and graphic rate data
 	labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +

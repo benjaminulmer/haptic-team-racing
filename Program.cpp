@@ -31,9 +31,6 @@ Program::Program() : state(State::DEFAULT) {
 	setUpHapticDevices();
 	setUpViews();
 
-	p1Haptics->setupTool(world, p1View->getCamera());
-	p2Haptics->setupTool(world, p2View->getCamera());
-
 	// Add cursors to the view
 	p1View->addChild(p1Haptics->getCursor());
 	p1View->addChild(p2Haptics->getCursorCopy());
@@ -123,6 +120,9 @@ void Program::setUpHapticDevices() {
 
 	p1Haptics->setPartner(p2Haptics);
 	p2Haptics->setPartner(p1Haptics);
+
+	p1Haptics->setupTool(world);
+	p2Haptics->setupTool(world);
 
 	// Connect signals for haptic events
 	p1Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
