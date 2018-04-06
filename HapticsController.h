@@ -7,6 +7,7 @@
 
 #include "Entity.h"
 #include "Signal.h"
+#include "BombForce.h"
 
 // Class that handles the haptic device of one player
 class HapticsController {
@@ -31,7 +32,10 @@ public:
 
 	void setupTool(chai3d::cWorld* w);
 
+	mutable ClosedLoopHaptic* bF = nullptr;
+
 private:
+
 	chai3d::cGenericHapticDevicePtr device;
 	chai3d::cWorld* world;
 	const HapticsController* partner;

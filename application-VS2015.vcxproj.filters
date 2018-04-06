@@ -49,6 +49,9 @@
     <ClCompile Include="Magnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BombForce.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -90,5 +93,9 @@
     <ClInclude Include="Magnet.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ClosedLoopHaptic.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BombForce.h" />
   </ItemGroup>
 </Project>

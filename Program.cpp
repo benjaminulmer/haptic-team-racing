@@ -184,19 +184,19 @@ void Program::mainLoop() {
 	while (!p1View->shouldClose() && !p2View->shouldClose()) {
 
 		glfwPollEvents();
-		double time = clock.getCurrentTimeSeconds();
+		double timeS = clock.getCurrentTimeSeconds();
 
 		if (state == State::RUNNING) {
 
-			if (time >= maxTime) {
+			if (timeS >= maxTime) {
 				loseGame();
 			}
 			else if (p1Haptics->getWorldPosition().x() < -0.5 && p2Haptics->getWorldPosition().x() < -0.5) {
 				winGame();
 			}
 
-			p1Label->setText(chai3d::cStr(maxTime - time, 1) + "s");
-			p2Label->setText(chai3d::cStr(maxTime - time, 1) + "s");
+			p1Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
+			p2Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
 		}
 		else if (state == State::WIN){
 			p1Label->setText("You're a winner!");

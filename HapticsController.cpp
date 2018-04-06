@@ -74,6 +74,11 @@ void HapticsController::start() {
 		applySpringForce();
 		performEntityInteraction();
 
+		if (bF != nullptr && !bF->done()) {
+			tool->addDeviceLocalForce(bF->getForce(tool));
+		}
+
+
 		// Apply forces to tool and signal frequency counter
 		tool->applyToDevice();
 		hapticFreq.signal(1);
@@ -110,6 +115,12 @@ void HapticsController::performEntityInteraction() {
 
 		if (!e->insideForInteraction() || insideEntity[e]) {
 			force += e->interact(tool);
+
+			if (e->getType() == Type::HAZARD) {
+				bF = new BombForce(chai3d::cVector3d(0.0, 0.0, 0.0));
+				partner->bF = new BombForce(chai3d::cVector3d(0.0, 0.0, 0.0));
+			}
+
 			if (e->destoryOnInteract()) {
 				insideEntity.erase(e);
 				destroyEntity.emit(e);

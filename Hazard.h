@@ -13,5 +13,6 @@ public:
 	virtual bool destoryOnInteract() { return true; }
 
 	Signal<> hitHazard;
+	Signal<> bombForce;
 };
 

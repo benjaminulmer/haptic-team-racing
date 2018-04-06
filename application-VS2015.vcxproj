@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BombForce.cpp" />
     <ClCompile Include="Collectible.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="ContentReadWrite.cpp" />
@@ -34,6 +35,8 @@
     <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BombForce.h" />
+    <ClInclude Include="ClosedLoopHaptic.h" />
     <ClInclude Include="Collectible.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ContentReadWrite.h" />
