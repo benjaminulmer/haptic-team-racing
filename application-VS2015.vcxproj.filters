@@ -99,7 +99,11 @@
     <ClInclude Include="ClosedLoopHaptic.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="BombForce.h" />
-    <ClInclude Include="PickupForce.h" />
+    <ClInclude Include="BombForce.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PickupForce.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

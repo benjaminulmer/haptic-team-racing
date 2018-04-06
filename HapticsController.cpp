@@ -25,8 +25,13 @@ HapticsController::~HapticsController() {
 }
 
 // Sets the partner for the controller
-void HapticsController::setPartner(const HapticsController* partner) {
+void HapticsController::setPartner(HapticsController* partner) {
 	this->partner = partner;
+}
+
+// Adds provided force to the list of closed loop forces
+void HapticsController::addClosedLoopForce(ClosedLoopHaptic* force) {
+	closedLoopForces.push_back(force);
 }
 
 // Sets up the haptic tool to interact with the given world
@@ -77,10 +82,19 @@ void HapticsController::start() {
 		applySpringForce();
 		performEntityInteraction();
 
-		if (bF != nullptr && !bF->done()) {
-			tool->addDeviceLocalForce(bF->getForce(tool));
-		}
+		// Closed loop haptics forces
+		for (auto it = closedLoopForces.begin(); it != closedLoopForces.end(); ++it) {
 
+			if ((*it)->done()) {
+				auto del = it;
+				--it;
+				delete (*del);
+				closedLoopForces.erase(del);
+			}
+			else {
+				tool->addDeviceLocalForce((*it)->getForce(tool));
+			}
+		}
 
 		// Apply forces to tool and signal frequency counter
 		tool->applyToDevice();
@@ -120,8 +134,11 @@ void HapticsController::performEntityInteraction() {
 			force += e->interact(tool);
 
 			if (e->getType() == Type::HAZARD) {
-				bF = new BombForce(chai3d::cVector3d(0.0, 0.0, 0.0));
-				partner->bF = new BombForce(chai3d::cVector3d(0.0, 0.0, 0.0));
+				closedLoopForces.push_back(new BombForce(e->mesh->getLocalTransform() * e->mesh->getLocalPos()));
+				partner->addClosedLoopForce(new BombForce(e->mesh->getLocalTransform() * e->mesh->getLocalPos()));
+			}
+			else if (e->getType() == Type::COLLECTIBLE) {
+				closedLoopForces.push_back(new PickupForce());
 			}
 
 			if (e->destoryOnInteract()) {

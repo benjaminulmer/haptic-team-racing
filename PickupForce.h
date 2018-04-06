@@ -2,7 +2,7 @@
 
 #include "ClosedLoopHaptic.h"
 
-// Class for the force applied when a bomb explodes
+// Class for the force applied when a collectible is picked up
 class PickupForce : public ClosedLoopHaptic {
 
 public:

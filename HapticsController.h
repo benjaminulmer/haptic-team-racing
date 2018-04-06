@@ -16,7 +16,7 @@ public:
 	HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities);
 	virtual ~HapticsController();
 
-	void setPartner(const HapticsController* partner);
+	void setPartner(HapticsController* partner);
 
 	void start();
 	void stop();
@@ -27,22 +27,25 @@ public:
 	chai3d::cToolCursor* getCursor();
 	chai3d::cShapeSphere* getCursorCopy();
 
+	void addClosedLoopForce(ClosedLoopHaptic* force);
+	void setupTool(chai3d::cWorld* w);
+
 	Signal<Entity*> destroyEntity;
 	Signal<> springBroken;
 
-	void setupTool(chai3d::cWorld* w);
 
 	mutable ClosedLoopHaptic* bF = nullptr;
 
 private:
-
 	chai3d::cGenericHapticDevicePtr device;
 	chai3d::cWorld* world;
-	const HapticsController* partner;
+	HapticsController* partner;
 	chai3d::cToolCursor* tool;
 
 	const std::vector<Entity*>& entities;
 	std::map<const Entity*, bool> insideEntity;
+
+	std::vector<ClosedLoopHaptic*> closedLoopForces;
 
 	bool springIntact;
 

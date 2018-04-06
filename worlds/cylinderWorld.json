@@ -235,6 +235,8 @@
 			"texture": "textures/cylinder.png",
 			"position": {"x": 0.1, "y": 0.02, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
+			"type": "collectible",
+			"bonus": 50.0,
 			"view": 2
 		},
         {
