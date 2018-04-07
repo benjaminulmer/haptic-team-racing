@@ -11,7 +11,7 @@
 HapticsController* volatile Program::next;
 
 // Default constructor for program
-Program::Program() : state(State::DEFAULT) {
+Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 
 	fullscreen = false;
 	next = nullptr;
@@ -40,6 +40,14 @@ Program::Program() : state(State::DEFAULT) {
 
 	p2View->addChild(p2Haptics->getCursor());
 	p2View->addChild(p1Haptics->getCursorCopy());
+
+	// Initialize GLEW library
+	if (glewInit() != GLEW_OK) {
+		std::cout << "failed to initialize GLEW library" << std::endl;
+		system("pause");
+		glfwTerminate();
+		exit(-1);
+	}
 
 	setUpMenu();
 	std::cout << "Menu setup done" << std::endl;
@@ -75,14 +83,6 @@ Program::Program() : state(State::DEFAULT) {
 			p1View->addChild(e->mesh);
 			p2View->addChild(e->mesh);
 		}
-	}
-
-	// Initialize GLEW library
-	if (glewInit() != GLEW_OK) {
-		std::cout << "failed to initialize GLEW library" << std::endl;
-		system("pause");
-		glfwTerminate();
-		exit(-1);
 	}
 }
 
@@ -159,8 +159,6 @@ void Program::start() {
 
 	next = p2Haptics;
 	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
-	menuLoop();
 
 	mainLoop();
 }
@@ -289,8 +287,14 @@ void Program::toggleFullscreen() {
 	}
 
 	fullscreen = !fullscreen;
-	p1View->setFullscreen(fullscreen);
-	p2View->setFullscreen(fullscreen);
+
+	if (inMenu) {
+		menuView->setFullscreen(fullscreen);
+	}
+	else {
+		p1View->setFullscreen(fullscreen);
+		p2View->setFullscreen(fullscreen);
+	}
 }
 
 // Swap which device is associated with each view
@@ -315,24 +319,77 @@ void Program::moveCamera(double dir) {
 }
 
 void Program::menuLoop() {
-	bool levelSelected = false;
 
-	while (!levelSelected) {
-		//levelSelected = true;
+	chai3d::cBitmap* selectPanel = new chai3d::cBitmap();
+	selectPanel->loadFromFile("textures/selection.png");
+	menuView->getCamera()->m_frontLayer->addChild(selectPanel);
+
+	chai3d::cLabel* startLabel = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	startLabel->m_fontColor.setBlueDarkTurquoise();
+	startLabel->setFontScale(2.0);
+	menuView->getCamera()->m_frontLayer->addChild(startLabel);
+	startLabel->setText("Use arrow keys and press ENTER to select a level!");
+
+	chai3d::cBitmap* logo = new chai3d::cBitmap();
+	logo->loadFromFile("textures/logo.bmp");
+	menuView->getCamera()->m_frontLayer->addChild(logo);
+	logo->setZoom(0.5, 0.5);
+
+	chai3d::cBitmap* level1 = new chai3d::cBitmap();
+	level1->loadFromFile("textures/level.bmp");
+	menuView->getCamera()->m_frontLayer->addChild(level1);
+	level1->setZoom(0.5, 0.5);
+
+	chai3d::cLabel* level1Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	level1Label->m_fontColor.setBlueDark();
+	menuView->getCamera()->m_frontLayer->addChild(level1Label);
+	level1Label->setText("Obstacles level (easy)");
+
+	chai3d::cBitmap* level2 = new chai3d::cBitmap();
+	level2->loadFromFile("textures/technotube.png");
+	menuView->getCamera()->m_frontLayer->addChild(level2);
+	level2->setZoom(0.5, 0.5);
+
+	chai3d::cLabel* level2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	level2Label->m_fontColor.setBlueDark();
+	menuView->getCamera()->m_frontLayer->addChild(level2Label);
+	level2Label->setText("Techno Tube (Hard)");
+
+
+	while (inMenu) {
+		glfwPollEvents();
+
+		startLabel->setLocalPos((int)(0.5 * (menuView->getWidth() - startLabel->getWidth())), 100);
+		logo->setLocalPos((int)(0.5 * (menuView->getWidth() - logo->getWidth())), (menuView->getHeight() - logo->getHeight()));
+
+		level1->setLocalPos((int)(0.5 * (menuView->getWidth() - 2.0 * level1->getWidth()) - 10.0), (menuView->getHeight() - level1->getHeight() - logo->getHeight() - 50));
+		level1Label->setLocalPos((int)(0.5 * (menuView->getWidth() - 2.0 * level1->getWidth() + level1Label->getWidth())), (menuView->getHeight() - level1->getHeight() - logo->getHeight() - level1Label->getHeight() - 60));
+
+		level2->setLocalPos((int)(0.5 * (menuView->getWidth()) + 10.0), (menuView->getHeight() - level2->getHeight() - logo->getHeight() - 50));
+		level2Label->setLocalPos((int)(0.5 * (menuView->getWidth() + level2->getWidth() - level2Label->getWidth())), (menuView->getHeight() - level2->getHeight() - logo->getHeight() - level2Label->getHeight() - 60));
+
+		if (levelSelect == 0) {
+			selectPanel->setLocalPos(level1->getLocalPos() - chai3d::cVector3d(10.0, 10.0, 0.0));
+		}
+		else selectPanel->setLocalPos(level2->getLocalPos() - chai3d::cVector3d(10.0, 10.0, 0.0));
 		menuView->render();
 	}
-	selectedLevel = "worlds/cylinderWorld.json";
+
+	if (levelSelect == 0) {
+		selectedLevel = "worlds/obstaclesWorld.json";
+	}
+	else selectedLevel = "worlds/cylinderWorld.json";
+	delete menuView;
 }
 
 void Program::setUpMenu() {
 	menuView = new PlayerView(*p1Haptics, monitors[0], fullscreen, true);
-	menuView->getWorld()->m_backgroundColor.setYellowLight();
+	menuView->getWorld()->m_backgroundColor.setWhite();
+}
 
-	chai3d::cLabel* startLabel;
-	startLabel = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
-	startLabel->m_fontColor.setBlack();
-	//menuView->getCamera()->m_frontLayer->addChild(startLabel);
-
-	startLabel->setText("Press ENTER to start!");
-	//startLabel->setLocalPos((int)(0.5 * (menuView->getWidth() - startLabel->getWidth())), 15);
+void Program::toggleLevelSelect() {
+	if (levelSelect == 0) {
+		levelSelect = 1;
+	}
+	else levelSelect = 0;
 }

@@ -30,4 +30,10 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	else if (key == GLFW_KEY_S) {
 		p->swapDevices();
 	}
+	else if (key == GLFW_KEY_ENTER) {
+		p->exitMenu();
+	}
+	else if ((key == GLFW_KEY_LEFT) || (key == GLFW_KEY_RIGHT)) {
+		p->toggleLevelSelect();
+	}
 }

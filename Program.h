@@ -28,6 +28,9 @@ public:
 	// Debug camera controls
 	void moveCamera(double direction);
 
+	void exitMenu() { inMenu = false; };
+	void toggleLevelSelect();
+
 private:
 	std::vector<Entity*> entities;
 	chai3d::cWorld* world;
@@ -48,6 +51,9 @@ private:
 
 	int numMonitors;
 	bool fullscreen;
+
+	bool inMenu;
+	int levelSelect;
 
 	std::string selectedLevel;
 
