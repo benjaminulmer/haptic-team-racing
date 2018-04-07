@@ -6,14 +6,7 @@
 			"texture": "textures/level1.png",
 			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
-			"view": 1
-		},
-		{
-			"filename": "models/level1.obj",
-			"texture": "textures/level1.png",
-			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
-			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
-			"view": 2
+			"view": 3
 		},
 		{
 			"filename": "models/cube.obj",
@@ -35,6 +28,14 @@
 			"position": {"x": -0.2, "y": 0.02, "z": 0.03},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 1
+		},
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.05, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
 		}
 	]
 }

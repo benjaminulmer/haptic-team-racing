@@ -49,9 +49,13 @@ Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 		exit(-1);
 	}
 
-	setUpMenu();
+	/*setUpMenu();
 	std::cout << "Menu setup done" << std::endl;
-	menuLoop();
+	menuLoop();*/
+
+	inMenu = false;
+	selectedLevel = "worlds/obstaclesWorld.json";
+
 
 	// Temporarily load level here
 	maxTime = WorldLoader::loadWorld(ContentReadWrite::readJSON(selectedLevel), entities);
@@ -176,6 +180,9 @@ void Program::mainLoop() {
 	p2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
 	p2Label->m_fontColor.setWhite();
 	p2View->getCamera()->m_frontLayer->addChild(p2Label);
+
+	p1View->setFullscreen(fullscreen);
+	p2View->setFullscreen(fullscreen);
 
 	chai3d::cPrecisionClock clock;
 	clock.start();
