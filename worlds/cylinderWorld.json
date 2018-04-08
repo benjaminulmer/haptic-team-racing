@@ -2,6 +2,13 @@
 	"time": 60.0,
 	"entities":
 	[
+        {
+			"filename": "models/plane.obj",
+			"position": {"x": 0.6, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"view": 0
+		},
+        
 		{
 			"filename": "models/cylinderLevel.obj",
 			"texture": "textures/cylinderlevel.png",
@@ -14,7 +21,7 @@
         {
 			"filename": "models/coin.obj",
 			"texture": "textures/orange.png",
-			"position": {"x": 0.37, "y": 0.03, "z": -0.02},
+			"position": {"x": 0.35, "y": 0.03, "z": -0.01},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
             "type": "collectible"
@@ -43,6 +50,39 @@
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
             "type": "collectible"
+		},
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.37, "y": -0.02, "z": 0.02},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
+		},
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.37, "y": 0.02, "z": -0.02},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
+		},
+        
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/magnet.png",
+			"position": {"x": 0.05, "y": 0.0, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
+			"view": 3,
+            "type": "magnet"
+		},
+        {
+			"filename": "models/bar.obj",
+			"texture": "textures/magnet.png",
+			"position": {"x": 0.23, "y": 0.0, "z": 0.00},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": -30.0},
+			"view": 1,
+            "type": "magnet"
 		},
         
         {
@@ -272,13 +312,6 @@
 			"view": 2
 		},
         {
-			"filename": "models/bar.obj",
-			"texture": "textures/blue.png",
-			"position": {"x": 0.05, "y": 0.0, "z": 0.00},
-			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
-			"view": 3
-		},
-        {
 			"filename": "models/cube.obj",
 			"texture": "textures/purple.png",
 			"position": {"x": 0.03, "y": -0.03, "z": 0.00},
@@ -355,7 +388,7 @@
 			"texture": "textures/bomb.png",
 			"position": {"x": -0.4, "y": -0.03, "z": 0.02},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
-			"view": 1,
+			"view": 2,
             "type": "hazard"
 		}
         

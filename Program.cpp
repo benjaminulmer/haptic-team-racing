@@ -79,7 +79,7 @@ Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 		else if (e->getView() == View::P2){
 			p2View->addChild(e->mesh);
 		}
-		else { // both
+		else if (e->getView() == View::BOTH) { // both
 			p1View->addChild(e->mesh);
 			p2View->addChild(e->mesh);
 		}
@@ -392,8 +392,14 @@ void Program::menuLoop() {
 
 	if (levelSelect == 0) {
 		selectedLevel = "worlds/obstaclesWorld.json";
+		p1Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.59, 0.01, 0.0));
+		p2Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.59, -0.01, 0.0));
 	}
-	else selectedLevel = "worlds/cylinderWorld.json";
+	else {
+		selectedLevel = "worlds/cylinderWorld.json";
+		p1Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.55, 0.01, 0.0));
+		p2Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.55, -0.01, 0.0));
+	}
 	delete menuView;
 }
 
