@@ -49,12 +49,11 @@ Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 		exit(-1);
 	}
 
-	/*setUpMenu();
-	std::cout << "Menu setup done" << std::endl;
-	menuLoop();*/
+	setUpMenu();
+	menuLoop();
 
-	inMenu = false;
-	selectedLevel = "worlds/obstaclesWorld.json";
+	//inMenu = false;
+	//selectedLevel = "worlds/cylinderWorld.json";
 
 
 	// Temporarily load level here
@@ -327,6 +326,10 @@ void Program::moveCamera(double dir) {
 
 void Program::menuLoop() {
 
+	chai3d::cBitmap* bg = new chai3d::cBitmap();
+	bg->loadFromFile("textures/bg.png");
+	menuView->getCamera()->m_frontLayer->addChild(bg);
+
 	chai3d::cBitmap* selectPanel = new chai3d::cBitmap();
 	selectPanel->loadFromFile("textures/selection.png");
 	menuView->getCamera()->m_frontLayer->addChild(selectPanel);
@@ -338,7 +341,7 @@ void Program::menuLoop() {
 	startLabel->setText("Use arrow keys and press ENTER to select a level!");
 
 	chai3d::cBitmap* logo = new chai3d::cBitmap();
-	logo->loadFromFile("textures/logo.bmp");
+	logo->loadFromFile("textures/logo.png");
 	menuView->getCamera()->m_frontLayer->addChild(logo);
 	logo->setZoom(0.5, 0.5);
 
@@ -375,6 +378,8 @@ void Program::menuLoop() {
 		level2->setLocalPos((int)(0.5 * (menuView->getWidth()) + 10.0), (menuView->getHeight() - level2->getHeight() - logo->getHeight() - 50));
 		level2Label->setLocalPos((int)(0.5 * (menuView->getWidth() + level2->getWidth() - level2Label->getWidth())), (menuView->getHeight() - level2->getHeight() - logo->getHeight() - level2Label->getHeight() - 60));
 
+		bg->setLocalPos(chai3d::cVector3d(0.0, 0.0, 0.0));
+
 		if (levelSelect == 0) {
 			selectPanel->setLocalPos(level1->getLocalPos() - chai3d::cVector3d(10.0, 10.0, 0.0));
 		}
@@ -391,7 +396,7 @@ void Program::menuLoop() {
 
 void Program::setUpMenu() {
 	menuView = new PlayerView(*p1Haptics, monitors[0], fullscreen, true);
-	menuView->getWorld()->m_backgroundColor.setWhite();
+	menuView->getWorld()->m_backgroundColor.setYellowGold();
 }
 
 void Program::toggleLevelSelect() {

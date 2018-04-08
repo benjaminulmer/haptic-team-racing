@@ -12,6 +12,40 @@
         
 		
         {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.37, "y": 0.03, "z": -0.02},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
+		},
+        
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.15, "y": -0.01, "z": -0.01},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
+		},
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.12, "y": -0.017, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
+		},
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.09, "y": -0.018, "z": 0.01},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible"
+		},
+        
+        {
 			"filename": "models/sphere.obj",
 			"texture": "textures/green.png",
 			"position": {"x": 0.42, "y": -0.04, "z": 0.01},
@@ -311,9 +345,19 @@
 		{
 			"filename": "models/bomb.obj",
 			"texture": "textures/bomb.png",
-			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
+			"position": {"x": -0.06, "y": 0.03, "z": -0.02},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
-			"view": 2
+			"view": 2,
+            "type": "hazard"
+		},
+        {
+			"filename": "models/bomb.obj",
+			"texture": "textures/bomb.png",
+			"position": {"x": -0.4, "y": -0.03, "z": 0.02},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1,
+            "type": "hazard"
 		}
+        
 	]
 }
