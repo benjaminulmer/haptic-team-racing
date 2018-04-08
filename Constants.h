@@ -8,6 +8,7 @@ public:
 
 	static const double springK;
 	static const double springRest;
+	static const double springMax;
 
 	static const double rateScale;
 	static const double rateZone;

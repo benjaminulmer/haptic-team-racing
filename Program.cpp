@@ -31,9 +31,6 @@ Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 	setUpHapticDevices();
 	setUpViews();
 
-	p1Haptics->setupTool(world, p1View->getCamera());
-	p2Haptics->setupTool(world, p2View->getCamera());
-
 	// Add cursors to the view
 	p1View->addChild(p1Haptics->getCursor());
 	p1View->addChild(p2Haptics->getCursorCopy());
@@ -131,8 +128,14 @@ void Program::setUpHapticDevices() {
 	p1Haptics->setPartner(p2Haptics);
 	p2Haptics->setPartner(p1Haptics);
 
+	p1Haptics->setupTool(world);
+	p2Haptics->setupTool(world);
+
+	// Connect signals for haptic events
 	p1Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
 	p2Haptics->destroyEntity.connect_member(this, &Program::destroyEntity);
+
+	p1Haptics->springBroken.connect_member(this, &Program::loseGame);
 }
 
 // Sets up a view for each player. If more than one monitor connected each view is on a seperate monitor
@@ -191,19 +194,19 @@ void Program::mainLoop() {
 	while (!p1View->shouldClose() && !p2View->shouldClose()) {
 
 		glfwPollEvents();
-		double time = clock.getCurrentTimeSeconds();
+		double timeS = clock.getCurrentTimeSeconds();
 
 		if (state == State::RUNNING) {
 
-			if (time >= maxTime) {
+			if (timeS >= maxTime) {
 				loseGame();
 			}
 			else if (p1Haptics->getWorldPosition().x() < -0.5 && p2Haptics->getWorldPosition().x() < -0.5) {
 				winGame();
 			}
 
-			p1Label->setText(chai3d::cStr(maxTime - time, 1) + "s");
-			p2Label->setText(chai3d::cStr(maxTime - time, 1) + "s");
+			p1Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
+			p2Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
 		}
 		else if (state == State::WIN){
 			p1Label->setText("You're a winner!");

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BombForce.cpp" />
     <ClCompile Include="Collectible.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="ContentReadWrite.cpp" />
@@ -26,13 +27,17 @@
     <ClCompile Include="HapticsController.cpp" />
     <ClCompile Include="Hazard.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PickupForce.cpp" />
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Viscous.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BombForce.h" />
+    <ClInclude Include="ClosedLoopHaptic.h" />
     <ClInclude Include="Collectible.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="ContentReadWrite.h" />
@@ -40,6 +45,8 @@
     <ClInclude Include="HapticsController.h" />
     <ClInclude Include="Hazard.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Magnet.h" />
+    <ClInclude Include="PickupForce.h" />
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Signal.h" />
@@ -51,7 +58,7 @@
     <ProjectGuid>{DF4A1F32-BA3E-4604-A9F5-721CAAA9EA71}</ProjectGuid>
     <RootNamespace>application-GLUT</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)/Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

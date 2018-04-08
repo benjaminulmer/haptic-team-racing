@@ -2,8 +2,13 @@
 
 #include "Constants.h"
 
+#include "PickupForce.h"
+#include "BombForce.h"
+
 // Creates a controller for the provided haptic device
 HapticsController::HapticsController(chai3d::cGenericHapticDevicePtr device, const std::vector<Entity*>& entities) : device(device), entities(entities) {
+
+	springIntact = true;
 
 	running = false;
 	finished = false;
@@ -20,14 +25,18 @@ HapticsController::~HapticsController() {
 }
 
 // Sets the partner for the controller
-void HapticsController::setPartner(const HapticsController* partner) {
+void HapticsController::setPartner(HapticsController* partner) {
 	this->partner = partner;
 }
 
-// Sets up the haptic tool to interact with the given world
-void HapticsController::setupTool(chai3d::cWorld* w, chai3d::cCamera* c) {
+// Adds provided force to the list of closed loop forces
+void HapticsController::addClosedLoopForce(ClosedLoopHaptic* force) {
+	closedLoopForces.push_back(force);
+}
 
-	camera = c;
+// Sets up the haptic tool to interact with the given world
+void HapticsController::setupTool(chai3d::cWorld* w) {
+
 	world = w;
 
 	tool = new chai3d::cToolCursor(world);
@@ -73,6 +82,20 @@ void HapticsController::start() {
 		applySpringForce();
 		performEntityInteraction();
 
+		// Closed loop haptics forces
+		for (auto it = closedLoopForces.begin(); it != closedLoopForces.end(); ++it) {
+
+			if ((*it)->done()) {
+				auto del = it;
+				--it;
+				delete (*del);
+				closedLoopForces.erase(del);
+			}
+			else {
+				tool->addDeviceLocalForce((*it)->getForce(tool));
+			}
+		}
+
 		// Apply forces to tool and signal frequency counter
 		tool->applyToDevice();
 		hapticFreq.signal(1);
@@ -107,10 +130,18 @@ void HapticsController::performEntityInteraction() {
 			insideEntity[e] = false;
 		}
 
-		if (insideEntity[e]) {
+		if (!e->insideForInteraction() || insideEntity[e]) {
 			force += e->interact(tool);
-			Type t = e->getType();
-			if (t == Type::COLLECTIBLE || t == Type::HAZARD) {
+
+			if (e->getType() == Type::HAZARD) {
+				closedLoopForces.push_back(new BombForce(e->mesh->getLocalTransform() * e->mesh->getLocalPos()));
+				partner->addClosedLoopForce(new BombForce(e->mesh->getLocalTransform() * e->mesh->getLocalPos()));
+			}
+			else if (e->getType() == Type::COLLECTIBLE) {
+				closedLoopForces.push_back(new PickupForce());
+			}
+
+			if (e->destoryOnInteract()) {
 				insideEntity.erase(e);
 				destroyEntity.emit(e);
 			}
@@ -121,7 +152,7 @@ void HapticsController::performEntityInteraction() {
 	tool->addDeviceLocalForce(force);
 }
 
-// Computes and applies spring foce to tool
+// Computes and applies spring force to tool
 void HapticsController::applySpringForce() {
 
 	chai3d::cVector3d force(0.0, 0.0, 0.0);
@@ -130,8 +161,14 @@ void HapticsController::applySpringForce() {
 	double dist = dir.length();
 	dir.normalize();
 
+	// Test to see if spring has broken
+	if (dist > Constants::springMax) {
+		springBroken.emit();
+		springIntact = false;
+	}
+
 	// Calculate spring force only if spring is elongated
-	if (dist >= Constants::springRest) {
+	if (springIntact && dist >= Constants::springRest) {
 		force = dir * (dist - Constants::springRest) * Constants::springK;
 	}
 	tool->addDeviceLocalForce(force);
@@ -150,7 +187,6 @@ void HapticsController::performRateControl() {
 
 		// Velocity setting not great
 		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
-		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
 	}
 	else if (devicePos.x() < -Constants::rateZone) {
 
@@ -159,7 +195,6 @@ void HapticsController::performRateControl() {
 
 		// Velocity setting not great
 		tool->setDeviceLocalLinVel((Constants::rateScale * disp) / 0.001 + tool->getDeviceLocalLinVel());
-		camera->setLocalPos(Constants::rateScale * disp + camera->getLocalPos());
 	}
 	tool->addDeviceLocalForce(-Constants::rateFeedback * disp);
 }

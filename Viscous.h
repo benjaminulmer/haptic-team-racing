@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 
+// Class for a vicous object the exerts a large damping force
 class Viscous : public Entity {
 
 public:

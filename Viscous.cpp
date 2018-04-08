@@ -3,6 +3,8 @@
 Viscous::Viscous(std::string filename, View view, chai3d::cTransform transform, double damping) : Entity(filename, view, transform), damping(damping) {
 	type = Type::VISCOUS;
 	mesh->getMesh(0)->setHapticEnabled(false);
+	mesh->setUseTransparency(true);
+	mesh->setTransparencyLevel(0.5);
 }
 
 // Returns a damping force simulating a viscous material like molasses

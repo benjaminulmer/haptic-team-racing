@@ -12,7 +12,8 @@ enum class Type {
 	ENTITY,
 	VISCOUS,
 	HAZARD,
-	COLLECTIBLE
+	COLLECTIBLE,
+	MAGNET
 };
 
 // Base class for an entity. Represents a solid object interacted with via the God-Object algorithm
@@ -28,6 +29,8 @@ public:
 	View getView() const;
 	Type getType() const;
 	virtual chai3d::cVector3d interact(chai3d::cToolCursor* tool) { return chai3d::cVector3d(0.0, 0.0, 0.0); }
+	virtual bool insideForInteraction() { return true; }
+	virtual bool destoryOnInteract() { return false; }
 
 protected:
 	View view;
