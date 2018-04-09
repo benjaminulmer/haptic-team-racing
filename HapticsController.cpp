@@ -154,8 +154,8 @@ void HapticsController::performEntityInteraction() {
 			force += e->interact(tool);
 
 			if (e->getType() == Type::HAZARD) {
-				closedLoopForces.push_back(new BombForce(e->mesh->getLocalTransform() * e->mesh->getLocalPos()));
-				partner->addClosedLoopForce(new BombForce(e->mesh->getLocalTransform() * e->mesh->getLocalPos()));
+				closedLoopForces.push_back(new BombForce(e->mesh->getLocalPos()));
+				partner->addClosedLoopForce(new BombForce(e->mesh->getLocalPos()));
 			}
 			else if (e->getType() == Type::COLLECTIBLE) {
 				closedLoopForces.push_back(new PickupForce());

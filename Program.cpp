@@ -46,12 +46,17 @@ Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 		exit(-1);
 	}
 
+	// Start haptics threads
+	next = p1Haptics;
+	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	while (next != nullptr);
+
+	next = p2Haptics;
+	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
 	setUpMenu();
 	menuLoop();
-
-	//inMenu = false;
-	//selectedLevel = "worlds/cylinderWorld.json";
-
 
 	// Temporarily load level here
 	maxTime = WorldLoader::loadWorld(ContentReadWrite::readJSON(selectedLevel), entities);
@@ -156,15 +161,6 @@ void Program::setUpViews() {
 
 // Starts the program
 void Program::start() {
-
-	// Start the haptics thread and then enter the graphics loop
-	next = p1Haptics;
-	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
-	while (next != nullptr);
-
-	next = p2Haptics;
-	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
 
 	mainLoop();
 }
@@ -376,6 +372,10 @@ void Program::restartGame() {
 
 	p1View->getUI()->reset();
 	p2View->getUI()->reset();
+
+	inMenu = true;
+	//setUpMenu();
+	//menuLoop();
 
 	state = State::RUNNING;
 	clock.reset();
