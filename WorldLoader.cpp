@@ -50,8 +50,8 @@ double WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& outpu
 
 		// Player view
 		View view = (View) e["view"].GetInt();
+
 		std::string type = "entity";
-		
 		if (e.HasMember("type")) {
 			type = e["type"].GetString();
 		}

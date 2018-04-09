@@ -79,6 +79,7 @@ private:
 	void addTime(double amount);
 	void destroyEntity(Entity* entity);
 
+	void startHaptics();
 	void closeHaptics();
 
 	// Static members

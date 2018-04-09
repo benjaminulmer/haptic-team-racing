@@ -112,12 +112,12 @@ void Program::setUpViews() {
 	if (numMonitors < 2) {
 		std::cout << "Warning: Game best played on two monitors" << std::endl;
 		fullscreen = false;
-		p2View = new PlayerView(*p2Haptics, monitors[0], fullscreen);
+		p1View = new PlayerView(*p2Haptics, monitors[0], fullscreen);
 	}
 	else {
-		p2View = new PlayerView(*p2Haptics, monitors[1], fullscreen);
+		p1View = new PlayerView(*p2Haptics, monitors[1], fullscreen);
 	}
-	p1View = new PlayerView(*p1Haptics, monitors[0], fullscreen);
+	p2View = new PlayerView(*p1Haptics, monitors[0], fullscreen);
 }
 
 // Load level from specified file
@@ -166,15 +166,7 @@ void Program::loadLevel() {
 // Starts the program
 void Program::start() {
 
-	// Start haptics threads
-	next = p1Haptics;
-	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
-	while (next != nullptr);
-
-	next = p2Haptics;
-	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
+	startHaptics();
 	mainLoop();
 }
 
@@ -279,6 +271,18 @@ void Program::destroyEntity(Entity* entity) {
 	delete entity;
 }
 
+// Called to start haptic interaction
+void Program::startHaptics() {
+
+	next = p1Haptics;
+	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	while (next != nullptr);
+
+	next = p2Haptics;
+	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+}
+
 // Called to close and clean up program
 void Program::closeHaptics() {
 
@@ -323,7 +327,6 @@ void Program::toggleFullscreen() {
 
 // Swap which device is associated with each view
 void Program::swapDevices() {
-
 }
 
 void Program::moveCamera(double dir) {
@@ -394,14 +397,7 @@ void Program::restartGame() {
 	menuLoop();
 	loadLevel();
 
-	// Start haptics threads
-	next = p1Haptics;
-	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
-	while (next != nullptr);
-
-	next = p2Haptics;
-	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+	startHaptics();
 
 	clock.reset(0.0);
 	state = State::RUNNING;
