@@ -205,10 +205,18 @@ void Program::mainLoop() {
 			p2View->getUI()->setInfoLabelText(chai3d::cStr(maxTime - timeS, 1) + "s");
 		}
 		else if (state == State::WIN){
-			break;
+			p1View->getUI()->endGame(true);
+			p2View->getUI()->endGame(true);
+			state = State::END;
 		}
 		else if (state == State::LOSE) {
-			break;
+			p1View->getUI()->endGame(false);
+			p2View->getUI()->endGame(false);
+			state = State::END;
+		}
+		else if (state == State::END) {
+			p1View->getUI()->updateEndScreen();
+			p2View->getUI()->updateEndScreen();
 		}
 
 		p1View->getUI()->updateInfoLabel();
@@ -220,7 +228,6 @@ void Program::mainLoop() {
 
 	// Clean up
 	closeHaptics();
-	endGame();
 
 	delete p1View;
 	delete p2View;
@@ -336,13 +343,13 @@ void Program::menuLoop() {
 
 	if (levelSelect == 0) {
 		selectedLevel = "worlds/obstaclesWorld.json";
-		p1Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.59, 0.01, 0.0));
-		p2Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.59, -0.01, 0.0));
+		p1Haptics->setPosiiton(chai3d::cVector3d(0.59, 0.01, 0.0));
+		p2Haptics->setPosiiton(chai3d::cVector3d(0.59, -0.01, 0.0));
 	}
 	else {
 		selectedLevel = "worlds/cylinderWorld.json";
-		p1Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.55, 0.01, 0.0));
-		p2Haptics->getCursor()->setLocalPos(chai3d::cVector3d(0.55, -0.01, 0.0));
+		p1Haptics->setPosiiton(chai3d::cVector3d(0.55, 0.01, 0.0));
+		p2Haptics->setPosiiton(chai3d::cVector3d(0.55, -0.01, 0.0));
 	}
 	delete menuView;
 }
@@ -359,38 +366,17 @@ void Program::toggleLevelSelect() {
 	else levelSelect = 0;
 }
 
-void Program::endGame() {
-	p1View->getUI()->setInfoLabelText("Press any key to exit the game");
-	p2View->getUI()->setInfoLabelText("Press any key to exit the game");
-
-	bool hasWin;
-
-	if (state == State::WIN) {
-		hasWin = true;
-	}
-	else {
-		hasWin = false;
-	}
-	p1View->getUI()->endGame(hasWin);
-	p2View->getUI()->endGame(hasWin);
-
-	// Wait for keyboard input before restarting the game
-	while ((state != State::RUNNING) && (!p1View->shouldClose() && !p2View->shouldClose())) {
-
-		glfwPollEvents();
-
-		p1View->getUI()->updateEndScreen();
-		p2View->getUI()->updateEndScreen();
-
-		p1View->getUI()->updateInfoLabel();
-		p2View->getUI()->updateInfoLabel();
-
-		p1View->render();
-		p2View->render();
-	}
-}
-
 void Program::restartGame() {
+
+	p1Haptics->setPosiiton(chai3d::cVector3d(0.55, 0.01, 0.0));
+	p2Haptics->setPosiiton(chai3d::cVector3d(0.55, -0.01, 0.0));
+
+	p1Haptics->reset();
+	p2Haptics->reset();
+
+	p1View->getUI()->reset();
+	p2View->getUI()->reset();
+
 	state = State::RUNNING;
 	clock.reset();
 }

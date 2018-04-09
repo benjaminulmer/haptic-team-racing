@@ -13,6 +13,8 @@ Entity::Entity(std::string filename, View view, chai3d::cTransform transform) : 
 	mesh->setStiffness(3000.0);
 	mesh->createAABBCollisionDetector(Constants::cursorRadius);
 	mesh->m_material->setUseHapticShading(true);
+
+	mesh->createEffectMagnetic();
 }
 
 // Deletes entity and its mesh

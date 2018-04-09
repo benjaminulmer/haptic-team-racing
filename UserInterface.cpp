@@ -86,6 +86,10 @@ void UserInterface::endGame(bool hasWin) {
 	screen->addChild(endScreen);
 }
 
+void UserInterface::reset() {
+	screen->removeChild(endScreen);
+}
+
 void UserInterface::updateEndScreen() {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);

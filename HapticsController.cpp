@@ -53,6 +53,26 @@ void HapticsController::setupTool(chai3d::cWorld* w) {
 	avatarCopy->m_material->setGreen();
 };
 
+// Sets the world position of the haptic device to the provided
+void HapticsController::setPosiiton(chai3d::cVector3d pos) {
+
+	tool->setLocalPos(pos);
+	prevWorldPos = pos;
+
+	tool->m_hapticPoint->initialize(pos);
+}
+
+// Resets all state for a new game
+void HapticsController::reset() {
+	
+	springIntact = true;
+
+	for (std::pair<const Entity*, bool> p : insideEntity) {
+
+		insideEntity[p.first] = false;
+	}
+}
+
 // Starts the haptics loop
 void HapticsController::start() {
 
@@ -152,10 +172,11 @@ void HapticsController::performEntityInteraction() {
 	tool->addDeviceLocalForce(force);
 }
 
-// Computes and applies spring force to tool
+// Computes and applies spring force to toolf
 void HapticsController::applySpringForce() {
 
 	chai3d::cVector3d force(0.0, 0.0, 0.0);
+	chai3d::cVector3d pos = getWorldPosition();
 	chai3d::cVector3d partnerPos = partner->getWorldPosition();
 	chai3d::cVector3d dir = partnerPos - getWorldPosition();
 	double dist = dir.length();
@@ -213,7 +234,7 @@ bool HapticsController::isFinished() const {
 chai3d::cVector3d HapticsController::getWorldPosition() const {
 
 	chai3d::cTransform t = tool->getLocalTransform();
-	chai3d::cVector3d p = tool->m_hapticPoint->m_sphereProxy->getLocalPos();
+	chai3d::cVector3d p = tool->m_hapticPoint->getLocalPosProxy();
 
 	return t * p;
 }
