@@ -33,6 +33,7 @@ double WorldLoader::loadWorld(rapidjson::Document d, std::vector<Entity*>& outpu
 
 			position = chai3d::cVector3d(x, y, z);
 		}
+		//position += chai3d::cVector3d(-0.55, 0.0, 0.0);
 
 		// Rotations (angles about axis)
 		chai3d::cMatrix3d rotation;

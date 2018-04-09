@@ -2,12 +2,6 @@
 	"time": 10.0,
 	"entities":
 	[
-        {
-			"filename": "models/plane.obj",
-			"position": {"x": 0.6, "y": 0.0, "z": 0.0},
-			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
-			"view": 0
-		},
         
 		{
 			"filename": "models/cylinderLevel.obj",
@@ -24,7 +18,8 @@
 			"position": {"x": 0.35, "y": 0.03, "z": -0.01},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		},
         
         {
@@ -33,7 +28,8 @@
 			"position": {"x": 0.15, "y": -0.01, "z": -0.01},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		},
         {
 			"filename": "models/coin.obj",
@@ -41,7 +37,8 @@
 			"position": {"x": 0.12, "y": -0.017, "z": 0.0},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		},
         {
 			"filename": "models/coin.obj",
@@ -49,7 +46,8 @@
 			"position": {"x": 0.09, "y": -0.018, "z": 0.01},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		},
         {
 			"filename": "models/coin.obj",
@@ -57,7 +55,8 @@
 			"position": {"x": -0.37, "y": -0.02, "z": 0.02},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		},
         {
 			"filename": "models/coin.obj",
@@ -65,7 +64,8 @@
 			"position": {"x": -0.37, "y": 0.02, "z": -0.02},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		},
         
         {
@@ -74,7 +74,8 @@
 			"position": {"x": 0.05, "y": 0.0, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 30.0},
 			"view": 3,
-            "type": "magnet"
+            "type": "magnet",
+			"strength": 0.001
 		},
         {
 			"filename": "models/bar.obj",
@@ -82,7 +83,8 @@
 			"position": {"x": 0.23, "y": 0.0, "z": 0.00},
 			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": -30.0},
 			"view": 1,
-            "type": "magnet"
+            "type": "magnet",
+			"strength": 0.001
 		},
         
         {

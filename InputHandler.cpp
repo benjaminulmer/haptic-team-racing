@@ -33,7 +33,6 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	else if ((key == GLFW_KEY_ENTER) && (p->getState() == State::LOSE || p->getState() == State::WIN)) {
 		p->restartGame();
 	}
-
 	else if (key == GLFW_KEY_ENTER) {
 		p->exitMenu();
 	}

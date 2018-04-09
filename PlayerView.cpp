@@ -186,7 +186,7 @@ void PlayerView::setFullscreen(bool fullscreen) {
 		int y = 0.5 * (mode->height - h);
 
 		if (monitor != glfwGetPrimaryMonitor()) {
-			x -= mode->width;
+			x += mode->width;
 		}
 
 		glfwSetWindowMonitor(window, NULL, x, y, w, h, mode->refreshRate);

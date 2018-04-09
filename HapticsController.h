@@ -30,11 +30,11 @@ public:
 	void addClosedLoopForce(ClosedLoopHaptic* force);
 	void setupTool(chai3d::cWorld* w);
 
+	void setPosiiton(chai3d::cVector3d pos);
+	void reset();
+
 	Signal<Entity*> destroyEntity;
 	Signal<> springBroken;
-
-
-	mutable ClosedLoopHaptic* bF = nullptr;
 
 private:
 	chai3d::cGenericHapticDevicePtr device;
