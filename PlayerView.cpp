@@ -76,7 +76,7 @@ void PlayerView::setUpWorld() {
 	camera->set(chai3d::cVector3d(0.1, 0.0, 0.0),  // camera position (eye)
 		        chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
 		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
-	camera->setClippingPlanes(0.065, 10.0);
+	camera->setClippingPlanes(0.061, 10.0);
 
 	camera->setUseMultipassTransparency(true);
 
