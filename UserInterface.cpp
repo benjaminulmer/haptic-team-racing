@@ -66,6 +66,40 @@ void UserInterface::setupGameUI() {
 
 }
 
-void UserInterface::addElement() {
+void UserInterface::addLabel(chai3d::cLabel* label) {
+	screen->addChild(label);
+	infoLabel = label;
+}
 
+void UserInterface::endGame(bool hasWin) {
+	endScreen = new chai3d::cBitmap();
+	std::string filename;
+
+	if (hasWin) {
+		filename = "textures/win.png";
+	}
+	else {
+		filename = "textures/lose.png";
+	}
+
+	endScreen->loadFromFile(filename);
+	screen->addChild(endScreen);
+}
+
+void UserInterface::updateEndScreen() {
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+
+	endScreen->setLocalPos((int)(0.5 * (width - endScreen->getWidth())), (int)(0.5 * (height - endScreen->getHeight())));
+}
+
+void UserInterface::updateInfoLabel() {
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+
+	infoLabel->setLocalPos((int)(0.5 * (width - infoLabel->getWidth())), height - 45);
+}
+
+void UserInterface::setInfoLabelText(std::string text) {
+	infoLabel->setText(text);
 }

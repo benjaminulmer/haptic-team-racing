@@ -61,9 +61,6 @@ private:
 	chai3d::cVector3d startPos;
 	chai3d::cPrecisionClock clock;
 
-	chai3d::cLabel* p1Label;
-	chai3d::cLabel* p2Label;
-
 	// Game state variables
 	State state;
 	double maxTime;

@@ -11,16 +11,21 @@ public:
 	void setupGameUI();
 
 	void updateMenuLabels(int levelSelect);
-	
-	void addElement();
+	void updateInfoLabel();
+	void setInfoLabelText(std::string text);
+
+	void addLabel(chai3d::cLabel* label);
+
+	void endGame(bool hasWin);
+	void updateEndScreen();
 
 private:
 	chai3d::cWorld* screen;
 	GLFWwindow* window;
 
 	// Game UI items
-	chai3d::cLabel* p1Label;
-	chai3d::cLabel* p2Label;
+	chai3d::cLabel* infoLabel;
+	chai3d::cBitmap* endScreen;
 
 	// Menu items
 	chai3d::cBitmap* bg;

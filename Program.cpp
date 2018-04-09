@@ -172,14 +172,13 @@ void Program::start() {
 // Main loop for running graphics and other non-haptics work
 void Program::mainLoop() {
 
-	// TODO move game logic somewhere else
-	p1Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
-	p1Label->m_fontColor.setWhite();
-	p1View->getCamera()->m_frontLayer->addChild(p1Label);
+	chai3d::cLabel* p1 = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	p1->m_fontColor.setWhite();
+	p1View->getUI()->addLabel(p1);
 
-	p2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
-	p2Label->m_fontColor.setWhite();
-	p2View->getCamera()->m_frontLayer->addChild(p2Label);
+	chai3d::cLabel* p2 = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
+	p2->m_fontColor.setWhite();
+	p2View->getUI()->addLabel(p2);
 
 	p1View->setFullscreen(fullscreen);
 	p2View->setFullscreen(fullscreen);
@@ -202,20 +201,18 @@ void Program::mainLoop() {
 				winGame();
 			}
 
-			p1Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
-			p2Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
+			p1View->getUI()->setInfoLabelText(chai3d::cStr(maxTime - timeS, 1) + "s");
+			p2View->getUI()->setInfoLabelText(chai3d::cStr(maxTime - timeS, 1) + "s");
 		}
 		else if (state == State::WIN){
-			
 			break;
 		}
 		else if (state == State::LOSE) {
-			p1Label->setText("Press ENTER to try again!");
-			p2Label->setText("Press ENTER to try again!");
 			break;
 		}
-		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
-		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
+
+		p1View->getUI()->updateInfoLabel();
+		p2View->getUI()->updateInfoLabel();
 
 		p1View->render();
 		p2View->render();
@@ -363,41 +360,34 @@ void Program::toggleLevelSelect() {
 }
 
 void Program::endGame() {
-	p1Label->setText("Press any key to exit the game");
-	p2Label->setText("Press any key to exit the game");
+	p1View->getUI()->setInfoLabelText("Press any key to exit the game");
+	p2View->getUI()->setInfoLabelText("Press any key to exit the game");
 
-	chai3d::cBitmap* endScreen = new chai3d::cBitmap();
-	std::string filename;
+	bool hasWin;
 
 	if (state == State::WIN) {
-		filename = "textures/win.png";
+		hasWin = true;
 	}
 	else {
-		filename = "textures/lose.png";
+		hasWin = false;
 	}
-
-	endScreen->loadFromFile(filename);
-	chai3d::cBitmap* endScreen2 = endScreen->copy();
-	p1View->getCamera()->m_frontLayer->addChild(endScreen);
-	p2View->getCamera()->m_frontLayer->addChild(endScreen2);
+	p1View->getUI()->endGame(hasWin);
+	p2View->getUI()->endGame(hasWin);
 
 	// Wait for keyboard input before restarting the game
 	while ((state != State::RUNNING) && (!p1View->shouldClose() && !p2View->shouldClose())) {
 
 		glfwPollEvents();
 
-		endScreen->setLocalPos((int)(0.5 * (p1View->getWidth() - endScreen->getWidth())), (int)(0.5 * (p1View->getHeight() - endScreen->getHeight())));
-		endScreen2->setLocalPos((int)(0.5 * (p2View->getWidth() - endScreen->getWidth())), (int)(0.5 * (p2View->getHeight() - endScreen->getHeight())));
+		p1View->getUI()->updateEndScreen();
+		p2View->getUI()->updateEndScreen();
 
-		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
-		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
+		p1View->getUI()->updateInfoLabel();
+		p2View->getUI()->updateInfoLabel();
 
 		p1View->render();
 		p2View->render();
 	}
-
-	p1View->getCamera()->m_frontLayer->deleteChild(endScreen);
-	p2View->getCamera()->m_frontLayer->deleteChild(endScreen2);
 }
 
 void Program::restartGame() {
