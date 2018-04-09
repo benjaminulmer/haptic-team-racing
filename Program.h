@@ -69,6 +69,7 @@ private:
 	void printControls();
 	void setUpHapticDevices();
 	void setUpViews();
+	void loadLevel();
 	void setUpMenu();
 
 	void mainLoop();

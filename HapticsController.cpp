@@ -131,6 +131,7 @@ void HapticsController::performEntityInteraction() {
 	chai3d::cVector3d force(0.0, 0.0, 0.0);
 	chai3d::cVector3d newPos = getWorldPosition();
 
+
 	for (Entity* e : entities) {
 
 		if (insideEntity.count(e) == 0) {

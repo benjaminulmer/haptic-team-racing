@@ -1,4 +1,5 @@
 {
+	"time": 3.0,
 	"entities":
 	[
 		{
@@ -35,7 +36,8 @@
 			"position": {"x": 0.05, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 3,
-            "type": "collectible"
+            "type": "collectible",
+			"bonus": 3.0
 		}
 	]
 }

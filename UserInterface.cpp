@@ -88,7 +88,7 @@ void UserInterface::endGame(bool hasWin) {
 
 void UserInterface::reset() {
 	screen->removeChild(endScreen);
-	delete endScreen;
+	//delete endScreen;
 }
 
 void UserInterface::updateEndScreen() {

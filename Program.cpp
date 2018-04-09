@@ -46,49 +46,10 @@ Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 		exit(-1);
 	}
 
-	// Start haptics threads
-	next = p1Haptics;
-	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
-	while (next != nullptr);
-
-	next = p2Haptics;
-	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
-
 	setUpMenu();
 	menuLoop();
 
-	// Temporarily load level here
-	maxTime = WorldLoader::loadWorld(ContentReadWrite::readJSON(selectedLevel), entities);
-
-	for (Entity* e : entities) {
-
-		// Connect entity signals to the game slots
-		Type t = e->getType();
-		if (t == Type::HAZARD) {
-			Hazard* h = (Hazard*) e;
-			h->hitHazard.connect_member(this, &Program::loseGame);
-		}
-		else if (t == Type::COLLECTIBLE) {
-			Collectible* c = (Collectible*)e;
-			c->pickUpCollectible.connect_member(this, &Program::addTime);
-		}
-
-		// Add entity to haptic world
-		world->addChild(e->mesh);
-
-		// Add enitty to appropriate view world
-		if (e->getView() == View::P1) {
-			p1View->addChild(e->mesh);
-		}
-		else if (e->getView() == View::P2){
-			p2View->addChild(e->mesh);
-		}
-		else if (e->getView() == View::BOTH) { // both
-			p1View->addChild(e->mesh);
-			p2View->addChild(e->mesh);
-		}
-	}
+	loadLevel();
 }
 
 // Pretty prints program controls to standard out
@@ -159,8 +120,60 @@ void Program::setUpViews() {
 	p1View = new PlayerView(*p1Haptics, monitors[0], fullscreen);
 }
 
+// Load level from specified file
+void Program::loadLevel() {
+
+	for (Entity* e : entities) {
+		world->removeChild(e->mesh);
+		p1View->getWorld()->removeChild(e->mesh);
+		p2View->getWorld()->removeChild(e->mesh);
+		delete e;
+	}
+	entities.clear();
+
+	maxTime = WorldLoader::loadWorld(ContentReadWrite::readJSON(selectedLevel), entities);
+
+	for (Entity* e : entities) {
+
+		// Connect entity signals to the game slots
+		Type t = e->getType();
+		if (t == Type::HAZARD) {
+			Hazard* h = (Hazard*)e;
+			h->hitHazard.connect_member(this, &Program::loseGame);
+		}
+		else if (t == Type::COLLECTIBLE) {
+			Collectible* c = (Collectible*)e;
+			c->pickUpCollectible.connect_member(this, &Program::addTime);
+		}
+
+		// Add entity to haptic world
+		world->addChild(e->mesh);
+
+		// Add enitty to appropriate view world
+		if (e->getView() == View::P1) {
+			p1View->addChild(e->mesh);
+		}
+		else if (e->getView() == View::P2) {
+			p2View->addChild(e->mesh);
+		}
+		else if (e->getView() == View::BOTH) { // both
+			p1View->addChild(e->mesh);
+			p2View->addChild(e->mesh);
+		}
+	}
+}
+
 // Starts the program
 void Program::start() {
+
+	// Start haptics threads
+	next = p1Haptics;
+	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	while (next != nullptr);
+
+	next = p2Haptics;
+	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
 
 	mainLoop();
 }
@@ -204,11 +217,13 @@ void Program::mainLoop() {
 			p1View->getUI()->endGame(true);
 			p2View->getUI()->endGame(true);
 			state = State::END;
+			closeHaptics();
 		}
 		else if (state == State::LOSE) {
 			p1View->getUI()->endGame(false);
 			p2View->getUI()->endGame(false);
 			state = State::END;
+			closeHaptics();
 		}
 		else if (state == State::END) {
 			p1View->getUI()->updateEndScreen();
@@ -243,7 +258,7 @@ void Program::winGame() {
 }
 
 void Program::addTime(double amount) {
-	maxTime += amount;
+	clock.reset(clock.getCurrentTimeSeconds() - amount);
 }
 
 // Removes entity from each view world, haptic world, and entity list
@@ -373,10 +388,21 @@ void Program::restartGame() {
 	p1View->getUI()->reset();
 	p2View->getUI()->reset();
 
+	state = State::DEFAULT;
 	inMenu = true;
-	//setUpMenu();
-	//menuLoop();
+	setUpMenu();
+	menuLoop();
+	loadLevel();
 
+	// Start haptics threads
+	next = p1Haptics;
+	hapticsThread1.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	while (next != nullptr);
+
+	next = p2Haptics;
+	hapticsThread2.start(startNextHapticsLoop, chai3d::CTHREAD_PRIORITY_HAPTICS);
+
+	clock.reset(0.0);
 	state = State::RUNNING;
-	clock.reset();
 }
