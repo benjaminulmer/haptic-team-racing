@@ -21,14 +21,14 @@ void UserInterface::setupMenu() {
 	logo->setZoom(0.5, 0.5);
 
 	level1 = new chai3d::cBitmap();
-	level1->loadFromFile("textures/level.bmp");
+	level1->loadFromFile("textures/coinway.png");
 	screen->addChild(level1);
 	level1->setZoom(0.5, 0.5);
 
 	level1Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
 	level1Label->m_fontColor.setBlueDark();
 	screen->addChild(level1Label);
-	level1Label->setText("Obstacles level (easy)");
+	level1Label->setText("Winding Coinway (easy)");
 
 	level2 = new chai3d::cBitmap();
 	level2->loadFromFile("textures/technotube.png");
@@ -48,10 +48,10 @@ void UserInterface::updateMenuLabels(int levelSelect) {
 	startLabel->setLocalPos((int)(0.5 * (width - startLabel->getWidth())), 100);
 	logo->setLocalPos((int)(0.5 * (width - logo->getWidth())), (height - logo->getHeight()));
 
-	level1->setLocalPos((int)(0.5 * (width - 2.0 * level1->getWidth()) - 10.0), (height - level1->getHeight() - logo->getHeight() - 50));
-	level1Label->setLocalPos((int)(0.5 * (width - 2.0 * level1->getWidth() + level1Label->getWidth())), (height - level1->getHeight() - logo->getHeight() - level1Label->getHeight() - 60));
+	level1->setLocalPos((int)(0.5 * (width - 2.0 * level1->getWidth()) - 25.0), (height - level1->getHeight() - logo->getHeight() - 50));
+	level1Label->setLocalPos((int)(0.5 * (width - 2.0 * level1->getWidth())), (height - level1->getHeight() - logo->getHeight() - level1Label->getHeight() - 60));
 
-	level2->setLocalPos((int)(0.5 * (width) + 10.0), (height - level2->getHeight() - logo->getHeight() - 50));
+	level2->setLocalPos((int)(0.5 * (width) + 25.0), (height - level2->getHeight() - logo->getHeight() - 50));
 	level2Label->setLocalPos((int)(0.5 * (width + level2->getWidth() - level2Label->getWidth())), (height - level2->getHeight() - logo->getHeight() - level2Label->getHeight() - 60));
 
 	bg->setLocalPos(chai3d::cVector3d(0.0, 0.0, 0.0));
