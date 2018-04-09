@@ -12,6 +12,7 @@ enum class State {
 	RUNNING,
 	WIN,
 	LOSE,
+	END,
 	DEFAULT
 };
 
@@ -74,7 +75,6 @@ private:
 	void menuLoop();
 	void loseGame();
 	void winGame();
-	void endGame();
 	void addTime(double amount);
 	void destroyEntity(Entity* entity);
 

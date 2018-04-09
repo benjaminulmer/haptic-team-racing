@@ -17,6 +17,7 @@ public:
 	void addLabel(chai3d::cLabel* label);
 
 	void endGame(bool hasWin);
+	void reset();
 	void updateEndScreen();
 
 private:
