@@ -173,12 +173,10 @@ void Program::start() {
 void Program::mainLoop() {
 
 	// TODO move game logic somewhere else
-	chai3d::cLabel* p1Label;
 	p1Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
 	p1Label->m_fontColor.setWhite();
 	p1View->getCamera()->m_frontLayer->addChild(p1Label);
 
-	chai3d::cLabel* p2Label;
 	p2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
 	p2Label->m_fontColor.setWhite();
 	p2View->getCamera()->m_frontLayer->addChild(p2Label);
@@ -186,7 +184,6 @@ void Program::mainLoop() {
 	p1View->setFullscreen(fullscreen);
 	p2View->setFullscreen(fullscreen);
 
-	chai3d::cPrecisionClock clock;
 	clock.start();
 
 	state = State::RUNNING;
@@ -209,12 +206,14 @@ void Program::mainLoop() {
 			p2Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
 		}
 		else if (state == State::WIN){
-			p1Label->setText("You're a winner!");
-			p2Label->setText("You're a winner!");
+			p1Label->setText("Press ENTER to play again!");
+			p2Label->setText("Press ENTER to play again!");
+			endGame();
 		}
 		else if (state == State::LOSE) {
-			p1Label->setText("You're a loser!");
-			p2Label->setText("You're a loser!");
+			p1Label->setText("Press ENTER to try again!");
+			p2Label->setText("Press ENTER to try again!");
+			endGame();
 		}
 		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
 		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
@@ -369,7 +368,7 @@ void Program::menuLoop() {
 	level2Label->setText("Techno Tube (Hard)");
 
 
-	while (inMenu) {
+	while (inMenu && !menuView->shouldClose()) {
 		glfwPollEvents();
 
 		startLabel->setLocalPos((int)(0.5 * (menuView->getWidth() - startLabel->getWidth())), 100);
@@ -413,4 +412,44 @@ void Program::toggleLevelSelect() {
 		levelSelect = 1;
 	}
 	else levelSelect = 0;
+}
+
+void Program::endGame() {
+	chai3d::cBitmap* endScreen = new chai3d::cBitmap();
+	std::string filename;
+
+	if (state == State::WIN) {
+		filename = "textures/win.png";
+	}
+	else {
+		filename = "textures/lose.png";
+	}
+
+	endScreen->loadFromFile(filename);
+	chai3d::cBitmap* endScreen2 = endScreen->copy();
+	p1View->getCamera()->m_frontLayer->addChild(endScreen);
+	p2View->getCamera()->m_frontLayer->addChild(endScreen2);
+
+	// Wait for keyboard input before restarting the game
+	while ((state != State::RUNNING) && (!p1View->shouldClose() && !p2View->shouldClose())) {
+
+		glfwPollEvents();
+
+		endScreen->setLocalPos((int)(0.5 * (p1View->getWidth() - endScreen->getWidth())), (int)(0.5 * (p1View->getHeight() - endScreen->getHeight())));
+		endScreen2->setLocalPos((int)(0.5 * (p2View->getWidth() - endScreen->getWidth())), (int)(0.5 * (p2View->getHeight() - endScreen->getHeight())));
+
+		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
+		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
+
+		p1View->render();
+		p2View->render();
+	}
+
+	p1View->getCamera()->m_frontLayer->deleteChild(endScreen);
+	p2View->getCamera()->m_frontLayer->deleteChild(endScreen2);
+}
+
+void Program::restartGame() {
+	state = State::RUNNING;
+	clock.reset();
 }

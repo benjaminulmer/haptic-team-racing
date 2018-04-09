@@ -30,6 +30,8 @@ public:
 
 	void exitMenu() { inMenu = false; };
 	void toggleLevelSelect();
+	void restartGame();
+	State getState() { return state; };
 
 private:
 	std::vector<Entity*> entities;
@@ -56,6 +58,11 @@ private:
 	int levelSelect;
 
 	std::string selectedLevel;
+	chai3d::cVector3d startPos;
+	chai3d::cPrecisionClock clock;
+
+	chai3d::cLabel* p1Label;
+	chai3d::cLabel* p2Label;
 
 	// Game state variables
 	State state;
@@ -70,6 +77,7 @@ private:
 	void menuLoop();
 	void loseGame();
 	void winGame();
+	void endGame();
 	void addTime(double amount);
 	void destroyEntity(Entity* entity);
 
