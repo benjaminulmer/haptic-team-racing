@@ -6,6 +6,7 @@
 #include <map>
 
 #include "HapticsController.h"
+#include "UserInterface.h"
 
 // Class that handles the view (window) of one player
 class PlayerView {
@@ -25,6 +26,8 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 
+	UserInterface* getUI() { return ui; };
+
 	void setFullscreen(bool fullscreen);
 
 private:
@@ -33,6 +36,7 @@ private:
 	int width;
 	int height;
 
+	UserInterface* ui;
 	bool isMenu;
 
 	// Graphics world and objects

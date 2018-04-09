@@ -206,14 +206,13 @@ void Program::mainLoop() {
 			p2Label->setText(chai3d::cStr(maxTime - timeS, 1) + "s");
 		}
 		else if (state == State::WIN){
-			p1Label->setText("Press ENTER to play again!");
-			p2Label->setText("Press ENTER to play again!");
-			endGame();
+			
+			break;
 		}
 		else if (state == State::LOSE) {
 			p1Label->setText("Press ENTER to try again!");
 			p2Label->setText("Press ENTER to try again!");
-			endGame();
+			break;
 		}
 		p1Label->setLocalPos((int)(0.5 * (p1View->getWidth() - p1Label->getWidth())), p1View->getHeight() - 45);
 		p2Label->setLocalPos((int)(0.5 * (p2View->getWidth() - p2Label->getWidth())), p2View->getHeight() - 45);
@@ -224,6 +223,8 @@ void Program::mainLoop() {
 
 	// Clean up
 	closeHaptics();
+	endGame();
+
 	delete p1View;
 	delete p2View;
 	delete p1Haptics;
@@ -327,65 +328,12 @@ void Program::moveCamera(double dir) {
 }
 
 void Program::menuLoop() {
-
-	chai3d::cBitmap* bg = new chai3d::cBitmap();
-	bg->loadFromFile("textures/bg.png");
-	menuView->getCamera()->m_frontLayer->addChild(bg);
-
-	chai3d::cBitmap* selectPanel = new chai3d::cBitmap();
-	selectPanel->loadFromFile("textures/selection.png");
-	menuView->getCamera()->m_frontLayer->addChild(selectPanel);
-
-	chai3d::cLabel* startLabel = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
-	startLabel->m_fontColor.setBlueDarkTurquoise();
-	startLabel->setFontScale(2.0);
-	menuView->getCamera()->m_frontLayer->addChild(startLabel);
-	startLabel->setText("Use arrow keys and press ENTER to select a level!");
-
-	chai3d::cBitmap* logo = new chai3d::cBitmap();
-	logo->loadFromFile("textures/logo.png");
-	menuView->getCamera()->m_frontLayer->addChild(logo);
-	logo->setZoom(0.5, 0.5);
-
-	chai3d::cBitmap* level1 = new chai3d::cBitmap();
-	level1->loadFromFile("textures/level.bmp");
-	menuView->getCamera()->m_frontLayer->addChild(level1);
-	level1->setZoom(0.5, 0.5);
-
-	chai3d::cLabel* level1Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
-	level1Label->m_fontColor.setBlueDark();
-	menuView->getCamera()->m_frontLayer->addChild(level1Label);
-	level1Label->setText("Obstacles level (easy)");
-
-	chai3d::cBitmap* level2 = new chai3d::cBitmap();
-	level2->loadFromFile("textures/technotube.png");
-	menuView->getCamera()->m_frontLayer->addChild(level2);
-	level2->setZoom(0.5, 0.5);
-
-	chai3d::cLabel* level2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
-	level2Label->m_fontColor.setBlueDark();
-	menuView->getCamera()->m_frontLayer->addChild(level2Label);
-	level2Label->setText("Techno Tube (Hard)");
-
+	menuView->getUI()->setupMenu();
 
 	while (inMenu && !menuView->shouldClose()) {
 		glfwPollEvents();
 
-		startLabel->setLocalPos((int)(0.5 * (menuView->getWidth() - startLabel->getWidth())), 100);
-		logo->setLocalPos((int)(0.5 * (menuView->getWidth() - logo->getWidth())), (menuView->getHeight() - logo->getHeight()));
-
-		level1->setLocalPos((int)(0.5 * (menuView->getWidth() - 2.0 * level1->getWidth()) - 10.0), (menuView->getHeight() - level1->getHeight() - logo->getHeight() - 50));
-		level1Label->setLocalPos((int)(0.5 * (menuView->getWidth() - 2.0 * level1->getWidth() + level1Label->getWidth())), (menuView->getHeight() - level1->getHeight() - logo->getHeight() - level1Label->getHeight() - 60));
-
-		level2->setLocalPos((int)(0.5 * (menuView->getWidth()) + 10.0), (menuView->getHeight() - level2->getHeight() - logo->getHeight() - 50));
-		level2Label->setLocalPos((int)(0.5 * (menuView->getWidth() + level2->getWidth() - level2Label->getWidth())), (menuView->getHeight() - level2->getHeight() - logo->getHeight() - level2Label->getHeight() - 60));
-
-		bg->setLocalPos(chai3d::cVector3d(0.0, 0.0, 0.0));
-
-		if (levelSelect == 0) {
-			selectPanel->setLocalPos(level1->getLocalPos() - chai3d::cVector3d(10.0, 10.0, 0.0));
-		}
-		else selectPanel->setLocalPos(level2->getLocalPos() - chai3d::cVector3d(10.0, 10.0, 0.0));
+		menuView->getUI()->updateMenuLabels(levelSelect);
 		menuView->render();
 	}
 
@@ -415,6 +363,9 @@ void Program::toggleLevelSelect() {
 }
 
 void Program::endGame() {
+	p1Label->setText("Press any key to exit the game");
+	p2Label->setText("Press any key to exit the game");
+
 	chai3d::cBitmap* endScreen = new chai3d::cBitmap();
 	std::string filename;
 

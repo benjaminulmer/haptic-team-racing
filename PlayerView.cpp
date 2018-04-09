@@ -99,6 +99,8 @@ void PlayerView::setUpWorld() {
 	world->m_backgroundColor.setPurpleMediumSlateBlue();
 	world->addChild(camera);
 	world->addChild(light);
+
+	ui = new UserInterface(camera->m_frontLayer, window);
 }
 
 // Render the current view

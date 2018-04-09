@@ -21,7 +21,12 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	if (action != GLFW_PRESS) {
 		return;
 	}
-	else if (key == GLFW_KEY_ESCAPE || key == GLFW_KEY_Q) {
+
+	else if (p->getState() == State::LOSE || p->getState() == State::WIN) {
+		p->restartGame();
+	}
+
+	if (key == GLFW_KEY_ESCAPE || key == GLFW_KEY_Q) {
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 	else if (key == GLFW_KEY_F) {
@@ -30,10 +35,6 @@ void InputHandler::keyCallback(GLFWwindow* window, int key, int scancode, int ac
 	else if (key == GLFW_KEY_S) {
 		p->swapDevices();
 	}
-	else if ((key == GLFW_KEY_ENTER) && (p->getState() == State::LOSE || p->getState() == State::WIN)) {
-		p->restartGame();
-	}
-
 	else if (key == GLFW_KEY_ENTER) {
 		p->exitMenu();
 	}

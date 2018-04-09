@@ -55,6 +55,9 @@
     <ClCompile Include="PickupForce.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputHandler.h">
@@ -103,6 +106,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PickupForce.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

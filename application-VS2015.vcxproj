@@ -32,6 +32,7 @@
     <ClCompile Include="PickupForce.cpp" />
     <ClCompile Include="PlayerView.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Viscous.cpp" />
     <ClCompile Include="WorldLoader.cpp" />
   </ItemGroup>
@@ -50,6 +51,7 @@
     <ClInclude Include="PlayerView.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Signal.h" />
+    <ClInclude Include="UserInterface.h" />
     <ClInclude Include="Viscous.h" />
     <ClInclude Include="WorldLoader.h" />
   </ItemGroup>
