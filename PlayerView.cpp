@@ -123,7 +123,7 @@ void PlayerView::render() {
 		chai3d::cVector3d pos = controller.getWorldPosition();
 		chai3d::cVector3d newCamPos = pos;
 		newCamPos.y(0.0); newCamPos.z(0.0);
-		//camera->setLocalPos(newCamPos + chai3d::cVector3d(0.1, 0.0, 0.0));
+		camera->setLocalPos(newCamPos + chai3d::cVector3d(0.1, 0.0, 0.0));
 
 		light->setLocalPos(camera->getLocalPos() + chai3d::cVector3d(0.1, -0.01, 0.01));
 
