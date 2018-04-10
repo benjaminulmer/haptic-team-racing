@@ -138,6 +138,15 @@
 			"view": 2
 		},
 		{
+			"filename": "models/sphere.obj",
+			"texture": "textures/green.png",
+			"position": {"x": 0.29, "y": -0.023, "z": 0.0},
+			"rotation": {"x": 0.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"type": "viscous",
+			"damping": 40.0,
+			"view": 1
+		},
+		{
 			"filename": "models/cylinder.obj",
 			"texture": "textures/cylinder.png",
 			"position": {"x": 0.23, "y": 0.005, "z": 0.005},
