@@ -76,17 +76,18 @@ void PlayerView::setUpWorld() {
 	camera->set(chai3d::cVector3d(0.1, 0.0, 0.0),  // camera position (eye)
 		        chai3d::cVector3d(0.0, 0.0, 0.0),    // look at position (target)
 		        chai3d::cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
-	camera->setClippingPlanes(0.065, 10.0);
+	camera->setClippingPlanes(0.061, 10.0);
 
 	camera->setUseMultipassTransparency(true);
 
 	// Set up light
 	light = new chai3d::cSpotLight(world);
 	light->setEnabled(true);
-	light->setLocalPos(0.7, 0.0, 0.0);
+	light->setLocalPos(0.6, -0.01, 0.01);
 
 	// Define the direction of the light beam and turn on shadows
-	light->setDir(-0.5, -0.02, -0.01);
+	light->setDir(-1.0, 0.25, 0.25);
+
 	light->setShadowMapEnabled(true);
 	light->m_shadowMap->setQualityVeryHigh();
 
@@ -99,6 +100,16 @@ void PlayerView::setUpWorld() {
 	world->m_backgroundColor.setPurpleMediumSlateBlue();
 	world->addChild(camera);
 	world->addChild(light);
+
+	chai3d::cDirectionalLight* ambientLight = new chai3d::cDirectionalLight(world);
+	ambientLight->setEnabled(true);
+	ambientLight->setDir(1.0, 0.1, 0.1);
+	world->addChild(ambientLight);
+
+	chai3d::cPositionalLight* ambientLight2 = new chai3d::cPositionalLight(world);
+	ambientLight2->setEnabled(true);
+	ambientLight2->setLocalPos(-0.55, 0.0, 0.0);
+	world->addChild(ambientLight2);
 
 	ui = new UserInterface(camera->m_frontLayer, window);
 }
@@ -114,10 +125,12 @@ void PlayerView::render() {
 		newCamPos.y(0.0); newCamPos.z(0.0);
 		camera->setLocalPos(newCamPos + chai3d::cVector3d(0.1, 0.0, 0.0));
 
+		light->setLocalPos(camera->getLocalPos() + chai3d::cVector3d(0.1, -0.01, 0.01));
+
 		// Update haptic and graphic rate data
 		labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
 			chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
-			"camera pos: " + chai3d::cStr(camera->getLocalPos().x()) + " " + chai3d::cStr(camera->getLocalPos().y()) + " " + chai3d::cStr(camera->getLocalPos().z()));
+			"camera pos: " + chai3d::cStr(controller.getWorldPosition().x()) + " " + chai3d::cStr(controller.getWorldPosition().y()) + " " + chai3d::cStr(controller.getWorldPosition().z()));
 		labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
 		// Render world

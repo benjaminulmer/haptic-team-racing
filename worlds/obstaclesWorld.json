@@ -1,43 +1,208 @@
 {
-	"time": 3.0,
+	"time": 30.0,
 	"entities":
 	[
 		{
 			"filename": "models/level1.obj",
 			"texture": "textures/level1.png",
-			"position": {"x": 0.0, "y": 0.0, "z": 0.03},
+			"position": {"x": 0.0, "y": 0.0, "z": 0.0},
 			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
 			"view": 3
 		},
+		
+        {
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.45, "y": -0.02, "z": -0.005},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
 		{
-			"filename": "models/cube.obj",
-			"texture": "textures/red.png",
-			"position": {"x": 0.0, "y": -0.01, "z": 0.03},
-			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
-			"view": 1
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.36, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.27, "y": 0.023, "z": 0.01},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.18, "y": 0.02, "z": 0.005},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.09, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": 0.0, "y": -0.02, "z": -0.015},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.09, "y": 0.0, "z": -0.002},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.18, "y": 0.02, "z": -0.005},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.27, "y": 0.005, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.36, "y": -0.02, "z": -0.005},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		{
+			"filename": "models/coin.obj",
+			"texture": "textures/orange.png",
+			"position": {"x": -0.45, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "collectible",
+			"bonus": 2.0
+		},
+		
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/magnet.png",
+			"position": {"x": 0.09, "y": 0.0, "z": -0.02},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 3,
+            "type": "magnet",
+			"strength": 0.001
+		},
+		
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/magnet.png",
+			"position": {"x": 0.4, "y": 0.015, "z": 0.01},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1,
+            "type": "magnet",
+			"strength": 0.001
+		},
+		
+		{
+			"filename": "models/trap.obj",
+			"texture": "textures/trap.png",
+			"position": {"x": 0.27, "y": -0.023, "z": 0.0},
+			"rotation": {"x": 0.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 2
 		},
 		{
 			"filename": "models/cylinder.obj",
+			"texture": "textures/cylinder.png",
+			"position": {"x": 0.23, "y": 0.005, "z": 0.005},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1
+		},
+		{
+			"filename": "models/box.obj",
 			"texture": "textures/purple.png",
-			"position": {"x": 0.1, "y": 0.02, "z": 0.03},
-			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"position": {"x": 0.0, "y": -0.02, "z": -0.015},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 2
+		},
+		{
+			"filename": "models/cube.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.0, "y": 0.02, "z": -0.01},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 1
+		},
+		{
+			"filename": "models/trap.obj",
+			"texture": "textures/trap.png",
+			"position": {"x": -0.2, "y": 0.02, "z": -0.005},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 1
+		},
+		{
+			"filename": "models/scoop.obj",
+			"texture": "textures/scoop.png",
+			"position": {"x": -0.38, "y": -0.02, "z": -0.005},
+			"rotation": {"x": 1.0, "y": 1.0, "z": 0.0, "deg": -30.0},
 			"view": 2
 		},
 		{
 			"filename": "models/box.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": -0.2, "y": 0.02, "z": 0.03},
-			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
+			"texture": "textures/blue.png",
+			"position": {"x": -0.4, "y": 0.02, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
 			"view": 1
 		},
-        {
-			"filename": "models/coin.obj",
-			"texture": "textures/orange.png",
-			"position": {"x": 0.05, "y": 0.0, "z": 0.0},
-			"rotation": {"x": 0.0, "y": 1.0, "z": 0.0, "deg": 0.0},
-			"view": 3,
-            "type": "collectible",
-			"bonus": 3.0
+		{
+			"filename": "models/bar.obj",
+			"texture": "textures/magnet.png",
+			"position": {"x": -0.09, "y": -0.015, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1,
+            "type": "magnet",
+			"strength": 0.001
+		},
+		{
+			"filename": "models/bomb.obj",
+			"texture": "textures/bomb.png",
+			"position": {"x": -0.4, "y": 0.02, "z": 0.025},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 90.0},
+			"view": 1,
+            "type": "hazard"
+		},
+		
+		{
+			"filename": "models/plane.obj",
+			"texture": "textures/blue.png",
+			"position": {"x": 0.46, "y": 0.0, "z": 0.0},
+			"rotation": {"x": 1.0, "y": 0.0, "z": 0.0, "deg": 0.0},
+			"view": 0
 		}
 	]
 }

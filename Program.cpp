@@ -357,13 +357,13 @@ void Program::menuLoop() {
 
 	if (levelSelect == 0) {
 		selectedLevel = "worlds/obstaclesWorld.json";
-		p1Haptics->setPosiiton(chai3d::cVector3d(0.59, 0.01, 0.0));
-		p2Haptics->setPosiiton(chai3d::cVector3d(0.59, -0.01, 0.0));
+		p1Haptics->setPosiiton(chai3d::cVector3d(0.45, 0.01, 0.0));
+		p2Haptics->setPosiiton(chai3d::cVector3d(0.45, -0.01, 0.0));
 	}
 	else {
 		selectedLevel = "worlds/cylinderWorld.json";
-		p1Haptics->setPosiiton(chai3d::cVector3d(0.55, 0.01, 0.0));
-		p2Haptics->setPosiiton(chai3d::cVector3d(0.55, -0.01, 0.0));
+		p1Haptics->setPosiiton(chai3d::cVector3d(0.5, 0.01, 0.0));
+		p2Haptics->setPosiiton(chai3d::cVector3d(0.5, -0.01, 0.0));
 	}
 	delete menuView;
 }
