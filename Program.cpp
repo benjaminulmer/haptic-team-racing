@@ -13,7 +13,7 @@ HapticsController* volatile Program::next;
 // Default constructor for program
 Program::Program() : state(State::DEFAULT), inMenu(true), levelSelect(0) {
 
-	fullscreen = false;
+	fullscreen = true;
 	next = nullptr;
 	InputHandler::setUp(this);
 	printControls();
@@ -382,23 +382,25 @@ void Program::toggleLevelSelect() {
 
 void Program::restartGame() {
 
-	p1Haptics->setPosiiton(chai3d::cVector3d(0.55, 0.01, 0.0));
-	p2Haptics->setPosiiton(chai3d::cVector3d(0.55, -0.01, 0.0));
+	glfwSetWindowShouldClose(p1View->getWindow(), GLFW_TRUE);
 
-	p1Haptics->reset();
-	p2Haptics->reset();
+	//p1Haptics->setPosiiton(chai3d::cVector3d(0.55, 0.01, 0.0));
+	//p2Haptics->setPosiiton(chai3d::cVector3d(0.55, -0.01, 0.0));
 
-	p1View->getUI()->reset();
-	p2View->getUI()->reset();
+	//p1Haptics->reset();
+	//p2Haptics->reset();
 
-	state = State::DEFAULT;
-	inMenu = true;
-	setUpMenu();
-	menuLoop();
-	loadLevel();
+	//p1View->getUI()->reset();
+	//p2View->getUI()->reset();
 
-	startHaptics();
+	//state = State::DEFAULT;
+	//inMenu = true;
+	//setUpMenu();
+	//menuLoop();
+	//loadLevel();
 
-	clock.reset(0.0);
-	state = State::RUNNING;
+	//startHaptics();
+
+	//clock.reset(0.0);
+	//state = State::RUNNING;
 }

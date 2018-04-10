@@ -42,15 +42,15 @@ void HapticsController::setupTool(chai3d::cWorld* w) {
 	tool = new chai3d::cToolCursor(world);
 	tool->setHapticDevice(device);
 	tool->setRadius(Constants::cursorRadius);
-	tool->m_hapticPoint->m_sphereProxy->m_material->setBlue();
+	tool->m_hapticPoint->m_sphereProxy->m_material->setRed();
 	tool->start();
 	world->addChild(tool);
 
 	// Create a renderable copy of the tool (for other player's view)
 	avatarCopy = new chai3d::cShapeSphere(Constants::cursorRadius);
-	avatarCopy->m_material->setTransparencyLevel(0.3);
-	avatarCopy->setUseTransparency(true);
-	avatarCopy->m_material->setGreen();
+	//avatarCopy->m_material->setTransparencyLevel(0.7);
+	//avatarCopy->setUseTransparency(true);
+	avatarCopy->m_material->setOrange();
 };
 
 // Sets the world position of the haptic device to the provided

@@ -38,7 +38,7 @@ void UserInterface::setupMenu() {
 	level2Label = new chai3d::cLabel(chai3d::NEW_CFONTCALIBRI32());
 	level2Label->m_fontColor.setBlueDark();
 	screen->addChild(level2Label);
-	level2Label->setText("Techno Tube (Hard)");
+	level2Label->setText("Techno Tube (hard)");
 }
 
 void UserInterface::updateMenuLabels(int levelSelect) {

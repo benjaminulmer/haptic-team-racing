@@ -128,10 +128,10 @@ void PlayerView::render() {
 		light->setLocalPos(camera->getLocalPos() + chai3d::cVector3d(0.1, -0.01, 0.01));
 
 		// Update haptic and graphic rate data
-		labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
-			chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
-			"camera pos: " + chai3d::cStr(controller.getWorldPosition().x()) + " " + chai3d::cStr(controller.getWorldPosition().y()) + " " + chai3d::cStr(controller.getWorldPosition().z()));
-		labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
+		//labelRates->setText(chai3d::cStr(graphicsFreq.getFrequency(), 0) + " Hz / " +
+		//	chai3d::cStr(controller.getFrequency(), 0) + " Hz / " +
+		//	"camera pos: " + chai3d::cStr(controller.getWorldPosition().x()) + " " + chai3d::cStr(controller.getWorldPosition().y()) + " " + chai3d::cStr(controller.getWorldPosition().z()));
+		//labelRates->setLocalPos((int)(0.5 * (width - labelRates->getWidth())), 15);
 
 		// Render world
 		world->updateShadowMaps();
